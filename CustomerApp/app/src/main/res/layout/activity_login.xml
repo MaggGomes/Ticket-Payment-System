@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/grad_bg"
     android:animateLayoutChanges="true"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -16,35 +16,25 @@
         android:layout_marginRight="40dp">
 
         <ImageView
-            android:id="@+id/home_logo"
+            android:id="@+id/login_logo"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_icon_description"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_app" />
+            app:srcCompat="@drawable/ic_app" />
 
         <RelativeLayout
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/home_logo">
-
-            <TextView
-                android:id="@+id/login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif"
-                android:text="@string/login"
-                android:textColor="@color/white"
-                android:textSize="30sp" />
+            android:layout_below="@id/login_logo">
 
             <LinearLayout
                 android:id="@+id/login_inputs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/login"
                 android:orientation="vertical"
                 android:layout_marginTop="20dp">
 
@@ -53,19 +43,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/username"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
+                        android:hint="@string/username"
                         android:fontFamily="sans-serif"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
@@ -81,19 +63,11 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:text="@string/password"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
+                        android:hint="@string/password"
                         android:fontFamily="sans-serif"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
@@ -106,6 +80,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_login_main"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_below="@id/login_inputs"
@@ -132,6 +107,7 @@
         android:gravity="center_horizontal">
 
         <Button
+            android:id="@+id/btn_register_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"

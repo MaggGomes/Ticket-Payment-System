@@ -4,5 +4,15 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="username">Username</string>
+    <string name="nif">nif</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="cc_type">type</string>
+    <string name="cc_number">number</string>
+    <string name="cc_validity">validity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_tickets">Tickets</string>
+    <string name="title_transactions">Transactions</string>
+    <string name="title_cafetaria">Cafetaria</string>
 </resources>
