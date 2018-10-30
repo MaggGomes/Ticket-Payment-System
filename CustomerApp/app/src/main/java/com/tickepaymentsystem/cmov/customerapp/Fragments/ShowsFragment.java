@@ -20,14 +20,15 @@ public class ShowsFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.fragment_shows, container, false);
 
-        String[] arr = {"1 show", "2 show", "3 show", "4 show"};
+        String[] names = {"1 show", "2 show", "3 show", "4 show", "2 show", "3 show", "4 show"};
+        int[] prices = {1, 2, 3, 4, 5, 6, 7};
 
         ListView listView = view.findViewById(R.id.list_shows_last);
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_list_item_1,
-                arr
+                names
         );
 
         listView.setAdapter(arrayAdapter);

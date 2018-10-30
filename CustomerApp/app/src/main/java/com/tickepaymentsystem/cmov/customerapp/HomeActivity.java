@@ -35,19 +35,15 @@ public class HomeActivity extends AppCompatActivity {
 
             switch (item.getItemId()){
                 case R.id.nav_shows:
-                    item.setIcon(R.drawable.ic_shows_selected);
                     selectedFragment = new ShowsFragment();
                     break;
                 case R.id.nav_tickets:
-                    item.setIcon(R.drawable.ic_ticket_selected);
                     selectedFragment = new TicketsFragment();
                     break;
                 case R.id.nav_cafetaria:
-                    item.setIcon(R.drawable.ic_cafetaria_selected);
                     selectedFragment = new CafetariaFragment();
                     break;
                 case R.id.nav_transactions:
-                    item.setIcon(R.drawable.ic_transaction_selected);
                     selectedFragment = new TransactionsFragment();
                     break;
             }

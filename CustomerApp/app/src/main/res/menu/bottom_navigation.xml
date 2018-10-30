@@ -3,23 +3,23 @@
 
     <item
         android:id="@+id/nav_shows"
-        android:icon="@drawable/ic_shows_selected"
+        android:icon="@drawable/selector_bottom_nav_shows"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/nav_tickets"
-        android:icon="@drawable/ic_ticket_unselected"
+        android:icon="@drawable/selector_bottom_nav_ticket"
         android:title="@string/title_tickets" />
 
     <item
         android:id="@+id/nav_cafetaria"
-        android:icon="@drawable/ic_cafetaria_unselected"
+        android:icon="@drawable/selector_bottom_nav_cafetaria"
         android:title="@string/title_cafetaria" />
 
     <item
         android:id="@+id/nav_transactions"
         android:state_checked="false"
-        android:icon="@drawable/ic_transaction_unselected"
+        android:icon="@drawable/selector_bottom_nav_transactions"
         android:title="@string/title_transactions" />
 
 </menu>
