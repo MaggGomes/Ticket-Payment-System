@@ -24,13 +24,15 @@
         <java.version>1.8</java.version>
         <thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.2.1</thymeleaf-layout-dialect.version>
+        <javaassist.version>3.22.0-GA</javaassist.version>
+        <postgres.version>9.4.1208</postgres.version>
+        <hikari.version>2.4.7</hikari.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,12 +42,22 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <version>${postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>${javaassist.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikaricp.version}</version>
         </dependency>
     </dependencies>
 
