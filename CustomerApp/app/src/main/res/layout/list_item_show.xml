@@ -1,6 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="132dp">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/list_item_show_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"
+        android:src="@android:color/black"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/shout_grid_title_tv"
+        android:layout_width="171dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/list_item_show_see_details"
+        android:layout_alignTop="@+id/list_item_show_image"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="Merino Wool Slouchy Hat, Winter
+Hat, Chunky Textured Knit Ht"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/home_feed_card_user_tv"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/shout_grid_title_tv"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/list_item_show_see_details"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="John Smith - 2 hours ago"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/list_item_show_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/list_item_show_image"
+        android:layout_alignStart="@+id/shout_grid_title_tv"
+        android:gravity="end"
+        android:maxLines="1"
+        android:paddingBottom="2dp"
+        android:text="20€"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/list_item_show_see_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/list_item_show_image"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="15dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:text="See Details" />
+
+</RelativeLayout>

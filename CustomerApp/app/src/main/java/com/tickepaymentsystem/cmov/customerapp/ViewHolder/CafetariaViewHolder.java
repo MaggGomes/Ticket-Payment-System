@@ -5,11 +5,16 @@ import android.widget.TextView;
 
 public class CafetariaViewHolder {
     private TextView name;
+    private TextView quantity;
     private Button btnMinus;
     private Button btnPlus;
 
     public TextView getName() {
         return name;
+    }
+
+    public TextView getQuantity(){
+        return quantity;
     }
 
     public Button getBtnMinus() {
@@ -22,6 +27,10 @@ public class CafetariaViewHolder {
 
     public void setName(TextView name) {
         this.name = name;
+    }
+
+    public void setQuantity(TextView quantity){
+        this.quantity = quantity;
     }
 
     public void setBtnMinus(Button btn) {
