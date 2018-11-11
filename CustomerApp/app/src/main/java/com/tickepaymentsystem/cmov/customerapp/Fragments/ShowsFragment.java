@@ -35,6 +35,6 @@ public class ShowsFragment extends Fragment {
 
     private void generateList() {
         for(int i = 0; i < 10; i++)
-            shows.add(new Show(1,"New show", "New show coming", "Dec 21, 2018", 20, "url"));
+            shows.add(new Show("1","New show", "New show coming", "Dec 21, 2018", 20, "url"));
     }
 }

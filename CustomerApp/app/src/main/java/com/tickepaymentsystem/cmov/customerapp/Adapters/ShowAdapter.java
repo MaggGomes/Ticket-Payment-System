@@ -49,6 +49,11 @@ public class ShowAdapter extends ArrayAdapter<Show> {
             convertView.setTag(holder);
         }
 
+        Show show = shows.get(position);
+        holder.getName().setText(show.getName());
+        holder.getDescription().setText(show.getDescription());
+        holder.getPrice().setText(Double.toString(show.getPrice())+"€");
+
         return convertView;
     }
 
