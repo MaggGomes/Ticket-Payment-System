@@ -37,7 +37,7 @@ public class CafetariaAdapter extends ArrayAdapter<String> {
             LayoutInflater inflater = LayoutInflater.from(getContext());;
             convertView = inflater.inflate(layout, parent, false);
 
-            // initialize views
+            // Initialize ViewHolder
             holder = new CafetariaViewHolder(convertView);
             holder.getBtnMinus().setOnClickListener((View v)->onBtnMinusClick(position, -1));
             holder.getBtnPlus().setOnClickListener((View v)->onBtnPlusClick(position, 1));

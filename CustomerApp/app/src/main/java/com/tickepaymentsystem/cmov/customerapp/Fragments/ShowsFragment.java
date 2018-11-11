@@ -15,7 +15,7 @@ import com.tickepaymentsystem.cmov.customerapp.R;
 
 import java.util.ArrayList;
 
-public class ShowFragment extends Fragment {
+public class ShowsFragment extends Fragment {
 
     private ArrayList<Show> shows = new ArrayList<>();
 

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.tickepaymentsystem.cmov.customerapp.Fragments.CafetariaFragment;
-import com.tickepaymentsystem.cmov.customerapp.Fragments.ShowFragment;
+import com.tickepaymentsystem.cmov.customerapp.Fragments.ShowsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TicketsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TransactionsFragment;
 
@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_frag_container,
-                new ShowFragment()).commit();
+                new ShowsFragment()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavListener
@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
 
             switch (item.getItemId()){
                 case R.id.nav_shows:
-                    selectedFragment = new ShowFragment();
+                    selectedFragment = new ShowsFragment();
                     break;
                 case R.id.nav_tickets:
                     selectedFragment = new TicketsFragment();

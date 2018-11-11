@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.ShowActivity;
-import com.tickepaymentsystem.cmov.customerapp.R;
 import com.tickepaymentsystem.cmov.customerapp.Adapters.ViewHolder.ShowViewHolder;
 
 import java.util.List;
@@ -41,18 +39,15 @@ public class ShowAdapter extends ArrayAdapter<Show> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(layout, parent, false);
 
-            ((Button)convertView.findViewById(R.id.list_item_show_see_details)).setOnClickListener((View v)->onBtnSeeDetails(position));
+            // Initialize ViewHolder
+            holder = new ShowViewHolder(convertView);
+            holder.getBtnSeeDetails().setOnClickListener((View v)->onBtnSeeDetails(position));
+
+            convertView.setTag(holder);
         } else {
             holder = (ShowViewHolder)convertView.getTag();
+            convertView.setTag(holder);
         }
-
-
-
-        /*Show show = shows.get(position);
-        String price = Double.toString(show.getPrice()) + " €";
-        ((TextView)row.findViewById(R.id.name)).setText(s.getName());
-        ((TextView)row.findViewById(R.id.date)).setText(s.getDate());
-        ((TextView)row.findViewById(R.id.price)).setText(price);      */
 
         return convertView;
     }
