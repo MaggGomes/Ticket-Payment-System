@@ -1,66 +1,74 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="132dp">
+    android:layout_height="130dp"
+    android:id="@+id/relativeLayout">
 
     <ImageView
         android:id="@+id/list_item_show_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="16dp"
+        android:scaleType="centerCrop"
         android:src="@android:color/black"
-        android:scaleType="centerCrop"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/shout_grid_title_tv"
-        android:layout_width="171dp"
+        android:id="@+id/list_item_show_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/list_item_show_see_details"
-        android:layout_alignTop="@+id/list_item_show_image"
+        android:layout_marginStart="16dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="Merino Wool Slouchy Hat, Winter
 Hat, Chunky Textured Knit Ht"
         android:textColor="@android:color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/list_item_show_see_details"
+        app:layout_constraintStart_toEndOf="@+id/list_item_show_image"
+        app:layout_constraintTop_toTopOf="@+id/list_item_show_image" />
 
     <TextView
-        android:id="@+id/home_feed_card_user_tv"
-        android:layout_width="170dp"
+        android:id="@+id/list_item_show_description"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/shout_grid_title_tv"
-        android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/list_item_show_see_details"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="John Smith - 2 hours ago"
         android:textColor="@android:color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/list_item_show_see_details"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/list_item_show_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
 
     <TextView
         android:id="@+id/list_item_show_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/list_item_show_image"
-        android:layout_alignStart="@+id/shout_grid_title_tv"
         android:gravity="end"
         android:maxLines="1"
-        android:paddingBottom="2dp"
         android:text="20€"
         android:textColor="@color/colorPrimary"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/list_item_show_name"
+        app:layout_constraintBottom_toBottomOf="@+id/list_item_show_image" />
 
-    <TextView
+    <Button
         android:id="@+id/list_item_show_see_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/list_item_show_image"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="16dp"
         android:paddingBottom="4dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="2dp"
-        android:text="See Details" />
+        android:text="See Details"
+        app:layout_constraintBottom_toBottomOf="@+id/list_item_show_image"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

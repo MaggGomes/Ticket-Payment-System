@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.tickepaymentsystem.cmov.customerapp.Adapters.ShowAdapter;
+import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.R;
 
 import java.util.ArrayList;
 
 public class ShowFragment extends Fragment {
 
-    private ArrayList<String> shows = new ArrayList<>();
+    private ArrayList<Show> shows = new ArrayList<>();
 
     @Nullable
     @Override
@@ -34,6 +35,6 @@ public class ShowFragment extends Fragment {
 
     private void generateList() {
         for(int i = 0; i < 10; i++)
-            shows.add("Row number " + i);
+            shows.add(new Show(1,"New show", "New show coming", "Dec 21, 2018", 20, "url"));
     }
 }
