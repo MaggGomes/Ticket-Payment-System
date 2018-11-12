@@ -1,0 +1,16 @@
+com\cmov\server\domain\Customer.class
+com\cmov\server\domain\CafetariaOrder.class
+com\cmov\server\ServerApplication.class
+com\cmov\server\domain\Transaction.class
+com\cmov\server\controller\TicketController.class
+com\cmov\server\domain\Ticket.class
+com\cmov\server\database\DataSourceConfiguration.class
+com\cmov\server\controller\ShowsController.class
+com\cmov\server\controller\CreditCardController.class
+com\cmov\server\controller\TransactionController.class
+com\cmov\server\controller\CustomerController.class
+com\cmov\server\domain\CreditCard.class
+com\cmov\server\controller\CafetariaOrderController.class
+com\cmov\server\domain\Show.class
+com\cmov\server\controller\VoucherController.class
+com\cmov\server\domain\Voucher.class
