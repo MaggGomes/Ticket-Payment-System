@@ -1,7 +1,6 @@
 const
     Op = Sequelize.Op,
     request = require('request'),
-    bcrypt = require('bcrypt'),
     User = require('../models/index').User;
 
 module.exports = {
