@@ -8,16 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.tickepaymentsystem.cmov.customerapp.Adapters.ViewHolder.TicketViewHolder;
-import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
-import com.tickepaymentsystem.cmov.customerapp.ShowActivity;
-import com.tickepaymentsystem.cmov.customerapp.R;
-import com.tickepaymentsystem.cmov.customerapp.Adapters.ViewHolder.ShowViewHolder;
 import com.tickepaymentsystem.cmov.customerapp.TicketQRCodeActivity;
+import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
 import java.util.List;
 
@@ -55,7 +50,16 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
     }
 
     private void onBtnGenerateQRCode(int position) {
-        Toast.makeText(getContext(), "View Details" + position, Toast.LENGTH_SHORT).show();
-        context.startActivity(new Intent(context, TicketQRCodeActivity.class));
+        // TODO - DELETE
+        String userUUID = "a4056f64-e5bc-11e8-9f32-f2801f1b9fd1";
+
+        // TODO - Convert to byte; pass also private key
+        // Tem de enviar: The transmitted info must contain the user id, the number of tickets,
+        //the tickets’ IDs and the show date e também a private key do user?
+        String qrcode = userUUID+tickets.get(position).getQuantity()+tickets.get(position).getId()+tickets.get(position).getDate();
+
+        Intent intent = new Intent(context, TicketQRCodeActivity.class);
+        intent.putExtra(Constants.CAFETARIA_ORDER, qrcode);
+        context.startActivity(intent);
     }
 }

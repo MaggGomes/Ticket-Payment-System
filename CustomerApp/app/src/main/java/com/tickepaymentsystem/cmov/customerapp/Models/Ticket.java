@@ -7,6 +7,7 @@ public class Ticket {
     private String date;
     private double price;
     private String imageURL;
+    private int quantity;
 
     public Ticket(String id, String name, String description, String date, double price, String imageURL){
         this.id = id;
@@ -15,6 +16,7 @@ public class Ticket {
         this.date = date;
         this.price = price;
         this.imageURL = imageURL;
+        this.quantity = 0;
     }
 
     public String getId() {
@@ -63,5 +65,13 @@ public class Ticket {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
+
+    public int getQuantity(){
+        return quantity;
     }
 }
