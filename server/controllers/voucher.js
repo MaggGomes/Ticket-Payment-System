@@ -1,14 +1,14 @@
 const
     Op = Sequelize.Op,
     request = require('request'),
-    Show = require('../models/index').Show;
+    Voucher = require('../models/index').Voucher;
 
 module.exports = {
     list(req, res) {
-        Show
+        Voucher
             .findAll()
-            .then(shows => {
-                res.status(200).json(shows);
+            .then(vouchers => {
+                res.status(200).json(vouchers);
             })
             .catch(err => {
                 console.log(err);
@@ -16,4 +16,3 @@ module.exports = {
             });
     }
 };
-

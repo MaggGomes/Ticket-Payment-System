@@ -13,8 +13,8 @@ app.use(bodyParser.json());
 
 app.use('/api', index);
 app.use('/api/shows', shows);
-//app.use('/api/users', users);
-//app.use('/api/tickets', tickets);
+app.use('/api/users', users);
+app.use('/api/tickets', tickets);
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

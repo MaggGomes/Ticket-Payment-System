@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
-        name: {
+    var User = sequelize.define('User', {
+            name: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
             unique: true
         },
         keyN: {
-            type: DataTypes.SRING,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         keyE: {
-            type: DataTypes.SRING,
+            type: DataTypes.STRING,
             allowNull: false,
         }
     },

@@ -1,9 +1,10 @@
 const express = require('express'),
     router = express.Router(),
-    ticketController = require('../controllers/ticket');
+    orderController = require('../controllers/order');
+
 
 router.get('/',
-    ticketController.list
+    orderController.list
 );
 
 module.exports = router;
