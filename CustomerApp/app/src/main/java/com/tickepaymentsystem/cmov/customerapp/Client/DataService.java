@@ -10,7 +10,7 @@ import retrofit2.http.GET;
 
 public interface DataService {
 
-    @GET("/shows")
+    @GET("shows")
     Call<List<Show>> getShows();
 
     @GET("/photos")

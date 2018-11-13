@@ -7,7 +7,7 @@ public class ApiClient {
 
     private static Retrofit INSTANCE = null;
     //private static String BASE_URL = "https://jsonplaceholder.typicode.com";
-    private static String BASE_URL = "http://192.168.1.86:8000/api/";
+    private static String BASE_URL = "http://10.0.2.2:8000/api/";
 
     public static Retrofit getInstance() {
         if (INSTANCE == null) {
