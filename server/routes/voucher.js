@@ -4,7 +4,7 @@ const express = require('express'),
 
 
 router.get('/',
-    //voucherController.list
+    voucherController.list
 );
 
 module.exports = router;
