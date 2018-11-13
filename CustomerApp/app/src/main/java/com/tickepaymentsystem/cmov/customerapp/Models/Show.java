@@ -1,68 +1,76 @@
 package com.tickepaymentsystem.cmov.customerapp.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Show {
 
-    private String id;
+    @SerializedName("id")
+    private Integer id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("description")
     private String description;
+    @SerializedName("url")
+    private String url;
+    @SerializedName("date")
     private String date;
-    private double price;
-    private String imageURL;
+    @SerializedName("price")
+    private Double price;
 
-    public Show(String id, String name, String description, String date, double price, String imageURL){
+    public Show(Integer id, String name, String description, String url, String date, Double price){
         this.id = id;
         this.name = name;
         this.description = description;
+        this.url = url;
         this.date = date;
         this.price = price;
-        this.imageURL = imageURL;
     }
 
-    public void setId(String id){
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getId(){
-        return this.id;
+    public String getName() {
+        return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getName(){
-        return this.name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getDescription(){
-        return this.description;
+    public String getUrl() {
+        return url;
     }
 
-    public void setDate(String date){
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public String getDate(){
-        return this.date;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setPrice(double price){
+    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public double getPrice(){
-        return this.price;
-    }
-
-    public void setImageURL(String imageURL){
-        this.imageURL = imageURL;
-    }
-
-    public String getImageURL(){
-        return this.imageURL;
     }
 }

@@ -1,4 +1,4 @@
 package com.tickepaymentsystem.cmov.customerapp.Models;
 
-public class Customer {
+public class User {
 }

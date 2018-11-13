@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.tickepaymentsystem.cmov.customerapp.Adapters.CustomAdapter;
+import com.tickepaymentsystem.cmov.customerapp.Adapters.TransactionAdapter;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
-import com.tickepaymentsystem.cmov.customerapp.Client.GetDataService;
+import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.RetroPhoto;
 import com.tickepaymentsystem.cmov.customerapp.R;
 
@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class TransactionsFragment extends Fragment {
 
-    private CustomAdapter adapter;
+    private TransactionAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
 
@@ -39,7 +39,8 @@ public class TransactionsFragment extends Fragment {
         progressDialog.setMessage("Loading....");
         progressDialog.show();
 
-        GetDataService service = ApiClient.getInstance().create(GetDataService.class);
+        // TODO - DELETE - Mocked data
+        DataService service = ApiClient.getInstance().create(DataService.class);
         Call<List<RetroPhoto>> call = service.getAllPhotos();
         call.enqueue(new Callback<List<RetroPhoto>>() {
             @Override
@@ -60,7 +61,7 @@ public class TransactionsFragment extends Fragment {
 
     private void generateDataList(List<RetroPhoto> photoList) {
         recyclerView = getActivity().findViewById(R.id.list_transactions);
-        adapter = new CustomAdapter(getContext(), photoList);
+        adapter = new TransactionAdapter(getContext(), photoList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
