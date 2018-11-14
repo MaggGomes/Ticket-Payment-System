@@ -1,10 +1,10 @@
 const express = require('express'),
-    router = express.Router(),
-    orderController = require('../controllers/order');
+	router = express.Router(),
+	orderController = require('../controllers/order');
 
 
 router.get('/',
-    orderController.list
+	orderController.list
 );
 
 module.exports = router;
