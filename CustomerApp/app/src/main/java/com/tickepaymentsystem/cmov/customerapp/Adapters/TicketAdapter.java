@@ -41,7 +41,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
 
             // Initialize ViewHolder
             holder = new TicketViewHolder(convertView);
-            holder.getBtnGenerateQRCode().setOnClickListener((View v)->onBtnGenerateQRCode(position));
+            holder.getBtnGenerateQRCode().setOnClickListener((View v) -> onBtnGenerateQRCode(position));
         } else {
             holder = (TicketViewHolder)convertView.getTag();
         }

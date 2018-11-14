@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 
 public interface DataService {
 
+    // Returns all the shows
     @GET("shows")
     Call<List<Show>> getShows();
 

@@ -29,7 +29,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         public final View mView;
 
         TextView txtTitle;
-        private ImageView coverImage;
+        ImageView coverImage;
 
         TransactionViewHolder(View itemView) {
             super(itemView);

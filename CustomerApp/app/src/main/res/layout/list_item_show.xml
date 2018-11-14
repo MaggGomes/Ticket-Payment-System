@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="1"
         android:text="Merino Wool Slouchy Hat, Winter
 Hat, Chunky Textured Knit Ht"
         android:textColor="@android:color/black"
@@ -31,20 +31,20 @@ Hat, Chunky Textured Knit Ht"
         app:layout_constraintTop_toTopOf="@+id/list_item_show_image" />
 
     <TextView
-        android:id="@+id/list_item_show_description"
+        android:id="@+id/list_item_show_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:maxLines="2"
-        android:text="John Smith - 2 hours ago"
+        android:maxLines="1"
+        android:text="Dec 21, 2018"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/list_item_show_see_details"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/list_item_show_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.504" />
+        app:layout_constraintVertical_bias="0.432" />
 
     <TextView
         android:id="@+id/list_item_show_price"

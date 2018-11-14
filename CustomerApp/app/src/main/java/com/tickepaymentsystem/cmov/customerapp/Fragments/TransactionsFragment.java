@@ -17,6 +17,7 @@ import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.RetroPhoto;
 import com.tickepaymentsystem.cmov.customerapp.R;
+import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
 import java.util.List;
 
@@ -34,12 +35,16 @@ public class TransactionsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_transactions, container, false);
+        getTransactions();
 
+        return view;
+    }
+
+    public void getTransactions(){
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading....");
+        progressDialog.setMessage(Constants.LOADING);
         progressDialog.show();
 
-        // TODO - DELETE - Mocked data
         DataService service = ApiClient.getInstance().create(DataService.class);
         Call<List<RetroPhoto>> call = service.getAllPhotos();
         call.enqueue(new Callback<List<RetroPhoto>>() {
@@ -52,11 +57,9 @@ public class TransactionsFragment extends Fragment {
             @Override
             public void onFailure(Call<List<RetroPhoto>> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), Constants.LOADING_ERROR, Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
     }
 
     private void generateDataList(List<RetroPhoto> photoList) {

@@ -15,4 +15,5 @@
     <string name="title_tickets">Tickets</string>
     <string name="title_transactions">Transactions</string>
     <string name="title_cafetaria">Cafetaria</string>
+    <string name="purchase">Purchase Now</string>
 </resources>

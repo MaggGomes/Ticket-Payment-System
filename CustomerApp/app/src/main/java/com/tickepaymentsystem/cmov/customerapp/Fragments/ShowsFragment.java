@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.R;
+import com.tickepaymentsystem.cmov.customerapp.Singleton;
+import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
 import java.util.List;
 
@@ -35,9 +36,14 @@ public class ShowsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shows, container, false);
+        getShows();
 
+        return view;
+    }
+
+    public void getShows(){
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading....");
+        progressDialog.setMessage(Constants.LOADING);
         progressDialog.show();
 
         DataService service = ApiClient.getInstance().create(DataService.class);
@@ -52,16 +58,15 @@ public class ShowsFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Show>> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), Constants.LOADING_ERROR, Toast.LENGTH_SHORT).show();
             }
         });
-
-        return view;
     }
 
     private void generateDataList(List<Show> shows) {
+        Singleton.shows = shows;
         recyclerView = getActivity().findViewById(R.id.list_shows);
-        adapter = new ShowAdapter(getContext(), shows);
+        adapter = new ShowAdapter(getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
