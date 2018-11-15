@@ -1,8 +1,13 @@
 'use strict';
 module.exports = (Sequelize, DataTypes) => {
 	const Card = Sequelize.define('Card', {
+		id:{
+			type:DataTypes.UUIDV4,
+			primaryKey: true,
+			allowNull: false
+		},
 		type: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.TEXT,
 			allowNull: false
 		},
 		number: {
@@ -10,12 +15,12 @@ module.exports = (Sequelize, DataTypes) => {
 			allowNull: false,
 			unique: true
 		},
-		date: {
+		validity: {
 			type: DataTypes.DATE,
 			allowNull: false
 		},
 		userId: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.TEXT,
 			allowNull: false
 		}
 	}, {});

@@ -25,12 +25,12 @@ module.exports = {
 		Show
 			.findOne({
 				where: {
-					id:  req.decoded.message.id
+					id:  req.body.message.id//change to .decoded after verify works
 				}
 			})
 			.then(show => {
 				if(show){
-					var quantity = req.decoded.message.quantity;
+					var quantity = req.body.message.quantity;//change to .decoded after verify works
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];
@@ -53,7 +53,7 @@ module.exports = {
 										id: uuidv4(),
 										seatNumber : tempSeat,
 										showId: show.id,
-										userId: req.decoded.userId
+										userId: req.body.userId //change to .decoded after verify works
 									})
 									.then(ticket => {
 										tickets.push(ticket);
@@ -61,7 +61,7 @@ module.exports = {
 										Voucher
 											.create({
 												id : voucherId,
-												userId : req.decoded.userId,
+												userId : req.body.userId,//change to .decoded after verify works
 												available: true
 											})
 											.then(voucher => {

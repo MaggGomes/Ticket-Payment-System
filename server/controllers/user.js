@@ -4,7 +4,8 @@ const
 	rsa = require('node-rsa'),
 	bcrypt = require('bcrypt'),
 	uuidv4 = require('uuid/v4'),
-	User = require('../models/index').User;
+	User = require('../models/index').User,
+	Card = require('../models/index').Card;
 
 module.exports = {
 	list(req, res) {
@@ -20,6 +21,9 @@ module.exports = {
 	},
 	create(req, res) {
 		var whereClause = {	[Op.or]: [{username: req.body.username}, {nif: req.body.nif}] };
+		if(req.body.password != req.body.confirmpassword){
+			res.status(400).json({success:false, message:'Passwords dont match'});
+		}
 		User
 			.findOne({
 				where: whereClause
@@ -31,18 +35,53 @@ module.exports = {
 						message: 'Username/NIF already registered!'
 					});
 				} else {
-					var hash = bcrypt.hashSync(req.body.password, 10);
-					var id = uuidv4();
-					User
-						.create({
-							id: id,
-							username : req.body.username,
-							password: hash,
-							nif: req.body.nif,
-							keyN: req.body.keyN,
-							keyE: req.body.keyE
+					whereClause = {	[Op.and]: [{type: req.body.cc.type}, {number: req.body.cc.number}] };
+					Card
+						.findOne({
+							where: whereClause
+						})
+						.then(card => {
+							if (!card) {
+								let id = uuidv4();
+								let password = bcrypt.hashSync(req.body.password, 10);
+								User
+									.create({
+										id: id,
+										username: req.body.name,
+										password: password,
+										nif: req.body.nif,
+										keyN: req.body.keyN,
+										keyE: req.body.keyE
+									})
+									.then(user => {
+										if(user) {
+										    let cardId = uuidv4();
+											Card
+												.create({
+													id: cardId,
+													type: req.body.cc.type,
+													number: req.body.cc.number,
+													validity: req.body.cc.validity,
+													userId: id
+												})
+												.then(card=>{
+													if(card){
+														res.status(200).json({success:true, message:'User and credit card created', id: id});
+													}
+												});
+										}
+									});
+							} else {
+								res.status(400).json({
+									success: false,
+									message: 'Card already exists'
+								});
+							}
+						})
+						.catch(err=>{
+							console.log(err);
+							res.status(500).json({success: false, message: 'Error occured: ' + err});
 						});
-					res.status(200).json({success:true, id: id}); //send id
 				}
 			})
 			.catch(err => {
@@ -67,7 +106,7 @@ module.exports = {
 				res.status(500).json({success: false, message: 'Error occurred: ' + err});
 			});
 	},
-	retrieveProtectedInfo(req,res, next){
+	checkMessage(req,res, next){
 		User
 			.findOne({
 				where: {
