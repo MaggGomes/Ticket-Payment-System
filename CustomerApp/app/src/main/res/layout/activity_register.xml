@@ -43,6 +43,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/register_name"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
@@ -62,6 +63,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/register_nif"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
@@ -82,6 +84,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/register_password"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
@@ -102,6 +105,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/register_confirmpassword"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
@@ -121,6 +125,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/register_cc_type"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
@@ -130,7 +135,7 @@
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:inputType="number"/>
+                        android:inputType="text"/>
 
                 </LinearLayout>
 
@@ -140,6 +145,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/register_cc_number"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
@@ -149,7 +155,7 @@
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:inputType="number"/>
+                        android:inputType="text"/>
 
                 </LinearLayout>
 
@@ -159,6 +165,7 @@
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/register_cc_validity"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:background="@drawable/edit_bg"
@@ -168,7 +175,7 @@
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:inputType="number"/>
+                        android:inputType="text"/>
 
                 </LinearLayout>
 
