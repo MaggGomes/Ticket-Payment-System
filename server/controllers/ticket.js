@@ -30,8 +30,7 @@ module.exports = {
 			})
 			.then(show => {
 				if(show){
-					//if signature valid
-					var quantity = req.decoded.quantity;
+					var quantity = req.decoded.message.quantity;
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];

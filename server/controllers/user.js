@@ -42,7 +42,7 @@ module.exports = {
 							keyN: req.body.keyN,
 							keyE: req.body.keyE
 						});
-					res.status(200).json({success:true});
+					res.status(200).json({success:true, id: id}); //send id
 				}
 			})
 			.catch(err => {
@@ -81,16 +81,18 @@ module.exports = {
 						n: Buffer.from(user.keyN, 'hex'),
 						e: parseInt(user.keyE, 16)
 					},'components-public');
-					if(key.verify(req.body.message, req.body.signature, 'sha256', 'base64')){
-					    console.log('SADASD');
+					console.log(user.keyN);
+					console.log(user.keyE);
+					console.log(req.body.signature);
+					if(key.verify(req.body.message, req.body.signature, 'utf-8', 'base64')){
 						req.decoded = req.body;
 						next();
 					}
-					else return res.send(400).json({
+					else return res.status(400).json({
 						success:false, message:'Invalid Signature'
 					});
 				} else {
-					return res.json.send(400)({
+					return res.json.status(400)({
 						success:false, message:'User doesn\'t exist'
 					});
 				}
