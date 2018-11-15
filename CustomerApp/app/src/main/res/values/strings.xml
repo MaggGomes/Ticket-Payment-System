@@ -9,11 +9,12 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="cc_type">type</string>
     <string name="cc_number">number</string>
-    <string name="cc_validity">validity</string>
+    <string name="cc_validity">2018-12-31</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
     <string name="title_tickets">Tickets</string>
     <string name="title_transactions">Transactions</string>
     <string name="title_cafetaria">Cafetaria</string>
     <string name="purchase">Purchase Now</string>
+    <string name="validity">Validity: </string>
 </resources>
