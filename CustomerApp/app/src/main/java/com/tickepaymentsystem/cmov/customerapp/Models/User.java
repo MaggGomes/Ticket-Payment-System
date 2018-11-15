@@ -13,11 +13,11 @@ public class User {
     @SerializedName("password")
     private String password;
     @SerializedName("nif")
-    private long nif;
+    private Integer nif;
     @SerializedName("cc")
     private CreditCard cc;
 
-    public User(String name, String keyN, String keyE, String password, Long nif, CreditCard cc){
+    public User(String name, String keyN, String keyE, String password, Integer nif, CreditCard cc){
         this.name = name;
         this.keyN = keyN;
         this.keyE = keyE;
@@ -58,11 +58,11 @@ public class User {
         this.password = password;
     }
 
-    public long getNif() {
+    public Integer getNif() {
         return nif;
     }
 
-    public void setNif(long nif) {
+    public void setNif(Integer nif) {
         this.nif = nif;
     }
 
