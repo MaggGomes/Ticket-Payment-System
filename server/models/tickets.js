@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false
 		},
 		showName:{
-	    	type: DataTypes.TEXT,
+	    	type: DataTypes.STRING,
 			allowNull:false
 		},
 		showDate:{
-	    	type: DataTypes.Date,
+	    	type: DataTypes.DATE,
 			allowNull:false
 		},
 		showId: {
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false
 		},
 		userId: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			allowNull: false
 		}
 	}, {});

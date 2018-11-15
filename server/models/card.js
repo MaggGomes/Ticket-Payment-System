@@ -7,7 +7,7 @@ module.exports = (Sequelize, DataTypes) => {
 			allowNull: false
 		},
 		type: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		number: {
@@ -20,7 +20,7 @@ module.exports = (Sequelize, DataTypes) => {
 			allowNull: false
 		},
 		userId: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING,
 			allowNull: false
 		}
 	}, {});
