@@ -53,29 +53,26 @@ module.exports = {
 										id: uuidv4(),
 										seatNumber : tempSeat,
 										showId: show.id,
-										userId: req.decoded.message.uuid //change to .decoded after verify works
+										userId: req.decoded.message.id //change to .decoded after verify works
 									})
 									.then(ticket => {
 										tickets.push(ticket);
 										let voucherId = uuidv4();
+										let productId = getRandomInt(2);
 										Voucher
 											.create({
 												id : voucherId,
-												userId : req.decoded.message.uuid,//change to .decoded after verify works
-												available: true
+												available: true,
+												productId : productId,
+												userId : req.decoded.message.id//change to .decoded after verify works
 											})
 											.then(voucher => {
 												vouchers.push(voucher);
-												const productId = getRandomInt(2); // 0: coffee, 1: popcorn
-												Promotion
-													.create({
-														voucherId : voucherId,
-														productId : productId,
-														discount : 1
-													})
-													.then(promotion =>{
-														promotions.push(promotion);
-													});
+												res.status(200).json({
+													success: true,
+													tickets: tickets,
+													vouchers: vouchers
+												});
 											});
 									});
 							})
@@ -84,12 +81,6 @@ module.exports = {
 								res.status(500).json({success: false, message: 'Error occured: ' + err});
 							});
 					}
-					res.status(200).json({
-						success: true,
-						tickets: tickets,
-						promotions: promotions,
-						vouchers: vouchers
-					});
 				} else {
 					res.status(400).json({success: false, message: 'Show doesn\'t exist'});
 				}

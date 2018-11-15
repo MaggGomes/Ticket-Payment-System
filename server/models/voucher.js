@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			default: true
 		},
+		productId:{
+	    	type: DataTypes.INTEGER,
+			allowNull: true
+		},
 		orderId: {
 			type: DataTypes.INTEGER,
 			allowNull: true
@@ -26,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		Voucher.belongsTo(models.Order, {
 			foreignKey: 'orderId'
+		});
+		Voucher.belongsTo(models.User, {
+			foreignKey: 'productId'
 		});
 	};
 	return Voucher;

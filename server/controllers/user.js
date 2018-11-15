@@ -110,7 +110,7 @@ module.exports = {
 		User
 			.findOne({
 				where: {
-					id: req.body.userId
+					id: req.body.message.id
 				}
 			})
 			.then(user => {
@@ -123,7 +123,7 @@ module.exports = {
 					console.log(user.keyN);
 					console.log(user.keyE);
 					console.log(req.body.messageSigned);
-					if(key.verify(req.body.message, req.body.signature, 'utf-8', 'base64')){
+					if(key.verify(req.body.message, req.body.messagedSigned, 'utf-8', 'base64')){
 						req.decoded = req.body;
 						next();
 					}
