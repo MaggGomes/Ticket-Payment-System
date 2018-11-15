@@ -4,19 +4,15 @@ module.exports = {
         "jquery" : true,
         "node" : true
     },
-    "extends": "eslint:recommended",
+    "extends": [],
     "parserOptions": {
-        "ecmaVersion": 3
+        "sourceType": "module"
     },
     "rules": {
         "indent": [
             "error",
             "tab",
             { "SwitchCase": 1}
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
         ],
         "quotes": [
             "error",

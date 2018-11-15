@@ -1,9 +1,9 @@
 const
 	Op = Sequelize.Op,
 	request = require('request'),
-	bcrypt = require('bcrypt');
-uuidv4 = require('uuid/v4');
-User = require('../models/index').User;
+	bcrypt = require('bcrypt'),
+	uuidv4 = require('uuid/v4'),
+	User = require('../models/index').User;
 
 module.exports = {
 	list(req, res) {
@@ -38,8 +38,10 @@ module.exports = {
 							username : req.body.username,
 							password: hash,
 							nif: req.body.nif,
-
+							keyN: req.body.keyN,
+							keyE: req.body.keyE
 						});
+					res.status(200).json({success:true});
 				}
 			})
 			.catch(err => {

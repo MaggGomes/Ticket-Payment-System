@@ -6,4 +6,7 @@ router.get('/',
 	ticketController.list
 );
 
+router.post('/buy',
+	ticketController.create
+);
 module.exports = router;

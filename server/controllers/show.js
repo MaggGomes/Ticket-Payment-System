@@ -14,6 +14,28 @@ module.exports = {
 				console.log(err);
 				res.status(500).json({success: false, message: 'Error occured: ' + err});
 			});
+	},
+	retrieve(req, res){
+		Show
+			.findOne({
+				where: {
+					id: req.params.id
+				},
+			})
+			.then(show => {
+				if (show)
+					res.status(200).json(show);
+				else {
+					res.status(400).json({
+						success: false,
+						message: 'Show doesn\'t exist!'
+					});
+				}
+			})
+			.catch(err => {
+				console.log(err);
+				res.status(500).json({success: false, message: 'Error occured: ' + err});
+			});
 	}
 };
 
