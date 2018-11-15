@@ -8,7 +8,7 @@ router.get('/',
 );
 
 router.post('/buy',
-	userController.retrieveProtectedInfo,
+	//userController.checkMessage,
 	ticketController.create
 );
 module.exports = router;
