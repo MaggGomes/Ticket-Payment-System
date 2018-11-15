@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
+		showName:{
+	    	type: DataTypes.TEXT,
+			allowNull:false
+		},
+		showDate:{
+	    	type: DataTypes.Date,
+			allowNull:false
+		},
 		showId: {
 			type: DataTypes.INTEGER,
 			allowNull: false

@@ -110,7 +110,7 @@ module.exports = {
 		User
 			.findOne({
 				where: {
-					id: req.body.message.id
+					id: req.body.message.userId
 				}
 			})
 			.then(user => {
@@ -131,7 +131,7 @@ module.exports = {
 						success:false, message:'Invalid Signature'
 					});
 				} else {
-					return res.json.status(400)({
+					return res.status(400).json({
 						success:false, message:'User doesn\'t exist'
 					});
 				}

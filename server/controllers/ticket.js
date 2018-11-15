@@ -53,7 +53,9 @@ module.exports = {
 										id: uuidv4(),
 										seatNumber : tempSeat,
 										showId: show.id,
-										userId: req.decoded.message.id //change to .decoded after verify works
+										showName: show.name,
+										showDate: show.date,
+										userId: req.decoded.message.userId //change to .decoded after verify works
 									})
 									.then(ticket => {
 										tickets.push(ticket);
@@ -64,7 +66,7 @@ module.exports = {
 												id : voucherId,
 												available: true,
 												productId : productId,
-												userId : req.decoded.message.id//change to .decoded after verify works
+												userId : req.decoded.message.userId//change to .decoded after verify works
 											})
 											.then(voucher => {
 												vouchers.push(voucher);

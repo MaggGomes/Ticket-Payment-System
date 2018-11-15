@@ -44,6 +44,8 @@ CREATE TABLE "Shows" (
 CREATE TABLE "Tickets" (
 	id TEXT PRIMARY KEY,
 	"seatNumber" INTEGER NOT NULL,
+	"showName" TEXT NOT NULL,
+	"showDate" DATE NOT NULL,
 	"showId" INTEGER NOT NULL REFERENCES "Shows"(id),
 	"userId" TEXT NOT NULL REFERENCES "Users"(id),
         "createdAt" DATE,
