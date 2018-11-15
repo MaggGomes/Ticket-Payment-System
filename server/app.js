@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var pg = require('pg');
+//var pg = require('pg');
 Sequelize = require('sequelize');
 
 var app = express();
@@ -21,9 +21,9 @@ app.use('/api/vouchers', vouchers);
 app.use('/api/orders', orders);
 
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
 });
 
 module.exports = app;

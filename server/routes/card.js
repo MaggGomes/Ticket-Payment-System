@@ -1,10 +1,10 @@
 const express = require('express'),
-    router = express.Router(),
-    cardController = require('../controllers/card');
+	router = express.Router(),
+	cardController = require('../controllers/card');
 
 
 router.get('/',
-    cardController.list
+	cardController.list
 );
 
 module.exports = router;
