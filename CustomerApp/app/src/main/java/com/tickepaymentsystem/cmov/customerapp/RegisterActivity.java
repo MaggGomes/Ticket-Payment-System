@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.CreditCard;
+import com.tickepaymentsystem.cmov.customerapp.Models.RegisterPojo;
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.Models.User;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
@@ -55,7 +56,6 @@ public class RegisterActivity extends AppCompatActivity{
     private EditText editNif;
     private EditText editType;
     private EditText editNumber;
-    private EditText editValidity;
 
     // Variables
     private String name;
@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity{
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                String date = day+"/"+month+"/"+year;
+                String date = year+"-"+month+"-"+day;
                 ccDate.setText(date);
             }
         };
@@ -90,8 +90,6 @@ public class RegisterActivity extends AppCompatActivity{
         editNif = (EditText)findViewById(R.id.register_nif);
         editType = (EditText)findViewById(R.id.register_cc_type);
         editNumber = (EditText)findViewById(R.id.register_cc_number);
-        editValidity = (EditText)findViewById(R.id.register_cc_validity);
-
 
         findViewById(R.id.btn_login_secondary).setOnClickListener((View v)->onBtnLoginClick());
         findViewById(R.id.btn_register_main).setOnClickListener((View v)->onBtnRegisterClick());
@@ -123,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity{
         nif = Integer.parseInt(editNif.getText().toString());
         type = editType.getText().toString();
         number = Integer.parseInt(editNumber.getText().toString());
-        validity = editValidity.getText().toString();
+        validity = ccDate.getText().toString();
 
         try {
             RSAPublicKey publicKey = (RSAPublicKey) Security.generateRSAKeypair(this, name);
@@ -137,6 +135,10 @@ public class RegisterActivity extends AppCompatActivity{
         CreditCard cc = new CreditCard(type, number, validity);
         User user = new User(name, keyN, keyE, password, nif, cc);
 
+        Gson g = new Gson();
+        String a = g.toJson(user);
+        Log.d(TAG, a);
+
         registerUser(this, user);
     }
 
@@ -146,21 +148,23 @@ public class RegisterActivity extends AppCompatActivity{
         progressDialog.show();
 
         DataService service = ApiClient.getInstance().create(DataService.class);
-        Call<String> call = service.register(body);
+        Call<RegisterPojo> call = service.register(body);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<RegisterPojo>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<RegisterPojo> call, Response<RegisterPojo> response) {
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Log.d(TAG, "user registered." + response.body().toString());
+                    Log.d(TAG, "user registered." + response.body().toString()+"\n\n\n\n\n\n\n\n\n");
                     startActivity(new Intent(context, HomeActivity.class));
+                } else {
+                    Log.d(TAG, "unsuccess\n\n\n\n\n\n\n\n");
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<RegisterPojo> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.d(TAG, "Unable to register user.");
             }

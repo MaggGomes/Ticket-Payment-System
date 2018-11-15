@@ -1,5 +1,6 @@
 package com.tickepaymentsystem.cmov.customerapp.Client;
 
+import com.tickepaymentsystem.cmov.customerapp.Models.RegisterPojo;
 import com.tickepaymentsystem.cmov.customerapp.Models.RetroPhoto;
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.Models.User;
@@ -15,7 +16,7 @@ public interface DataService {
 
     // Register an user
     @POST("users/register")
-    Call<String> register(@Body User body);
+    Call<RegisterPojo> register(@Body User body);
 
     // Returns all the shows
     @GET("shows")
