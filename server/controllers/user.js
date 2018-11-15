@@ -1,6 +1,7 @@
 const
 	Op = Sequelize.Op,
 	request = require('request'),
+	rsa = require('node-rsa'),
 	bcrypt = require('bcrypt'),
 	uuidv4 = require('uuid/v4'),
 	User = require('../models/index').User;
@@ -64,6 +65,38 @@ module.exports = {
 			.catch(err => {
 				console.log(err);
 				res.status(500).json({success: false, message: 'Error occurred: ' + err});
+			});
+	},
+	retrieveProtectedInfo(req,res, next){
+		User
+			.findOne({
+				where: {
+					id: req.body.userId
+				}
+			})
+			.then(user => {
+				if(user){
+					var key = rsa();
+					key.importKey({
+						n: Buffer.from(user.keyN, 'hex'),
+						e: parseInt(user.keyE, 16)
+					},'components-public');
+					if(key.verify(req.body.message, req.body.signature, 'sha256', 'base64')){
+					    console.log('SADASD');
+						req.decoded = req.body;
+						next();
+					}
+					else return res.send(400).json({
+						success:false, message:'Invalid Signature'
+					});
+				} else {
+					return res.json.send(400)({
+						success:false, message:'User doesn\'t exist'
+					});
+				}
+			})
+			.catch(err => {
+				return res.status(500).json({success: false, message: 'Error occurred: ' + err});
 			});
 	}
 };

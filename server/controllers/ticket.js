@@ -5,7 +5,8 @@ const
 	Ticket = require('../models/index').Ticket,
 	Show = require('../models/index').Show,
 	Voucher = require('../models/index').Voucher,
-	Promotion = require('../models/index').Promotion;
+	Promotion = require('../models/index').Promotion,
+	userController = require('../controllers/user');
 
 module.exports = {
 	list(req, res) {
@@ -24,17 +25,13 @@ module.exports = {
 		Show
 			.findOne({
 				where: {
-					id:  req.body.id
+					id:  req.decoded.message.id
 				}
 			})
 			.then(show => {
 				if(show){
-					//verify signature
-					console.log('#DSSDS');
-					console.log(show.id);
-					console.log('DSDSDSDSDSDDS');
 					//if signature valid
-					var quantity = req.body.quantity;
+					var quantity = req.decoded.quantity;
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];
@@ -57,7 +54,7 @@ module.exports = {
 										id: uuidv4(),
 										seatNumber : tempSeat,
 										showId: show.id,
-										userId: req.body.userId
+										userId: req.decoded.userId
 									})
 									.then(ticket => {
 										tickets.push(ticket);
@@ -65,7 +62,7 @@ module.exports = {
 										Voucher
 											.create({
 												id : voucherId,
-												userId : req.body.userId,
+												userId : req.decoded.userId,
 												available: true
 											})
 											.then(voucher => {
@@ -88,7 +85,6 @@ module.exports = {
 								res.status(500).json({success: false, message: 'Error occured: ' + err});
 							});
 					}
-
 					res.status(200).json({
 						success: true,
 						tickets: tickets,
