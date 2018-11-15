@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface DataService {
 
     // Register an user
-    @POST("register")
+    @POST("users/register")
     Call<String> register(@Body User body);
 
     // Returns all the shows
