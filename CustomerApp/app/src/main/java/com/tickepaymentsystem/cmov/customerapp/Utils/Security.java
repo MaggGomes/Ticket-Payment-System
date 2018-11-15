@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 import javax.security.auth.x500.X500Principal;
 
-public class RSA {
+public class Security {
 
     public static PublicKey generateRSAKeypair(Context context, String alias) throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException, CertificateException, IOException, InvalidAlgorithmParameterException, NoSuchProviderException {
 
@@ -39,7 +39,7 @@ public class RSA {
                 new KeyPairGeneratorSpec.Builder(context)
                         .setKeySize(512)
                         .setAlias(alias)
-                        .setSubject(new X500Principal("CN=feup"))
+                        .setSubject(new X500Principal("CN=cmov"))
                         .setSerialNumber(BigInteger.ONE)
                         .setStartDate(start.getTime())
                         .setEndDate(end.getTime())
@@ -49,4 +49,25 @@ public class RSA {
         return keyPairGenerator.generateKeyPair().getPublic();
     }
 
+    /*public static String signMessage(String alias, JSONObject msg) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException, InvalidKeyException, SignatureException {
+
+        // get private key
+        KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+        keyStore.load(null);
+        KeyStore.Entry entry = keyStore.getEntry(alias, null);
+        if (entry == null) {
+            return "";
+        }
+        PrivateKey privateKey = ((KeyStore.PrivateKeyEntry) entry).getPrivateKey();
+
+        // sign message
+        byte[] bMsg = msg.toString().getBytes("UTF-8");
+        Signature signature = Signature.getInstance("SHA256withRSA");
+        signature.initSign(privateKey);
+        signature.update(bMsg);
+        byte[] bSignature = signature.sign();
+
+        // encode signature to base64 string and return it
+        return Base64.encodeToString(bSignature , Base64.DEFAULT | Base64.NO_WRAP);
+    }*/
 }
