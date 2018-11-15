@@ -1,14 +1,19 @@
 package com.tickepaymentsystem.cmov.customerapp;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
@@ -27,6 +32,7 @@ import java.security.NoSuchProviderException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,6 +44,10 @@ public class RegisterActivity extends AppCompatActivity{
     private static final String TAG = RegisterActivity.class.getName();
     private ProgressDialog progressDialog;
 
+    // Date picker
+    private TextView ccDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
     // Fields
     private EditText editName;
     private EditText editPassword;
@@ -47,22 +57,32 @@ public class RegisterActivity extends AppCompatActivity{
     private EditText editNumber;
     private EditText editValidity;
 
-
     // Variables
     private String name;
     private String keyN;
     private String keyE;
     private String password;
     private String confirmpassword;
-    private long nif;
+    private Integer nif;
     private String type;
-    private String number;
+    private Integer number;
     private String validity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        ccDate = (TextView)findViewById(R.id.register_cc_datevalidity);
+
+        ccDate.setOnClickListener((View v) -> onShowDatePickerDialog());
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                String date = day+"/"+month+"/"+year;
+                ccDate.setText(date);
+            }
+        };
 
         editName = (EditText)findViewById(R.id.register_name);
         editPassword = (EditText)findViewById(R.id.register_password);
@@ -77,6 +97,21 @@ public class RegisterActivity extends AppCompatActivity{
         findViewById(R.id.btn_register_main).setOnClickListener((View v)->onBtnRegisterClick());
     }
 
+    private void onShowDatePickerDialog(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                this,
+                android.R.style.Theme_Material_Dialog_MinWidth,
+                mDateSetListener,
+                year, month, day);
+
+        dialog.show();
+    }
+
     private void onBtnLoginClick() {
         startActivity(new Intent(this, LoginActivity.class));
     }
@@ -85,9 +120,9 @@ public class RegisterActivity extends AppCompatActivity{
         name = editName.getText().toString();
         password = editPassword.getText().toString();
         confirmpassword = editConfirmpassword.getText().toString();
-        nif = Long.parseLong(editNif.getText().toString());
+        nif = Integer.parseInt(editNif.getText().toString());
         type = editType.getText().toString();
-        number = editNumber.getText().toString();
+        number = Integer.parseInt(editNumber.getText().toString());
         validity = editValidity.getText().toString();
 
         try {
@@ -103,14 +138,6 @@ public class RegisterActivity extends AppCompatActivity{
         User user = new User(name, keyN, keyE, password, nif, cc);
 
         registerUser(this, user);
-
-        /*Gson gson = new Gson();
-        String jsonInString = gson.toJson(user);
-
-
-        Log.d(TAG, keyE);
-        Log.d(TAG, keyN);
-        Log.d(TAG, jsonInString);*/
     }
 
     public void registerUser(Context context, User body) {
@@ -135,7 +162,7 @@ public class RegisterActivity extends AppCompatActivity{
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 progressDialog.dismiss();
-                Log.e(TAG, "Unable to register user.");
+                Log.d(TAG, "Unable to register user.");
             }
         });
     }

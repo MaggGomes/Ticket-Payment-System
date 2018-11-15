@@ -7,11 +7,11 @@ public class CreditCard {
     @SerializedName("type")
     private String type;
     @SerializedName("number")
-    private String number;
+    private Integer number;
     @SerializedName("validity")
     private String validity;
 
-    public CreditCard(String type, String number, String validity) {
+    public CreditCard(String type, Integer number, String validity) {
         this.type = type;
         this.number = number;
         this.validity = validity;
@@ -25,11 +25,11 @@ public class CreditCard {
         this.type = type;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
