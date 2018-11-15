@@ -20,7 +20,7 @@ module.exports = {
 			});
 	},
 	create(req, res) {
-		var whereClause = {	[Op.or]: [{username: req.body.username}, {nif: req.body.nif}] };
+		var whereClause = {	[Op.or]: [{username: req.body.name}, {nif: req.body.nif}] };
 		/*if(req.body.password != req.body.confirmpassword){
 			res.status(400).json({success:false, message:'Passwords dont match'});
 		}*/
