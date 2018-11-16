@@ -123,7 +123,7 @@ module.exports = {
 					console.log(user.keyN);
 					console.log(user.keyE);
 					console.log(req.body.messageSigned);
-					if(key.verify(req.body.message, req.body.messagedSigned, 'utf-8', 'base64')){
+					if(key.rsa.verify(req.body.message, req.body.messagedSigned, 'utf-8', 'base64')){
 						console.log('entrei');
 						req.decoded = req.body;
 						next();
