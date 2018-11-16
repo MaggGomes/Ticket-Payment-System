@@ -86,10 +86,14 @@ public class ShowActivity extends AppCompatActivity{
     public void onBtnPurchase(int position){
         Message message = new Message(Singleton.userUUID, Singleton.shows.get(position).getId(), Singleton.shows.get(position).getDate(), 4);
 
+        //Message message = new Message("4cd002fc-437f-41b7-996b-cde77a2f55f0", 1, "2019-11-16 00:00:00 +0000", 4);
+
         Gson gson = new Gson();
 
+        Log.d(TAG, gson.toJson(message).toString());
+
         try {
-            String signedMessage = Security.generateSignedMessage(Singleton.userName, gson.toJson(message));
+            String signedMessage = Security.generateSignedMessage("nome2", gson.toJson(message).toString());
 
             Log.d(TAG, signedMessage);
             RequestMessage requestMessage = new RequestMessage(message, signedMessage);

@@ -122,7 +122,6 @@ public class RegisterActivity extends AppCompatActivity{
             RSAPublicKey publicKey = (RSAPublicKey) Security.generateRSAKeypair(this, name);
             keyN = publicKey.getModulus().toString(16);
             keyE = publicKey.getPublicExponent().toString(16);
-
         } catch (NoSuchProviderException | NoSuchAlgorithmException | InvalidAlgorithmParameterException | IOException | KeyStoreException | CertificateException | UnrecoverableEntryException e) {
             e.printStackTrace();
         }
