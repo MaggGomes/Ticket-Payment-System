@@ -124,12 +124,16 @@ module.exports = {
 					console.log(user.keyE);
 					console.log(req.body.messageSigned);
 					if(key.verify(req.body.message, req.body.messagedSigned, 'utf-8', 'base64')){
+						console.log('entrei');
 						req.decoded = req.body;
 						next();
 					}
-					else return res.status(400).json({
-						success:false, message:'Invalid Signature'
-					});
+					else {
+						console.log('falhei');
+						return res.status(400).json({
+							success: false, message: 'Invalid Signature'
+						});
+					}
 				} else {
 					return res.status(400).json({
 						success:false, message:'User doesn\'t exist'
