@@ -21,7 +21,6 @@ module.exports = {
 			});
 	},
 	create(req, res){
-		//check quantity sent
 		Show
 			.findOne({
 				where: {
@@ -55,6 +54,7 @@ module.exports = {
 										showId: show.id,
 										showName: show.name,
 										showDate: show.date,
+										used: false,
 										userId: req.body.message.userId //change to .decoded after verify works
 									})
 									.then(ticket => {

@@ -123,8 +123,9 @@ module.exports = {
 					console.log(user.keyN);
 					console.log(user.keyE);
 					console.log(req.body.messageSigned);
-					console.log(req.body.messageSigned.toString());
-					if(key.verify(req.body.message.toString(), req.body.messageSigned.toString(), 'utf-8', 'base64')){
+					console.log(req.body.messageSigned.toString())
+					console.log('MESSAGE: ' + req.body.message);
+					if(key.verify(req.body.message, req.body.messageSigned, 'utf-8', 'base64')){
 						console.log('entrei');
 						req.decoded = req.body;
 						next();
