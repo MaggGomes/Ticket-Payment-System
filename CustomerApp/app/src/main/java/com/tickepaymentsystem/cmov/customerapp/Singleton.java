@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Singleton {
 
+    public static String userUUID;
+    public static String userName;
     public static List<Show> shows;
 
     private static Singleton INSTANCE = null;

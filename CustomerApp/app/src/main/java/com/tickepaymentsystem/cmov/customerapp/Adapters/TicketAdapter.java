@@ -56,7 +56,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         // TODO - Convert to byte; pass also private key
         // Tem de enviar: The transmitted info must contain the user id, the number of tickets,
         //the tickets’ IDs and the show date e também a private key do user?
-        String qrcode = userUUID+tickets.get(position).getQuantity()+tickets.get(position).getId()+tickets.get(position).getDate();
+        String qrcode = userUUID+4+tickets.get(position).getId()+tickets.get(position).getShowDate();
 
         Intent intent = new Intent(context, TicketQRCodeActivity.class);
         intent.putExtra(Constants.CAFETARIA_ORDER, qrcode);

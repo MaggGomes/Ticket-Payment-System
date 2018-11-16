@@ -2,10 +2,14 @@ package com.tickepaymentsystem.cmov.customerapp.Utils;
 
 import android.content.Context;
 import android.security.KeyPairGeneratorSpec;
+import android.util.Base64;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -13,6 +17,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.security.UnrecoverableEntryException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Calendar;
@@ -49,25 +56,28 @@ public class Security {
         return keyPairGenerator.generateKeyPair().getPublic();
     }
 
-    /*public static String signMessage(String alias, JSONObject msg) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException, InvalidKeyException, SignatureException {
+    public static String generateSignedMessage(String alias, String message) throws IOException, KeyStoreException, CertificateException, NoSuchAlgorithmException, UnrecoverableEntryException, InvalidKeyException, SignatureException {
 
-        // get private key
+        String signedMessage = "";
+        byte[] byteArrayMessage = message.getBytes("UTF-8");
+
         KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
         keyStore.load(null);
         KeyStore.Entry entry = keyStore.getEntry(alias, null);
-        if (entry == null) {
-            return "";
+
+        if (entry != null) {
+            // Get the private key
+            PrivateKey privateKey = ((KeyStore.PrivateKeyEntry) entry).getPrivateKey();
+
+            Signature signature = Signature.getInstance("SHA256withRSA");
+            signature.initSign(privateKey);
+            signature.update(byteArrayMessage);
+
+            byte[] bSignature = signature.sign();
+
+            signedMessage = Base64.encodeToString(bSignature , Base64.DEFAULT | Base64.NO_WRAP);
         }
-        PrivateKey privateKey = ((KeyStore.PrivateKeyEntry) entry).getPrivateKey();
 
-        // sign message
-        byte[] bMsg = msg.toString().getBytes("UTF-8");
-        Signature signature = Signature.getInstance("SHA256withRSA");
-        signature.initSign(privateKey);
-        signature.update(bMsg);
-        byte[] bSignature = signature.sign();
-
-        // encode signature to base64 string and return it
-        return Base64.encodeToString(bSignature , Base64.DEFAULT | Base64.NO_WRAP);
-    }*/
+        return signedMessage;
+    }
 }
