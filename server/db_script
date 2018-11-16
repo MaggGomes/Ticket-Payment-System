@@ -44,6 +44,7 @@ CREATE TABLE "Shows" (
 CREATE TABLE "Tickets" (
 	id TEXT PRIMARY KEY,
 	"seatNumber" INTEGER NOT NULL,
+	"used" BOOLEAN DEFAULT FALSE,
 	"showName" TEXT NOT NULL,
 	"showDate" DATE NOT NULL,
 	"showId" INTEGER NOT NULL REFERENCES "Shows"(id),

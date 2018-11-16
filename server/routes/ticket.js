@@ -11,4 +11,9 @@ router.post('/buy',
 	userController.checkMessage,
 	ticketController.create
 );
+
+router.put('/present' +
+	ticketController.present
+);
+
 module.exports = router;

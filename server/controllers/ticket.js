@@ -24,12 +24,12 @@ module.exports = {
 		Show
 			.findOne({
 				where: {
-					id:  req.body.message.id//change to .decoded after verify works
+					id:  req.decoded.message.id//change to .decoded after verify works
 				}
 			})
 			.then(show => {
 				if(show){
-					var quantity = req.body.message.quantity;//change to .decoded after verify works
+					var quantity = req.decoded.message.quantity;//change to .decoded after verify works
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];
@@ -55,7 +55,7 @@ module.exports = {
 										showName: show.name,
 										showDate: show.date,
 										used: false,
-										userId: req.body.message.userId //change to .decoded after verify works
+										userId: req.decoded.message.userId //change to .decoded after verify works
 									})
 									.then(ticket => {
 										tickets.push(ticket);
@@ -66,7 +66,7 @@ module.exports = {
 												id : voucherId,
 												available: true,
 												productId : productId,
-												userId : req.body.message.userId//change to .decoded after verify works
+												userId : req.decoded.message.userId//change to .decoded after verify works
 											})
 											.then(voucher => {
 												vouchers.push(voucher);
@@ -90,6 +90,41 @@ module.exports = {
 			.catch(err => {
 				console.log(err);
 				res.status(500).json({success: false, message: 'Error occured: ' + err});
+			});
+	},
+	present(req,res){
+		if(req.body.quantity <= 0 || req.body.quantity > 4)
+			res.status(400).json({success:false, message:'Invalid number of tickets'});
+
+		Ticket
+			.findAll({
+				where: {
+					id: req.body.ids
+				}
+			})
+			.then(tickets => {
+				var invalidTicketsId = [];
+				for(let i = 0; i < req.body.quantity; i++){
+					if(tickets.used === true){
+						invalidTicketsId.push(tickets[i].id);
+					} else {
+						Ticket
+							.update({
+								used: true
+							})
+							.catch(err=>{
+								res.status(400).json({success:false, message:'Error updating used column' + err});
+							});
+					}
+				}
+				if(invalidTicketsId.length == 0){
+					res.status(200).json({success:true, message:'All tickets valid'});
+				} else {
+					if(invalidTicketsId.length == req.body.quantity){
+						res.status(200).json({success:false, message:'No tickets are valid', invalidTickets:invalidTicketsId});
+					}else
+						res.status(200).json({success:false, message:'Some tickets are not valid', invalidTickets:invalidTicketsId});
+				}
 			});
 	}
 };
