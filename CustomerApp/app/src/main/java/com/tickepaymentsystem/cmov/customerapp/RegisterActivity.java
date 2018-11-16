@@ -4,10 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +16,7 @@ import com.google.gson.Gson;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.CreditCard;
-import com.tickepaymentsystem.cmov.customerapp.Models.RegisterPojo;
-import com.tickepaymentsystem.cmov.customerapp.Models.Show;
+import com.tickepaymentsystem.cmov.customerapp.Models.RegisterResponse;
 import com.tickepaymentsystem.cmov.customerapp.Models.User;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Security;
@@ -34,7 +30,6 @@ import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Calendar;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -148,23 +143,26 @@ public class RegisterActivity extends AppCompatActivity{
         progressDialog.show();
 
         DataService service = ApiClient.getInstance().create(DataService.class);
-        Call<RegisterPojo> call = service.register(body);
+        Call<RegisterResponse> call = service.register(body);
 
-        call.enqueue(new Callback<RegisterPojo>() {
+        call.enqueue(new Callback<RegisterResponse>() {
             @Override
-            public void onResponse(Call<RegisterPojo> call, Response<RegisterPojo> response) {
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Log.d(TAG, "user registered." + response.body().toString()+"\n\n\n\n\n\n\n\n\n");
+                    Log.d(TAG, "User registered." + response.body().toString());
+
+                    Singleton.userName = body.getName();
+                    Singleton.userUUID = response.body().getId();
                     startActivity(new Intent(context, HomeActivity.class));
                 } else {
-                    Log.d(TAG, "unsuccess\n\n\n\n\n\n\n\n");
+                    Log.d(TAG, "unsuccess");
                 }
             }
 
             @Override
-            public void onFailure(Call<RegisterPojo> call, Throwable t) {
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.d(TAG, "Unable to register user.");
             }

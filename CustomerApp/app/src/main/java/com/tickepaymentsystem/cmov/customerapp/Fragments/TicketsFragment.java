@@ -35,6 +35,6 @@ public class TicketsFragment extends Fragment {
 
     private void generateList() {
         for(int i = 0; i < 10; i++)
-            tickets.add(new Ticket("123e4567-e89b-12d3-a456-426655440000","New show", "New show coming", "Dec 21, 2018", 20, "url"));
+            tickets.add(new Ticket("123e4567-e89b-12d3-a456-426655440000",4, 2, "New show coming", "Dec 21, 2018", "url"));
     }
 }

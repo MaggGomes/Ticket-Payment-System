@@ -1,22 +1,29 @@
 package com.tickepaymentsystem.cmov.customerapp.Models;
 
-public class Ticket {
-    private String id;
-    private String name;
-    private String description;
-    private String date;
-    private double price;
-    private String imageURL;
-    private int quantity;
+import com.google.gson.annotations.SerializedName;
 
-    public Ticket(String id, String name, String description, String date, double price, String imageURL){
+public class Ticket {
+
+    @SerializedName("id")
+    private String id;
+    @SerializedName("seatNumber")
+    private Integer seatNumber;
+    @SerializedName("showId")
+    private Integer showId;
+    @SerializedName("userId")
+    private String userId;
+    @SerializedName("showName")
+    private String showName;
+    @SerializedName("showDate")
+    private String showDate;
+
+    public Ticket(String id, Integer seatNumber, Integer showId, String userId, String showName, String showDate){
         this.id = id;
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.price = price;
-        this.imageURL = imageURL;
-        this.quantity = 0;
+        this.seatNumber = seatNumber;
+        this.showId = showId;
+        this.userId = userId;
+        this.showName = showName;
+        this.showDate = showDate;
     }
 
     public String getId() {
@@ -27,51 +34,43 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getSeatNumber() {
+        return seatNumber;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSeatNumber(Integer seatNumber) {
+        this.seatNumber = seatNumber;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getShowId() {
+        return showId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setShowId(Integer showId) {
+        this.showId = showId;
     }
 
-    public String getDate() {
-        return date;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public double getPrice() {
-        return price;
+    public String getShowName() {
+        return showName;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setShowName(String showDate) {
+        this.showName = showName;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getShowDate() {
+        return showDate;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
-    public void setQuantity(int quantity){
-        this.quantity = quantity;
-    }
-
-    public int getQuantity(){
-        return quantity;
+    public void setShowDate(String showDate) {
+        this.showDate = showDate;
     }
 }

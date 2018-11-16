@@ -2,7 +2,7 @@ package com.tickepaymentsystem.cmov.customerapp.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterPojo {
+public class RegisterResponse {
     @SerializedName("success")
     private Boolean success;
     @SerializedName("message")
