@@ -33,6 +33,7 @@ module.exports = {
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];
+					var allFine = false;
 					for(let i = 0 ; i < quantity; i++){
 						var tempSeat = 0;
 						Ticket
@@ -70,11 +71,7 @@ module.exports = {
 											})
 											.then(voucher => {
 												vouchers.push(voucher);
-												res.status(200).json({
-													success: true,
-													tickets: tickets,
-													vouchers: vouchers
-												});
+												allFine = true;
 											});
 									});
 							})
@@ -83,6 +80,13 @@ module.exports = {
 								res.status(500).json({success: false, message: 'Error occured: ' + err});
 							});
 					}
+					if(allFine) {
+						res.status(200).json({
+							success: true,
+							tickets: tickets,
+							vouchers: vouchers
+						});
+					} else res.status(400).json({success:false, message:'Something failed'});
 				} else {
 					res.status(400).json({success: false, message: 'Show doesn\'t exist'});
 				}
@@ -102,7 +106,7 @@ module.exports = {
 				where: whereClause
 			})
 			.then(tickets => {
-			    if(tickets.length != req.body.quantity) {
+				if(tickets.length != req.body.quantity) {
 					res.status(400).json({success: false, message: 'A ticket id wasn\'t valid or didnt\' belong to User'});
 				}
 				var invalidTicketsId = [];
