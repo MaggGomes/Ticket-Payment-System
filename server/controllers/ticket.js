@@ -6,6 +6,7 @@ const
 	Show = require('../models/index').Show,
 	Voucher = require('../models/index').Voucher,
 	Promotion = require('../models/index').Promotion,
+	Transaction = require('../models/index').Transaction,
 	userController = require('../controllers/user');
 
 module.exports = {
@@ -35,10 +36,12 @@ module.exports = {
 					var promotions = [];
 					var ticketBulk = [];
 					var voucherBulk = [];
+					var transactionBulk = [];
 					for (let i = 0; i < quantity; i++) {
 						var tempSeat = getRandomInt(100);
+						var ticketId = uuidv4();
 						ticketBulk.push({
-							id: uuidv4(),
+							id: ticketId,
 							seatNumber: tempSeat,
 							showId: show.id,
 							showName: show.name,
@@ -46,6 +49,12 @@ module.exports = {
 							used: false,
 							userId: req.decoded.message.userId
 						});
+						transactionBulk.push({
+							userId : req.decoded.message.userId,
+							ticketId: ticketId,
+							price : show.price
+						});
+
 						console.log(ticketBulk);
 						let productId = getRandomInt(2);
 						voucherBulk.push({
@@ -57,6 +66,9 @@ module.exports = {
 					}
 					Ticket
 						.bulkCreate(ticketBulk);
+
+					Transaction
+						.bulkCreate(transactionBulk);
 
 					Voucher
 						.bulkCreate(voucherBulk)

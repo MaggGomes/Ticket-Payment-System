@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS "Vouchers" Cascade;
 DROP TABLE IF EXISTS "Products" Cascade;
 DROP TABLE IF EXISTS "Promotions" Cascade;
 DROP TABLE IF EXISTS "ProductOrders" Cascade;
+DROP TABLE IF EXISTS "Transactions" Cascade;
 
 CREATE TABLE "Users" (
 	id TEXT PRIMARY KEY,
@@ -97,6 +98,12 @@ CREATE TABLE "ProductOrders" (
         "updatedAt" DATE
 );
 
+CREATE TABLE "Transactions" (
+        "productId" INTEGER REFERENCES "Products"(id),
+        "ticketId" TEXT REFERENCES "Tickets"(id),
+        "userId" TEXT NOT NULL REFERENCES "Users"(id),
+         price real NOT NULL
+);
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (1, 'Teste1', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (2, 'Teste2', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (3, 'Teste3', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
