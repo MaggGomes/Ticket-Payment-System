@@ -58,7 +58,7 @@ module.exports = {
 									used: false,
 									userId: req.decoded.message.userId
 								});
-
+								let productId = getRandomInt(2);
 								voucherBulk.push({
 									id : uuidv4(),
 									available: true,
