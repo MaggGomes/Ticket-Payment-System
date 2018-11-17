@@ -112,14 +112,14 @@ public class ShowActivity extends AppCompatActivity{
                     // TODO - Fix - not receiving tickets and vouchers
 
                     Log.d("buytickets", gson.toJson(response.body()));
-                    /*Singleton.tickets = response.body().getTickets();
+                    Singleton.tickets = response.body().getTickets();
                     Singleton.vouchers = response.body().getVouchers();
 
                     String a = "" +  Singleton.tickets.size();
                     String b = "" +  Singleton.vouchers.size();
 
                     Log.d("buytickets Tickets", a);
-                    Log.d("buytickets Vouchers", b);*/
+                    Log.d("buytickets Vouchers", b);
 
                     Toast.makeText(context, "Tickets purchased!", Toast.LENGTH_LONG).show();
 
@@ -131,7 +131,6 @@ public class ShowActivity extends AppCompatActivity{
             @Override
             public void onFailure(Call<ResponseBuyTickets> call, Throwable t) {
                 progressDialog.dismiss();
-                Log.d("buyticketserror", t.getCause());
                 Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG).show();
             }
         });
