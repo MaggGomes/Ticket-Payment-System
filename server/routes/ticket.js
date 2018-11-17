@@ -12,7 +12,7 @@ router.post('/buy',
 	ticketController.create
 );
 
-router.put('/verify',
+router.put('/validate',
 	ticketController.validate
 );
 
