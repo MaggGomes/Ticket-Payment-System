@@ -1,8 +1,8 @@
 package com.tickepaymentsystem.cmov.customerapp.Client;
 
-import com.tickepaymentsystem.cmov.customerapp.Models.PurchaseTicketsResponse;
-import com.tickepaymentsystem.cmov.customerapp.Models.RegisterResponse;
-import com.tickepaymentsystem.cmov.customerapp.Models.RequestMessage;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponsePurchaseTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseRegister;
+import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestMessage;
 import com.tickepaymentsystem.cmov.customerapp.Models.RetroPhoto;
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.Models.User;
@@ -18,7 +18,7 @@ public interface DataService {
 
     // Register an user
     @POST("users/register")
-    Call<RegisterResponse> register(@Body User body);
+    Call<ResponseRegister> register(@Body User body);
 
     // Returns all the shows
     @GET("shows")
@@ -26,7 +26,7 @@ public interface DataService {
 
     // Buy tickets
     @POST("tickets/buy")
-    Call<PurchaseTicketsResponse> buyTickets(@Body RequestMessage body);
+    Call<ResponsePurchaseTickets> buyTickets(@Body RequestMessage body);
 
     @GET("/photos")
     Call<List<RetroPhoto>> getAllPhotos();

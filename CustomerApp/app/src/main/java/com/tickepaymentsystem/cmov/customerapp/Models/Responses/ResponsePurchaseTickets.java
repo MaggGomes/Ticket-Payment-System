@@ -1,10 +1,12 @@
-package com.tickepaymentsystem.cmov.customerapp.Models;
+package com.tickepaymentsystem.cmov.customerapp.Models.Responses;
 
 import com.google.gson.annotations.SerializedName;
+import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
+import com.tickepaymentsystem.cmov.customerapp.Models.Voucher;
 
 import java.util.List;
 
-public class PurchaseTicketsResponse {
+public class ResponsePurchaseTickets {
 
     @SerializedName("success")
     private Boolean success;

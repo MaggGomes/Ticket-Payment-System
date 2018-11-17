@@ -1,40 +1,57 @@
 package com.tickepaymentsystem.cmov.customerapp.Fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.Toast;
 
-import com.tickepaymentsystem.cmov.customerapp.Adapters.TicketAdapter;
-import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
+import com.tickepaymentsystem.cmov.customerapp.Adapters.ShowAdapter;
+import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
+import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
+import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.R;
+import com.tickepaymentsystem.cmov.customerapp.Singleton;
+import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TicketsFragment extends Fragment {
 
-    private ArrayList<Ticket> tickets = new ArrayList<>();
+    private ShowAdapter adapter;
+    private RecyclerView recyclerView;
+    private ProgressDialog progressDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tickets, container, false);
-        ListView lv = view.findViewById(R.id.list_tickets);
-
-        //TODO - Substitute by real data
-        generateList();
-        lv.setDivider(null);
-        lv.setAdapter(new TicketAdapter(getContext(), R.layout.list_item_ticket, tickets));
+        View view = inflater.inflate(R.layout.fragment_shows, container, false);
+        getShows();
 
         return view;
     }
 
-    private void generateList() {
-        for(int i = 0; i < 10; i++)
-            tickets.add(new Ticket("123e4567-e89b-12d3-a456-426655440000",4, 2, "New show coming", "Dec 21, 2018", "url"));
+    public void getShows(){
+        // TODO
+
+        generateDataList();
+    }
+
+    private void generateDataList() {
+        recyclerView = getActivity().findViewById(R.id.list_shows);
+        adapter = new ShowAdapter(getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
     }
 }

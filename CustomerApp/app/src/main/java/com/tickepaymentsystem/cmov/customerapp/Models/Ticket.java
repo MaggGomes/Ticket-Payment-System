@@ -8,22 +8,25 @@ public class Ticket {
     private String id;
     @SerializedName("seatNumber")
     private Integer seatNumber;
-    @SerializedName("showId")
-    private Integer showId;
-    @SerializedName("userId")
-    private String userId;
-    @SerializedName("showName")
-    private String showName;
     @SerializedName("showDate")
     private String showDate;
+    @SerializedName("showId")
+    private Integer showId;
+    @SerializedName("showName")
+    private String showName;
+    @SerializedName("used")
+    private boolean used;
+    @SerializedName("userId")
+    private String userId;
 
-    public Ticket(String id, Integer seatNumber, Integer showId, String userId, String showName, String showDate){
+    public Ticket(String id, Integer seatNumber, Integer showId, String userId, String showName, String showDate, boolean used){
         this.id = id;
         this.seatNumber = seatNumber;
         this.showId = showId;
         this.userId = userId;
         this.showName = showName;
         this.showDate = showDate;
+        this.used = used;
     }
 
     public String getId() {
@@ -72,5 +75,13 @@ public class Ticket {
 
     public void setShowDate(String showDate) {
         this.showDate = showDate;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 }

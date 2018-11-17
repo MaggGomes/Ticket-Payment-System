@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class Voucher {
 
-    @SerializedName("id")
-    private String id;
     @SerializedName("available")
     private boolean available;
-    @SerializedName("productId")
-    private Integer productId;
+    @SerializedName("id")
+    private String id;
     @SerializedName("orderId")
     private Integer orderId;
+    @SerializedName("productId")
+    private Integer productId;
     @SerializedName("userId")
     private Integer userId;
 

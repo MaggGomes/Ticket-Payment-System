@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class Message {
 
-    @SerializedName("userId")
-    private String userId;
-    @SerializedName("id")
-    private Integer id;
     @SerializedName("date")
     private String date;
+    @SerializedName("id")
+    private Integer id;
     @SerializedName("quantity")
     private Integer quantity;
+    @SerializedName("userId")
+    private String userId;
 
     public Message(String userId, Integer id, String date, Integer quantity) {
         this.userId = userId;
