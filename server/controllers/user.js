@@ -120,11 +120,6 @@ module.exports = {
 						n: Buffer.from(user.keyN, 'hex'),
 						e: parseInt(user.keyE, 16)
 					},'components-public');
-					console.log(user.keyN);
-					console.log(user.keyE);
-					console.log(req.body.messageSigned);
-					console.log(req.body.messageSigned.toString())
-					console.log('MESSAGE: ' + req.body.message);
 					if(key.verify(req.body.message, req.body.messageSigned, 'utf-8', 'base64')){
 						console.log('entrei');
 						req.decoded = req.body;

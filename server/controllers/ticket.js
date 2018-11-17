@@ -24,12 +24,12 @@ module.exports = {
 		Show
 			.findOne({
 				where: {
-					id:  req.decoded.message.id//change to .decoded after verify works
+					id:  req.decoded.message.id
 				}
 			})
 			.then(show => {
 				if(show){
-					var quantity = req.decoded.message.quantity;//change to .decoded after verify works
+					var quantity = req.decoded.message.quantity;
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];
@@ -55,7 +55,7 @@ module.exports = {
 										showName: show.name,
 										showDate: show.date,
 										used: false,
-										userId: req.decoded.message.userId //change to .decoded after verify works
+										userId: req.decoded.message.userId
 									})
 									.then(ticket => {
 										tickets.push(ticket);
@@ -66,7 +66,7 @@ module.exports = {
 												id : voucherId,
 												available: true,
 												productId : productId,
-												userId : req.decoded.message.userId//change to .decoded after verify works
+												userId : req.decoded.message.userId
 											})
 											.then(voucher => {
 												vouchers.push(voucher);
@@ -92,38 +92,48 @@ module.exports = {
 				res.status(500).json({success: false, message: 'Error occured: ' + err});
 			});
 	},
-	present(req,res){
-		if(req.body.quantity <= 0 || req.body.quantity > 4)
-			res.status(400).json({success:false, message:'Invalid number of tickets'});
+	present: function (req, res) {
+		if (req.body.quantity <= 0 || req.body.quantity > 4)
+			res.status(400).json({success: false, message: 'Invalid number of tickets'});
 
+		var whereClause = {[Op.and]: [{id: req.bod.ids}, {userId : req.body.userId}]};
 		Ticket
 			.findAll({
-				where: {
-					id: req.body.ids
-				}
+				where: whereClause
 			})
 			.then(tickets => {
+			    if(tickets.length != req.body.quantity) {
+					res.status(400).json({success: false, message: 'A ticket id wasn\'t valid or didnt\' belong to User'});
+				}
 				var invalidTicketsId = [];
-				for(let i = 0; i < req.body.quantity; i++){
-					if(tickets.used === true){
+				for (let i = 0; i < req.body.quantity; i++) {
+					if (tickets.used === true) {
 						invalidTicketsId.push(tickets[i].id);
 					} else {
 						Ticket
 							.update({
 								used: true
 							})
-							.catch(err=>{
-								res.status(400).json({success:false, message:'Error updating used column' + err});
+							.catch(err => {
+								res.status(400).json({success: false, message: 'Error updating used column' + err});
 							});
 					}
 				}
-				if(invalidTicketsId.length == 0){
-					res.status(200).json({success:true, message:'All tickets valid'});
+				if (invalidTicketsId.length == 0) {
+					res.status(200).json({success: true, message: 'All tickets valid'});
 				} else {
-					if(invalidTicketsId.length == req.body.quantity){
-						res.status(200).json({success:false, message:'No tickets are valid', invalidTickets:invalidTicketsId});
-					}else
-						res.status(200).json({success:false, message:'Some tickets are not valid', invalidTickets:invalidTicketsId});
+					if (invalidTicketsId.length == req.body.quantity) {
+						res.status(200).json({
+							success: false,
+							message: 'No tickets are valid',
+							invalidTickets: invalidTicketsId
+						});
+					} else
+						res.status(200).json({
+							success: false,
+							message: 'Some tickets are not valid',
+							invalidTickets: invalidTicketsId
+						});
 				}
 			});
 	}
