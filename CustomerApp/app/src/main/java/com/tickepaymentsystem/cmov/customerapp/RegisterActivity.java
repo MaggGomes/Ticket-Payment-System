@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.CreditCard;
-import com.tickepaymentsystem.cmov.customerapp.Models.RegisterResponse;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseRegister;
 import com.tickepaymentsystem.cmov.customerapp.Models.User;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Security;
@@ -74,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity{
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month += 1;
                 String date = year+"-"+month+"-"+day;
                 ccDate.setText(date);
             }
@@ -128,11 +129,6 @@ public class RegisterActivity extends AppCompatActivity{
 
         CreditCard cc = new CreditCard(type, number, validity);
         User user = new User(name, keyN, keyE, password, nif, cc);
-
-        Gson g = new Gson();
-        String a = g.toJson(user);
-        Log.d(TAG, a);
-
         registerUser(this, user);
     }
 
@@ -142,28 +138,27 @@ public class RegisterActivity extends AppCompatActivity{
         progressDialog.show();
 
         DataService service = ApiClient.getInstance().create(DataService.class);
-        Call<RegisterResponse> call = service.register(body);
+        Call<ResponseRegister> call = service.register(body);
 
-        call.enqueue(new Callback<RegisterResponse>() {
+        call.enqueue(new Callback<ResponseRegister>() {
             @Override
-            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+            public void onResponse(Call<ResponseRegister> call, Response<ResponseRegister> response) {
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Log.d(TAG, "User registered." + response.body().toString());
-
                     Singleton.userName = body.getName();
                     Singleton.userUUID = response.body().getId();
                     startActivity(new Intent(context, HomeActivity.class));
                 } else {
                     Log.d(TAG, "unsuccess");
+                    Toast.makeText(context, "Failed to register. Please try again!", Toast.LENGTH_LONG);
                 }
             }
 
             @Override
-            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseRegister> call, Throwable t) {
                 progressDialog.dismiss();
-                Log.d(TAG, "Unable to register user.");
+                Toast.makeText(context, "Failed to register. Please try again!", Toast.LENGTH_LONG);
             }
         });
     }

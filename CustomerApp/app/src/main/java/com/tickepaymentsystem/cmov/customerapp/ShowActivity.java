@@ -2,7 +2,6 @@ package com.tickepaymentsystem.cmov.customerapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,29 +9,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.Message;
-import com.tickepaymentsystem.cmov.customerapp.Models.PurchaseTicketsResponse;
-import com.tickepaymentsystem.cmov.customerapp.Models.RegisterResponse;
-import com.tickepaymentsystem.cmov.customerapp.Models.RequestMessage;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponsePurchaseTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestMessage;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Security;
 
 import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.Signature;
 import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
-import java.security.interfaces.RSAPublicKey;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,20 +79,12 @@ public class ShowActivity extends AppCompatActivity{
 
     // TODO - Implement
     public void onBtnPurchase(int position){
-        Message message = new Message(Singleton.userUUID, Singleton.shows.get(position).getId(), Singleton.shows.get(position).getDate(), 4);
-
-        //Message message = new Message("4cd002fc-437f-41b7-996b-cde77a2f55f0", 1, "2019-11-16 00:00:00 +0000", 4);
-
+        Message message = new Message(Singleton.userUUID, Singleton.shows.get(position).getId(), Singleton.shows.get(position).getDate(), 6);
         Gson gson = new Gson();
 
-        Log.d(TAG, gson.toJson(message).toString());
-
         try {
-            String signedMessage = Security.generateSignedMessage("nome2", gson.toJson(message).toString());
-
-            Log.d(TAG, signedMessage);
+            String signedMessage = Security.generateSignedMessage(Singleton.userName, gson.toJson(message).toString());
             RequestMessage requestMessage = new RequestMessage(message, signedMessage);
-
             purchaseTickets(this, requestMessage);
 
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException | KeyStoreException | CertificateException | UnrecoverableEntryException e) {
@@ -111,25 +98,30 @@ public class ShowActivity extends AppCompatActivity{
         progressDialog.show();
 
         DataService service = ApiClient.getInstance().create(DataService.class);
-        Call<PurchaseTicketsResponse> call = service.buyTickets(body);
+        Call<ResponsePurchaseTickets> call = service.buyTickets(body);
 
-        call.enqueue(new Callback<PurchaseTicketsResponse>() {
+        call.enqueue(new Callback<ResponsePurchaseTickets>() {
             @Override
-            public void onResponse(Call<PurchaseTicketsResponse> call, Response<PurchaseTicketsResponse> response) {
+            public void onResponse(Call<ResponsePurchaseTickets> call, Response<ResponsePurchaseTickets> response) {
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Log.d(TAG, "Tickets purchased." + response.body().toString());
+                    Log.d("buytickets", "sim");
+                    Singleton.tickets = response.body().getTickets();
+                    Singleton.vouchers = response.body().getVouchers();
+                    Toast.makeText(context, "Tickets purchased!", Toast.LENGTH_LONG);
 
                 } else {
-                    Log.d(TAG, "unsuccess");
+                    Log.d("buytickets", "nao");
+                    Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG);
                 }
             }
 
             @Override
-            public void onFailure(Call<PurchaseTicketsResponse> call, Throwable t) {
+            public void onFailure(Call<ResponsePurchaseTickets> call, Throwable t) {
                 progressDialog.dismiss();
-                Log.d(TAG, "Unable to register user.");
+                Log.d("buytickets", "nao2");
+                Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG);
             }
         });
     }

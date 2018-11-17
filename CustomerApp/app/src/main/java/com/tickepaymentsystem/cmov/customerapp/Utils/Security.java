@@ -3,9 +3,6 @@ package com.tickepaymentsystem.cmov.customerapp.Utils;
 import android.content.Context;
 import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
-import android.util.Log;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -56,9 +53,6 @@ public class Security {
 
         KeyPair kp = keyPairGenerator.generateKeyPair();
 
-
-        Log.d("Security", kp.getPrivate().toString());
-
         // generate key pair and return the public key
         return kp.getPublic();
     }
@@ -75,8 +69,6 @@ public class Security {
         if (entry != null) {
             // Get the private key
             PrivateKey privateKey = ((KeyStore.PrivateKeyEntry) entry).getPrivateKey();
-
-            Log.d("Securiry", privateKey.toString());
 
             Signature signature = Signature.getInstance("SHA256withRSA");
             signature.initSign(privateKey);

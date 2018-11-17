@@ -1,8 +1,8 @@
-package com.tickepaymentsystem.cmov.customerapp.Models;
+package com.tickepaymentsystem.cmov.customerapp.Models.Responses;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterResponse {
+public class ResponseRegister {
     @SerializedName("success")
     private Boolean success;
     @SerializedName("message")

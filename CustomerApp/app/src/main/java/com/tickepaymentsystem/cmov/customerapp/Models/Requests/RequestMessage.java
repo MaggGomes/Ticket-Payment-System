@@ -1,6 +1,7 @@
-package com.tickepaymentsystem.cmov.customerapp.Models;
+package com.tickepaymentsystem.cmov.customerapp.Models.Requests;
 
 import com.google.gson.annotations.SerializedName;
+import com.tickepaymentsystem.cmov.customerapp.Models.Message;
 
 public class RequestMessage {
 
