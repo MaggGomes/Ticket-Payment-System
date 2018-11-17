@@ -33,7 +33,8 @@ module.exports = {
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];
-					var allFine = false;
+					var ticketBulk = [];
+					var voucherBulk = [];
 					for(let i = 0 ; i < quantity; i++){
 						var tempSeat = 0;
 						Ticket
@@ -48,45 +49,69 @@ module.exports = {
 								while(seatNumbers.includes(tempSeat)){
 									tempSeat = getRandomInt(50);
 								}
-								Ticket
-									.create({
-										id: uuidv4(),
-										seatNumber : tempSeat,
-										showId: show.id,
-										showName: show.name,
-										showDate: show.date,
-										used: false,
-										userId: req.decoded.message.userId
-									})
-									.then(ticket => {
-										tickets.push(ticket);
-										let voucherId = uuidv4();
-										let productId = getRandomInt(2);
-										Voucher
-											.create({
-												id : voucherId,
-												available: true,
-												productId : productId,
-												userId : req.decoded.message.userId
-											})
-											.then(voucher => {
-												vouchers.push(voucher);
-												allFine = true;
-											});
-									});
+								ticketBulk.push({
+									id: uuidv4(),
+									seatNumber : tempSeat,
+									showId: show.id,
+									showName: show.name,
+									showDate: show.date,
+									used: false,
+									userId: req.decoded.message.userId
+								});
+
+								voucherBulk.push({
+									id : uuidv4(),
+									available: true,
+									productId : productId,
+									userId : req.decoded.message.userId
+								});
+								/*Ticket
+                                    .create({
+                                        id: uuidv4(),
+                                        seatNumber : tempSeat,
+                                        showId: show.id,
+                                        showName: show.name,
+                                        showDate: show.date,
+                                        used: false,
+                                        userId: req.decoded.message.userId
+                                    })
+                                    .then(ticket => {
+                                        tickets.push(ticket);
+                                        let voucherId = uuidv4();
+                                        let productId = getRandomInt(2);
+                                        Voucher
+                                            .create({
+                                                id : voucherId,
+                                                available: true,
+                                                productId : productId,
+                                                userId : req.decoded.message.userId
+                                            })
+                                            .then(voucher => {
+                                                vouchers.push(voucher);
+                                                allFine = true;
+                                            });
+                                    });*/
 							})
 							.catch(err => {
 								console.log(err);
 								res.status(500).json({success: false, message: 'Error occured: ' + err});
 							});
 					}
-					if(allFine) {
-						res.status(200).json({
-							success: true,
-							tickets: tickets,
-							vouchers: vouchers
+					Ticket
+						.bulkCreate(ticketBulk)
+						.then(tickets=>{
+							Voucher
+								.bulkCreate(voucherBulk)
+								.then(vouchers=>{
+									res.status(200).json({success:true, message:'All created'});
+								})
+								.catch(err=>{
+									res.stsatus(400).json({success:false, message:'Error: ' + err});
+								});
+						})
+						.catch(err=>{
+							res.stsatus(400).json({success:false, message:'Error: ' + err});
 						});
-					} else res.status(400).json({success:false, message:'Something failed'});
 				} else {
 					res.status(400).json({success: false, message: 'Show doesn\'t exist'});
 				}
