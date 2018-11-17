@@ -111,5 +111,6 @@ INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (1, 'Teste1
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (2, 'Teste2', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (3, 'Teste3', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 
-INSERT INTO "Products" ("id", "name", "price") VALUES (0,'Coffe', 5);
-INSERT INTO "Products" ("id", "name", "price") VALUES (1,'Popcorn', 5);
+INSERT INTO "Products" ("id", "name", "price") VALUES (1,'Coffe', 5);
+INSERT INTO "Products" ("id", "name", "price") VALUES (2,'Popcorn', 5);
+INSERT INTO "Products" ("id", "name", "price") VALUES (0,'5%', 0);

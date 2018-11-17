@@ -30,55 +30,91 @@ module.exports = {
 			})
 			.then(show => {
 				if (show) {
-					var quantity = req.decoded.message.quantity;
-					var tickets = [];
-					var vouchers = [];
-					var promotions = [];
-					var ticketBulk = [];
-					var voucherBulk = [];
-					var transactionBulk = [];
-					for (let i = 0; i < quantity; i++) {
-						var tempSeat = getRandomInt(100);
-						var ticketId = uuidv4();
-						ticketBulk.push({
-							id: ticketId,
-							seatNumber: tempSeat,
-							showId: show.id,
-							showName: show.name,
-							showDate: show.date,
-							used: false,
-							userId: req.decoded.message.userId
-						});
-						transactionBulk.push({
-							userId : req.decoded.message.userId,
-							ticketId: ticketId,
-							price : show.price
-						});
-
-						console.log(ticketBulk);
-						let productId = getRandomInt(2);
-						voucherBulk.push({
-							id: uuidv4(),
-							available: true,
-							productId: productId,
-							userId: req.decoded.message.userId
-						});
-					}
-					Ticket
-						.bulkCreate(ticketBulk);
-
+					var spentBefore = 0;
 					Transaction
-						.bulkCreate(transactionBulk);
-
-					Voucher
-						.bulkCreate(voucherBulk)
-						.then(() => {
-							res.status(200).json({success: true, message: 'All created'});
+						.findAll({
+							where : {
+								userId: req.decoded.message.userId
+							},
+							attributes: ['price']
 						})
-						.catch(err => {
-							res.status(400).json({success: false, message: 'Error: ' + err});
-						});
+						.then(trans => {
+							for(let i = 0; i < trans.length; i++){
+								spentBefore += trans[i].price;
+							}
+							console.log('SPENT BEFORE' + spentBefore);
+							var quantity = req.decoded.message.quantity;
+							var tickets = [];
+							var vouchers = [];
+							var promotions = [];
+							var ticketBulk = [];
+							var voucherBulk = [];
+							var transactionBulk = [];
+							for (let i = 0; i < quantity; i++) {
+								var tempSeat = getRandomInt(100);
+								var ticketId = uuidv4();
+								ticketBulk.push({
+									id: ticketId,
+									seatNumber: tempSeat,
+									showId: show.id,
+									showName: show.name,
+									showDate: show.date,
+									used: false,
+									userId: req.decoded.message.userId
+								});
+								transactionBulk.push({
+									userId : req.decoded.message.userId,
+									ticketId: ticketId,
+									price : show.price
+								});
 
+								let productId = getRandomInt(2) + 1;
+								voucherBulk.push({
+									id: uuidv4(),
+									available: true,
+									productId: productId,
+									userId: req.decoded.message.userId
+								});
+							}
+
+							Ticket
+								.bulkCreate(ticketBulk);
+
+							Transaction
+								.bulkCreate(transactionBulk);
+							var newSpent = 0;
+							Transaction
+								.findAll({
+									where : {
+										userId : req.decoded.message.userId
+									},
+									attributes : ['price']
+								})
+								.then(trans1 => {
+									for(let i = 0; i < trans1.length; i++){
+										newSpent += trans1[i].price;
+									}
+
+									let discountCalc = Math.floor((newSpent/100)) - Math.floor((spentBefore/100));
+									for(let i = 0; i < discountCalc; i++){
+									    voucherBulk.push({
+											id: uuidv4(),
+											available: true,
+											productId: 0,
+											userId: req.decoded.message.userId
+										});
+									}
+
+									Voucher
+										.bulkCreate(voucherBulk)
+										.then(() => {
+											res.status(200).json({success: true, message: 'All created'});
+										})
+										.catch(err => {
+											res.status(400).json({success: false, message: 'Error: ' + err});
+										});
+								});
+						});
 				} else {
 					res.status(400).json({success: false, message: 'Show doesn\'t exist'});
 				}
