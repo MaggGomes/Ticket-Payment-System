@@ -22,6 +22,7 @@ import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,7 +59,7 @@ public class ShowsFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Show>> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), Constants.LOADING_ERROR, Toast.LENGTH_SHORT).show();
+                Toasty.error(getContext(), Constants.LOADING_ERROR, Toast.LENGTH_LONG, true).show();
             }
         });
     }

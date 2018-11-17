@@ -29,6 +29,7 @@ import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,32 +107,19 @@ public class ShowActivity extends AppCompatActivity{
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-
-                    Gson gson = new Gson();
-
-                    // TODO - Fix - not receiving tickets and vouchers
-
-                    Log.d("buytickets", gson.toJson(response.body()));
                     Singleton.tickets = response.body().getTickets();
                     Singleton.vouchers = response.body().getVouchers();
-
-                    String a = "" +  Singleton.tickets.size();
-                    String b = "" +  Singleton.vouchers.size();
-
-                    Log.d("buytickets Tickets", a);
-                    Log.d("buytickets Vouchers", b);
-
-                    Toast.makeText(context, "Tickets purchased!", Toast.LENGTH_LONG).show();
+                    Toasty.success(context, Constants.BUY_TICKETS_SUCCESS, Toast.LENGTH_LONG, true).show();
 
                 } else {
-                    Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG).show();
+                    Toasty.error(context, Constants.BUY_TICKETS_FAILURE, Toast.LENGTH_LONG, true).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBuyTickets> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG).show();
+                Toasty.error(context, Constants.BUY_TICKETS_FAILURE, Toast.LENGTH_LONG, true).show();
             }
         });
     }
