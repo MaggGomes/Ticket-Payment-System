@@ -128,36 +128,44 @@ module.exports = {
 				res.status(500).json({success: false, message: 'Error occured: ' + err});
 			});
 	},
-	present: function (req, res) {
+	verify: function (req, res) {
 		if (req.body.quantity <= 0 || req.body.quantity > 4)
 			res.status(400).json({success: false, message: 'Invalid number of tickets'});
-
-		var whereClause = {[Op.and]: [{[Op.in] : {id : req.body.ids}} , {userId : req.body.userId}]};
+		console.log(req.body.ids);
+		var whereClause = {[Op.and]: [{id: {[Op.in] : req.body.ids}} , {userId : req.body.userId}]};
 		Ticket
 			.findAll({
 				where: whereClause
 			})
 			.then(tickets => {
 				console.log(tickets);
-				if(tickets.length != req.body.quantity) {
-					res.status(400).json({success: false, message: 'A ticket id wasnt valid or didnt belong to User'});
+				if(tickets.length !== req.body.quantity) {
+					return res.status(400).json({success: false, message: 'A ticket id wasnt valid or didnt belong to User'});
 				}
 				var invalidTicketsId = [];
+				var validTicketsId = [];
 				for (let i = 0; i < req.body.quantity; i++) {
-					if (tickets.used === true) {
+					if (tickets[i].used === true) {
 						invalidTicketsId.push(tickets[i].id);
 					} else {
-						Ticket
-							.update({
-								used: true
-							})
-							.catch(err => {
-								res.status(400).json({success: false, message: 'Error updating used column' + err});
-							});
+						validTicketsId.push(tickets[i].id);
 					}
 				}
+				Ticket
+					.update(
+						{
+							used: true
+						},
+						{
+							where: {
+								id: {[Op.in]: validTicketsId}
+							}
+						})
+					.catch(err => {
+						res.status(400).json({success: false, message: 'Error updating used column' + err});
+					});
 				if (invalidTicketsId.length == 0) {
-					res.status(200).json({success: true, message: 'All tickets valid'});
+					res.status(200).json({success: true, message: 'All tickets valid', invalidTickets: invalidTicketsId});
 				} else {
 					if (invalidTicketsId.length == req.body.quantity) {
 						res.status(400).json({
