@@ -20,98 +20,53 @@ module.exports = {
 				res.status(500).json({success: false, message: 'Error occured: ' + err});
 			});
 	},
-	create(req, res){
+	create: function (req, res) {
 		Show
 			.findOne({
 				where: {
-					id:  req.decoded.message.id
+					id: req.decoded.message.id
 				}
 			})
 			.then(show => {
-				if(show){
+				if (show) {
 					var quantity = req.decoded.message.quantity;
 					var tickets = [];
 					var vouchers = [];
 					var promotions = [];
 					var ticketBulk = [];
 					var voucherBulk = [];
-					for(let i = 0 ; i < quantity; i++){
-						var tempSeat = 0;
-						Ticket
-							.findAll({
-								where : {
-									showId : show.id
-								},
-								attributes : ['seatNumber']
-							})
-							.then(seatNumbers => {
-								tempSeat = getRandomInt(50);
-								while(seatNumbers.includes(tempSeat)){
-									tempSeat = getRandomInt(50);
-								}
-								ticketBulk.push({
-									id: uuidv4(),
-									seatNumber : tempSeat,
-									showId: show.id,
-									showName: show.name,
-									showDate: show.date,
-									used: false,
-									userId: req.decoded.message.userId
-								});
-								let productId = getRandomInt(2);
-								voucherBulk.push({
-									id : uuidv4(),
-									available: true,
-									productId : productId,
-									userId : req.decoded.message.userId
-								});
-								/*Ticket
-                                    .create({
-                                        id: uuidv4(),
-                                        seatNumber : tempSeat,
-                                        showId: show.id,
-                                        showName: show.name,
-                                        showDate: show.date,
-                                        used: false,
-                                        userId: req.decoded.message.userId
-                                    })
-                                    .then(ticket => {
-                                        tickets.push(ticket);
-                                        let voucherId = uuidv4();
-                                        let productId = getRandomInt(2);
-                                        Voucher
-                                            .create({
-                                                id : voucherId,
-                                                available: true,
-                                                productId : productId,
-                                                userId : req.decoded.message.userId
-                                            })
-                                            .then(voucher => {
-                                                vouchers.push(voucher);
-                                                allFine = true;
-                                            });
-                                    });*/
-							})
-							.catch(err => {
-								console.log(err);
-								res.status(500).json({success: false, message: 'Error occured: ' + err});
-							});
+					for (let i = 0; i < quantity; i++) {
+						var tempSeat = getRandomInt(100);
+						ticketBulk.push({
+							id: uuidv4(),
+							seatNumber: tempSeat,
+							showId: show.id,
+							showName: show.name,
+							showDate: show.date,
+							used: false,
+							userId: req.decoded.message.userId
+						});
+						console.log(ticketBulk);
+						let productId = getRandomInt(2);
+						voucherBulk.push({
+							id: uuidv4(),
+							available: true,
+							productId: productId,
+							userId: req.decoded.message.userId
+						});
 					}
 					Ticket
-						.bulkCreate(ticketBulk)
-						.then(tickets=>{
-							Voucher
-								.bulkCreate(voucherBulk)
-								.then(vouchers=>{
-									res.status(200).json({success:true, message:'All created'});
-								})
-								.catch(err=>{
-									res.stsatus(400).json({success:false, message:'Error: ' + err});
-								});
+						.bulkCreate(ticketBulk);
+
+					Voucher
+						.bulkCreate(voucherBulk)
+						.then(() => {
+							res.status(200).json({success: true, message: 'All created'});
 						})
-						.catch(err=>{
-							res.stsatus(400).json({success:false, message:'Error: ' + err});
+						.catch(err => {
+							res.status(400).json({success: false, message: 'Error: ' + err});
 						});
+
 				} else {
 					res.status(400).json({success: false, message: 'Show doesn\'t exist'});
 				}
