@@ -107,7 +107,7 @@ module.exports = {
 			})
 			.then(tickets => {
 				if(tickets.length != req.body.quantity) {
-					res.status(400).json({success: false, message: 'A ticket id wasn\'t valid or didnt\' belong to User'});
+					res.status(400).json({success: false, message: 'A ticket id wasnt valid or didnt belong to User'});
 				}
 				var invalidTicketsId = [];
 				for (let i = 0; i < req.body.quantity; i++) {

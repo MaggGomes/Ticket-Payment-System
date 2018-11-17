@@ -12,7 +12,7 @@ router.post('/buy',
 	ticketController.create
 );
 
-router.put('/present' +
+router.put('/present',
 	ticketController.present
 );
 
