@@ -132,12 +132,13 @@ module.exports = {
 		if (req.body.quantity <= 0 || req.body.quantity > 4)
 			res.status(400).json({success: false, message: 'Invalid number of tickets'});
 
-		var whereClause = {[Op.and]: [{id: req.bod.ids}, {userId : req.body.userId}]};
+		var whereClause = {[Op.and]: [{[Op.in] : {id : req.body.ids}} , {userId : req.body.userId}]};
 		Ticket
 			.findAll({
 				where: whereClause
 			})
 			.then(tickets => {
+				console.log(tickets);
 				if(tickets.length != req.body.quantity) {
 					res.status(400).json({success: false, message: 'A ticket id wasnt valid or didnt belong to User'});
 				}
