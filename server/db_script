@@ -32,7 +32,7 @@ CREATE TABLE "Cards" (
 );
 
 CREATE TABLE "Shows" (
-	id INTEGER PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	name TEXT NOT NULL,
     url TEXT,
 	description TEXT,
@@ -55,7 +55,7 @@ CREATE TABLE "Tickets" (
 );
 
 CREATE TABLE "Orders" (
-	id INTEGER PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	date timestamp NOT NULL,
 	"userId" TEXT NOT NULL REFERENCES "Users"(id),
         "createdAt" DATE,
@@ -73,7 +73,7 @@ CREATE TABLE "Vouchers" (
 );
 
 CREATE TABLE "Products" (
-	id INTEGER PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	name TEXT NOT NULL,
 	price real NOT NULL,
         "createdAt" DATE,
@@ -99,10 +99,13 @@ CREATE TABLE "ProductOrders" (
 );
 
 CREATE TABLE "Transactions" (
+        "id" SERIAL NOT NULL,
         "productId" INTEGER REFERENCES "Products"(id),
         "ticketId" TEXT REFERENCES "Tickets"(id),
         "userId" TEXT NOT NULL REFERENCES "Users"(id),
-         price real NOT NULL
+         price real NOT NULL,
+    "createdAt" DATE,
+    "updatedAt" DATE
 );
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (1, 'Teste1', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (2, 'Teste2', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
