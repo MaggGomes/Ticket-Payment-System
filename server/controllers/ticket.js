@@ -79,7 +79,7 @@ module.exports = {
 
 							Ticket
 								.bulkCreate(ticketBulk)
-								.then(()=>{
+								.then(tickets=>{
 									Transaction
 										.bulkCreate(transactionBulk)
 										.then(()=>{
@@ -108,8 +108,8 @@ module.exports = {
 													}
 													Voucher
 														.bulkCreate(voucherBulk)
-														.then(() => {
-															res.status(200).json({success: true, message: 'All created'});
+														.then(vouchers => {
+															res.status(200).json({success: true, message: 'All created', tickets: tickets, vouchers: vouchers});
 														})
 														.catch(err => {
 															res.status(400).json({success: false, message: 'Error: ' + err});
@@ -128,7 +128,7 @@ module.exports = {
 				res.status(500).json({success: false, message: 'Error occured: ' + err});
 			});
 	},
-	verify: function (req, res) {
+	validate: function (req, res) {
 		if (req.body.quantity <= 0 || req.body.quantity > 4)
 			res.status(400).json({success: false, message: 'Invalid number of tickets'});
 		console.log(req.body.ids);

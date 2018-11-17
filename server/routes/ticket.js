@@ -13,7 +13,7 @@ router.post('/buy',
 );
 
 router.put('/verify',
-	ticketController.verify
+	ticketController.validate
 );
 
 module.exports = router;
