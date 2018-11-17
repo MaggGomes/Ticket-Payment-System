@@ -6,14 +6,24 @@ import com.tickepaymentsystem.cmov.customerapp.Models.Voucher;
 
 import java.util.List;
 
-public class ResponsePurchaseTickets {
+public class ResponseBuyTickets {
 
+    @SerializedName("message")
+    private String message;
     @SerializedName("success")
     private Boolean success;
     @SerializedName("tickets")
     private List<Ticket> tickets;
     @SerializedName("vouchers")
     private List<Voucher> vouchers;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public Boolean getSuccess() {
         return success;

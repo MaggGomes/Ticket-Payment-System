@@ -16,8 +16,8 @@ import com.squareup.picasso.Picasso;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.Message;
-import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponsePurchaseTickets;
-import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestMessage;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseBuyTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestBuyTickets;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Security;
 
@@ -84,7 +84,7 @@ public class ShowActivity extends AppCompatActivity{
 
         try {
             String signedMessage = Security.generateSignedMessage(Singleton.userName, gson.toJson(message).toString());
-            RequestMessage requestMessage = new RequestMessage(message, signedMessage);
+            RequestBuyTickets requestMessage = new RequestBuyTickets(message, signedMessage);
             purchaseTickets(this, requestMessage);
 
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException | KeyStoreException | CertificateException | UnrecoverableEntryException e) {
@@ -92,36 +92,47 @@ public class ShowActivity extends AppCompatActivity{
         }
     }
 
-    public void purchaseTickets(Context context, RequestMessage body){
+    public void purchaseTickets(Context context, RequestBuyTickets body){
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(Constants.LOADING);
         progressDialog.show();
 
         DataService service = ApiClient.getInstance().create(DataService.class);
-        Call<ResponsePurchaseTickets> call = service.buyTickets(body);
+        Call<ResponseBuyTickets> call = service.buyTickets(body);
 
-        call.enqueue(new Callback<ResponsePurchaseTickets>() {
+        call.enqueue(new Callback<ResponseBuyTickets>() {
             @Override
-            public void onResponse(Call<ResponsePurchaseTickets> call, Response<ResponsePurchaseTickets> response) {
+            public void onResponse(Call<ResponseBuyTickets> call, Response<ResponseBuyTickets> response) {
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Log.d("buytickets", "sim");
-                    Singleton.tickets = response.body().getTickets();
+
+                    Gson gson = new Gson();
+
+                    // TODO - Fix - not receiving tickets and vouchers
+
+                    Log.d("buytickets", gson.toJson(response.body()));
+                    /*Singleton.tickets = response.body().getTickets();
                     Singleton.vouchers = response.body().getVouchers();
-                    Toast.makeText(context, "Tickets purchased!", Toast.LENGTH_LONG);
+
+                    String a = "" +  Singleton.tickets.size();
+                    String b = "" +  Singleton.vouchers.size();
+
+                    Log.d("buytickets Tickets", a);
+                    Log.d("buytickets Vouchers", b);*/
+
+                    Toast.makeText(context, "Tickets purchased!", Toast.LENGTH_LONG).show();
 
                 } else {
-                    Log.d("buytickets", "nao");
-                    Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG);
+                    Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponsePurchaseTickets> call, Throwable t) {
+            public void onFailure(Call<ResponseBuyTickets> call, Throwable t) {
                 progressDialog.dismiss();
-                Log.d("buytickets", "nao2");
-                Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG);
+                Log.d("buyticketserror", t.getCause());
+                Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG).show();
             }
         });
     }

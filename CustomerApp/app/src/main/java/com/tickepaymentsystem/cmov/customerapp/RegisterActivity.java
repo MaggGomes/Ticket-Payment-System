@@ -150,15 +150,14 @@ public class RegisterActivity extends AppCompatActivity{
                     Singleton.userUUID = response.body().getId();
                     startActivity(new Intent(context, HomeActivity.class));
                 } else {
-                    Log.d(TAG, "unsuccess");
-                    Toast.makeText(context, "Failed to register. Please try again!", Toast.LENGTH_LONG);
+                    Toast.makeText(context, "Failed to register. Please try again!", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseRegister> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(context, "Failed to register. Please try again!", Toast.LENGTH_LONG);
+                Toast.makeText(context, "Failed to register. Please try again!", Toast.LENGTH_LONG).show();
             }
         });
     }
