@@ -31,6 +31,7 @@ module.exports = {
 			.then(show => {
 				if (show) {
 					var spentBefore = 0;
+					console.log('merdando aqui');
 					Transaction
 						.findAll({
 							where : {
@@ -42,7 +43,6 @@ module.exports = {
 							for(let i = 0; i < trans.length; i++){
 								spentBefore += trans[i].price;
 							}
-							console.log('SPENT BEFORE' + spentBefore);
 							var quantity = req.decoded.message.quantity;
 							var tickets = [];
 							var vouchers = [];
@@ -78,40 +78,44 @@ module.exports = {
 							}
 
 							Ticket
-								.bulkCreate(ticketBulk);
+								.bulkCreate(ticketBulk)
+								.then(()=>{
+									Transaction
+										.bulkCreate(transactionBulk)
+										.then(()=>{
+											var newSpent = 0;
+											Transaction
+												.findAll({
+													where : {
+														userId : req.decoded.message.userId
+													},
+													attributes : ['price']
+												})
+												.then(trans1 => {
+													for(let i = 0; i < trans1.length; i++){
+														newSpent += trans1[i].price;
+													}
 
-							Transaction
-								.bulkCreate(transactionBulk);
-							var newSpent = 0;
-							Transaction
-								.findAll({
-									where : {
-										userId : req.decoded.message.userId
-									},
-									attributes : ['price']
-								})
-								.then(trans1 => {
-									for(let i = 0; i < trans1.length; i++){
-										newSpent += trans1[i].price;
-									}
+													let discountCalc = Math.floor((newSpent/100)) - Math.floor((spentBefore/100));
+													console.log('NUMBER OF VOUCHER 5%: ' + discountCalc);
+													for(let i = 0; i < discountCalc; i++){
+														voucherBulk.push({
+															id: uuidv4(),
+															available: true,
+															productId: 0,
+															userId: req.decoded.message.userId
+														});
+													}
+													Voucher
+														.bulkCreate(voucherBulk)
+														.then(() => {
+															res.status(200).json({success: true, message: 'All created'});
+														})
+														.catch(err => {
+															res.status(400).json({success: false, message: 'Error: ' + err});
+														});
+												});
 
-									let discountCalc = Math.floor((newSpent/100)) - Math.floor((spentBefore/100));
-									for(let i = 0; i < discountCalc; i++){
-									    voucherBulk.push({
-											id: uuidv4(),
-											available: true,
-											productId: 0,
-											userId: req.decoded.message.userId
-										});
-									}
-
-									Voucher
-										.bulkCreate(voucherBulk)
-										.then(() => {
-											res.status(200).json({success: true, message: 'All created'});
-										})
-										.catch(err => {
-											res.status(400).json({success: false, message: 'Error: ' + err});
 										});
 								});
 						});
@@ -155,7 +159,7 @@ module.exports = {
 					res.status(200).json({success: true, message: 'All tickets valid'});
 				} else {
 					if (invalidTicketsId.length == req.body.quantity) {
-						res.status(200).json({
+						res.status(400).json({
 							success: false,
 							message: 'No tickets are valid',
 							invalidTickets: invalidTicketsId
