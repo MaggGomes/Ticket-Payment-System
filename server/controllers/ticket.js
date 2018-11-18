@@ -26,7 +26,7 @@ module.exports = {
 		User
 			.findOne({
 				where : {
-					id: req.body.message.userId
+					id: req.decoded.message.userId
 				}
 			})
 			.then(user=>{
@@ -36,7 +36,7 @@ module.exports = {
 				Show
 					.findOne({
 						where: {
-							id: req.body.message.id
+							id: req.decoded.message.id
 						}
 					})
 					.then(show => {
@@ -54,7 +54,7 @@ module.exports = {
 									for(let i = 0; i < trans.length; i++){
 										spentBefore += trans[i].price;
 									}
-									var quantity = req.body.message.quantity;
+									var quantity = req.decoded.message.quantity;
 									var tickets = [];
 									var vouchers = [];
 									var promotions = [];
