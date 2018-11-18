@@ -7,7 +7,8 @@ const
 	User = require('../models/index').User,
 	Ticket = require('../models/index').Ticket,
 	Voucher = require('../models/index').Voucher,
-	Transaction = require('../models/index').Transaction;
+	Transaction = require('../models/index').Transaction,
+	TicketTransaction = require('../models/index').TicketTransaction;
 
 module.exports = {
 	list(req, res) {
@@ -27,20 +28,20 @@ module.exports = {
 				var orderTransactions = [];
 				var validTickets = [];
 				var validVouchers = [];
-				Transaction
+				TicketTransaction
 					.findAll({
 						where: {
 							userId: user.id
 						}
 					})
 					.then(transactions => {
-						for (let i = 0; i < transactions.length; i++) {
+						/*for (let i = 0; i < transactions.length; i++) {
 							if (transactions[i].orderId == null) {
 								ticketTransactions.push(transactions[i]);
 							} else {
 								orderTransactions.push(transactions[i]);
 							}
-						}
+						}*/
 						let whereClauseVoucher = {[Op.and]: [{userId: user.id}, {available: true}]};
 						Voucher
 							.findAll({
@@ -57,7 +58,7 @@ module.exports = {
 									.then(tickets => {
 										validTickets = tickets;
 										res.status(200).json({success:true, message:'Valid',
-											ticketTransactions: ticketTransactions, orderTransactions: orderTransactions,
+											ticketTransactions: transactions, orderTransactions: orderTransactions,
 											validTickets: validTickets, validVouchers: validVouchers});
 									})
 									.catch(err => {

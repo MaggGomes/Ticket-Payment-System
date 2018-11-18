@@ -7,6 +7,7 @@ const
 	Voucher = require('../models/index').Voucher,
 	Promotion = require('../models/index').Promotion,
 	Transaction = require('../models/index').Transaction,
+	TicketTransaction = require('../models/index').TicketTransaction,
 	User = require('../models/index').User,
 	userController = require('../controllers/user');
 
@@ -43,17 +44,17 @@ module.exports = {
 						if (show) {
 							var spentBefore = 0;
 							console.log('merdando aqui');
-							Transaction
+							TicketTransaction
 								.findAll({
 									where : {
 										userId: user.id
-									},
-									attributes: ['price']
+									}
 								})
 								.then(trans => {
 									for(let i = 0; i < trans.length; i++){
-										spentBefore += trans[i].price;
+										spentBefore += trans[i].totalPrice;
 									}
+									console.log('SPENT BEFORE: ' + spentBefore);
 									var quantity = req.decoded.message.quantity;
 									var tickets = [];
 									var vouchers = [];
@@ -73,12 +74,6 @@ module.exports = {
 											used: false,
 											userId: user.id
 										});
-										transactionBulk.push({
-											userId : user.id,
-											ticketId: ticketId,
-											price : show.price
-										});
-
 										let productId = getRandomInt(2) + 1;
 										voucherBulk.push({
 											id: uuidv4(),
@@ -87,28 +82,37 @@ module.exports = {
 											userId: user.id
 										});
 									}
+									transactionBulk.push({
+										userId : user.id,
+										showId : show.id,
+										showName: show.name,
+										showDescription : show.description,
+										noTickets : quantity,
+										date: Date.now(),
+										price : show.price,
+										totalPrice : show.price * quantity,
+									});
 
 									Ticket
 										.bulkCreate(ticketBulk)
 										.then(tickets=>{
-											Transaction
+											TicketTransaction
 												.bulkCreate(transactionBulk)
 												.then(()=>{
 													var newSpent = 0;
-													Transaction
+													TicketTransaction
 														.findAll({
 															where : {
 																userId : user.id
-															},
-															attributes : ['price']
+															}
 														})
 														.then(trans1 => {
 															for(let i = 0; i < trans1.length; i++){
-																newSpent += trans1[i].price;
+																newSpent += trans1[i].totalPrice;
 															}
 
+															console.log('SPENT NEW: ' + spentBefore);
 															let discountCalc = Math.floor((newSpent/100)) - Math.floor((spentBefore/100));
-															//console.log('NUMBER OF VOUCHER 5%: ' + discountCalc);
 															for(let i = 0; i < discountCalc; i++){
 																voucherBulk.push({
 																	id: uuidv4(),

@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS "Products" Cascade;
 DROP TABLE IF EXISTS "Promotions" Cascade;
 DROP TABLE IF EXISTS "ProductOrders" Cascade;
 DROP TABLE IF EXISTS "Transactions" Cascade;
+DROP TABLE IF EXISTS "TicketTransactions" Cascade;
 
 CREATE TABLE "Users" (
 	id TEXT PRIMARY KEY,
@@ -104,6 +105,20 @@ CREATE TABLE "Transactions" (
         "ticketId" TEXT REFERENCES "Tickets"(id),
         "userId" TEXT NOT NULL REFERENCES "Users"(id),
          price real NOT NULL,
+    "createdAt" DATE,
+    "updatedAt" DATE
+);
+
+CREATE TABLE "TicketTransactions" (
+        "id" SERIAL NOT NULL,
+        "userId" TEXT NOT NULL REFERENCES "Users"(id),
+        "showId" INTEGER NOT NULL REFERENCES "Shows"(id),
+        "showName" TEXT NOT NULL,
+        "showDescription" TEXT NOT NULL,
+        "noTickets" INTEGER NOT NULL,
+        "date" DATE NOT NULL,
+         price real NOT NULL,
+         "totalPrice" real NOT NULL,
     "createdAt" DATE,
     "updatedAt" DATE
 );
