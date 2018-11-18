@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CustomerApp</string>
+    <string name="app_name">House of Arts</string>
     <string name="app_icon_description">AppIcon</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -26,8 +26,11 @@
     <string name="freeCoffee">Free Coffee</string>
     <string name="freePopcorn">Free Popcorn</string>
     <string name="freeDiscount">5% Discount</string>
-    <string name="coffe">Coffe</string>
+    <string name="coffe">Coffee</string>
     <string name="popcorn">Popcorn</string>
     <string name="sodaDrink">Soda drink</string>
     <string name="sandwich">Sandwich</string>
+    <string name="select_vouchers">Select vouchers:</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
 </resources>

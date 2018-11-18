@@ -1,27 +1,22 @@
 package com.tickepaymentsystem.cmov.customerapp.Fragments;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.tickepaymentsystem.cmov.customerapp.Adapters.ProductAdapter;
-import com.tickepaymentsystem.cmov.customerapp.Adapters.ShowAdapter;
-import com.tickepaymentsystem.cmov.customerapp.Models.Product;
+import com.tickepaymentsystem.cmov.customerapp.Dialogs.VouchersDialog;
 import com.tickepaymentsystem.cmov.customerapp.R;
 import com.tickepaymentsystem.cmov.customerapp.Singleton;
+import com.tickepaymentsystem.cmov.customerapp.TicketQRCodeActivity;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CafetariaFragment extends Fragment {
 
@@ -41,6 +36,8 @@ public class CafetariaFragment extends Fragment {
     Button sodadrinkPlus;
     Button sandwichMinus;
     Button sandwichPlus;
+    TextView total;
+    Button btnMakeOrder;
 
     @Nullable
     @Override
@@ -66,6 +63,9 @@ public class CafetariaFragment extends Fragment {
         sandwichMinus = view.findViewById(R.id.sandwich_minus);
         sandwichPlus = view.findViewById(R.id.sandwich_plus);
 
+        total = view.findViewById(R.id.cafetaria_total);
+        btnMakeOrder = view.findViewById(R.id.btn_make_order);
+
         initLayout();
 
         return view;
@@ -90,12 +90,19 @@ public class CafetariaFragment extends Fragment {
         popcornPlus.setOnClickListener((View v) -> onBtnIncreaseAmount(popcornQuantity, 1));
         sodadrinkPlus.setOnClickListener((View v) -> onBtnIncreaseAmount(sodadrinkQuantity, 2));
         sandwichPlus.setOnClickListener((View v) -> onBtnIncreaseAmount(sandwichQuantity, 3));
+
+        btnMakeOrder.setOnClickListener((View v) -> onBtnMakeOrder());
+
+        for(int i = 0; i < Singleton.products.size(); i++){
+            Singleton.products.get(i).setQuantity(0);
+        }
     }
 
     private void onBtnIncreaseAmount(TextView view, int position){
         int quantity = Singleton.products.get(position).getQuantity()+1;
         Singleton.products.get(position).setQuantity(Singleton.products.get(position).getQuantity()+1);
         view.setText(Integer.toString(quantity));
+        calculateTotal();
     }
 
     private void onBtnDecreaseAmount(TextView view, int position){
@@ -103,6 +110,38 @@ public class CafetariaFragment extends Fragment {
         if(quantity >= 0){
             Singleton.products.get(position).setQuantity(quantity);
             view.setText(Integer.toString(quantity));
+            calculateTotal();
         }
+    }
+
+    private void calculateTotal(){
+        double totalCost = 0;
+
+        for(int i = 0; i < Singleton.products.size(); i++){
+            totalCost += Singleton.products.get(i).getQuantity() * Singleton.products.get(i).getPrice();
+        }
+
+        String newTotal = totalCost+" €";
+
+        total.setText(newTotal);
+    }
+
+    private void onBtnMakeOrder(){
+        VouchersDialog dialog = new VouchersDialog();
+        dialog.show(getFragmentManager(), "Vouchers Dialog");
+    }
+
+    private void onBtnGenerateQRCode(int position) {
+        // TODO - DELETE
+        String userUUID = "a4056f64-e5bc-11e8-9f32-f2801f1b9fd1";
+
+        // TODO - Convert to byte; pass also private key
+        // Tem de enviar: The transmitted info must contain the user id, the number of tickets,
+        //the tickets’ IDs and the show date e também a private key do user?
+        String qrcode = userUUID+4+Singleton.tickets.get(position).getId()+Singleton.tickets.get(position).getShowDate();
+
+        /*Intent intent = new Intent(context, TicketQRCodeActivity.class);
+        intent.putExtra(Constants.CAFETARIA_ORDER, qrcode);
+        context.startActivity(intent);*/
     }
 }

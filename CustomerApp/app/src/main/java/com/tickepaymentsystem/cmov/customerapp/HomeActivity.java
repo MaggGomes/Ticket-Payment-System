@@ -48,10 +48,10 @@ public class HomeActivity extends AppCompatActivity {
         Product coffee = new Product(1, Constants.COFFEE, 1, 0);
         Product sodaDrink = new Product(3, Constants.SODA_DRINK, 3, 0);
 
-        products.add(popcorn);
-        products.add(sandwich);
         products.add(coffee);
+        products.add(popcorn);
         products.add(sodaDrink);
+        products.add(sandwich);
 
         Singleton.products = products;
 

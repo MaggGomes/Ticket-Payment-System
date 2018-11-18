@@ -4,14 +4,14 @@ public class Product {
 
     private Integer id;
     private String name;
-    private double price;
+    private Double price;
     private Integer quantity;
 
     public Product(Integer id, String name, double price, Integer quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.quantity = 0;
+        this.quantity = quantity;
     }
 
     public Integer getId() {
@@ -30,7 +30,7 @@ public class Product {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
