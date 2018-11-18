@@ -2,6 +2,13 @@ package com.tickepaymentsystem.cmov.customerapp.Utils;
 
 public class Constants {
 
+    public static String USER_INFO = "userInfo";
+    public static String USER_NAME = "userName";
+    public static String USER_ID = "userId";
+    public static String PRIVATE_KEY = "privateKey";
+    public static String TICKETS = "tickets";
+    public static String VOUCHERS = "vouchers";
+
     // Requests
     public static String LOADING = "Loading...";
     public static String LOADING_ERROR = "Something went wrong...Please try later!";

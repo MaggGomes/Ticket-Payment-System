@@ -2,6 +2,7 @@ package com.tickepaymentsystem.cmov.customerapp;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -102,7 +103,6 @@ public class ShowActivity extends AppCompatActivity{
         } else {
             ticketsQuantity = 0;
         }
-
     }
 
     public void onBtnPurchase(int position){
@@ -138,10 +138,20 @@ public class ShowActivity extends AppCompatActivity{
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Singleton.tickets = response.body().getTickets();
-                    Singleton.vouchers = response.body().getVouchers();
-                    Toasty.success(context, Constants.BUY_TICKETS_SUCCESS, Toast.LENGTH_LONG, true).show();
+                    Singleton.tickets.addAll(response.body().getTickets());
+                    Singleton.vouchers.addAll(response.body().getVouchers());
 
+                    Gson gson = new Gson();
+                    String tickets = gson.toJson(Singleton.tickets);
+                    String vouchers = gson.toJson(Singleton.vouchers);
+
+                    SharedPreferences sharedPref = getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(Constants.TICKETS, tickets);
+                    editor.putString(Constants.VOUCHERS, vouchers);
+                    editor.apply();
+
+                    Toasty.success(context, Constants.BUY_TICKETS_SUCCESS, Toast.LENGTH_LONG, true).show();
                 } else {
                     Toasty.error(context, Constants.BUY_TICKETS_FAILURE, Toast.LENGTH_LONG, true).show();
                 }

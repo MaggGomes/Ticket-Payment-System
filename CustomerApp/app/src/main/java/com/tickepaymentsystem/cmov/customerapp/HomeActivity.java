@@ -1,17 +1,28 @@
 package com.tickepaymentsystem.cmov.customerapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.CafetariaFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.ShowsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TicketsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TransactionsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.VouchersFragment;
+import com.tickepaymentsystem.cmov.customerapp.Models.Product;
+import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
+import com.tickepaymentsystem.cmov.customerapp.Models.Voucher;
+import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -20,12 +31,49 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        initData();
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.home_frag_container,
                 new ShowsFragment()).commit();
+    }
+
+    private void initData(){
+        List<Product> products = new ArrayList<>();
+        Product popcorn = new Product(2, Constants.POPCORN, 3, 0);
+        Product sandwich = new Product(4, Constants.SANDWICH, 1, 0);
+        Product coffee = new Product(1, Constants.COFFEE, 1, 0);
+        Product sodaDrink = new Product(3, Constants.SODA_DRINK, 3, 0);
+
+        products.add(popcorn);
+        products.add(sandwich);
+        products.add(coffee);
+        products.add(sodaDrink);
+
+        Singleton.products = products;
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.USER_INFO, MODE_PRIVATE);
+        Singleton.userName = sharedPreferences.getString(Constants.USER_NAME, "");
+        Singleton.userUUID = sharedPreferences.getString(Constants.USER_ID, "");
+        String tickets = sharedPreferences.getString(Constants.TICKETS, "");
+        String vouchers = sharedPreferences.getString(Constants.VOUCHERS, "");
+
+        Gson gson = new Gson();
+
+        if(tickets.length() > 0){
+            Singleton.tickets = gson.fromJson(tickets, new TypeToken<List<Ticket>>(){}.getType());
+        } else {
+            Singleton.tickets = new ArrayList<>();
+        }
+
+        if(vouchers.length() > 0){
+            Singleton.vouchers = gson.fromJson(vouchers, new TypeToken<List<Voucher>>(){}.getType());
+        } else {
+            Singleton.vouchers = new ArrayList<>();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavListener

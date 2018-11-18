@@ -78,9 +78,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.name.setText(Singleton.products.get(position).getName());
         holder.price.setText(price);
+        holder.btnIncrease.setOnClickListener((View v) -> onBtnIncreaseAmount(holder, position));
+        holder.btnDecrease.setOnClickListener((View v) -> onBtnDecreaseAmount(holder, position));
 
-
-         // TODO - FINISH
+        // TODO - FINISH
     }
 
     @Override
@@ -88,11 +89,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return Singleton.products.size();
     }
 
-    private void onBtnIncreaseAmount(int position){
-
+    private void onBtnIncreaseAmount(ProductViewHolder holder, int position){
+        int quantity = Singleton.products.get(position).getQuantity()+1;
+        Singleton.products.get(position).setQuantity(Singleton.products.get(position).getQuantity()+1);
+        holder.quantity.setText(Integer.toString(quantity));
     }
 
-    private void onBtnDecreaseAmount(int position){
-
+    private void onBtnDecreaseAmount(ProductViewHolder holder, int position){
+        int quantity = Singleton.products.get(position).getQuantity()-1;
+        if(quantity >= 0){
+            Singleton.products.get(position).setQuantity(quantity);
+            holder.quantity.setText(Integer.toString(quantity));
+        }
     }
 }
