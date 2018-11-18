@@ -26,4 +26,8 @@
     <string name="freeCoffee">Free Coffee</string>
     <string name="freePopcorn">Free Popcorn</string>
     <string name="freeDiscount">5% Discount</string>
+    <string name="coffe">Coffe</string>
+    <string name="popcorn">Popcorn</string>
+    <string name="sodaDrink">Soda drink</string>
+    <string name="sandwich">Sandwich</string>
 </resources>
