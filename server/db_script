@@ -56,13 +56,6 @@ CREATE TABLE "Tickets" (
         "updatedAt" DATE
 );
 
-CREATE TABLE "Orders" (
-	id SERIAL PRIMARY KEY,
-	date timestamp NOT NULL,
-	"userId" TEXT NOT NULL REFERENCES "Users"(id),
-        "createdAt" DATE,
-        "updatedAt" DATE
-);
 
 CREATE TABLE "Vouchers" (
 	id TEXT PRIMARY KEY,
@@ -82,14 +75,6 @@ CREATE TABLE "Products" (
         "updatedAt" DATE
 );
 
-CREATE TABLE "Promotions" (
-	"voucherId" TEXT NOT NULL REFERENCES "Vouchers"(id),
-	"productId" INTEGER NOT NULL REFERENCES "Products"(id),
-	discount real NOT NULL,
-	PRIMARY KEY ("voucherId", "productId"),
-        "createdAt" DATE,
-        "updatedAt" DATE
-);
 CREATE TABLE "OrderTransactions" (
         "id" SERIAL PRIMARY KEY NOT NULL,
         "userId" TEXT NOT NULL REFERENCES "Users"(id),
@@ -122,7 +107,6 @@ CREATE TABLE "TicketTransactions" (
          "createdAt" DATE,
          "updatedAt" DATE
 );
-
 INSERT into "Users" (id, username, password, nif,"keyN", "keyE") VALUES ('1', 'teste123', 'teste123', 666, 'a65c6bc4782cf487738fc6fe2d46a89aef75d37d6dd35dfbdf945ceaf73b26bc91bf344a1e74bafcabe42a62a5617bff3840388fdb420943242f135e8c4e1b97', '10001');
 
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (1, 'Teste1', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
