@@ -35,31 +35,21 @@ module.exports = {
 						}
 					})
 					.then(transactions => {
-						/*for (let i = 0; i < transactions.length; i++) {
-							if (transactions[i].orderId == null) {
-								ticketTransactions.push(transactions[i]);
-							} else {
-								orderTransactions.push(transactions[i]);
-							}
-						}*/
 						let whereClauseVoucher = {[Op.and]: [{userId: user.id}, {available: true}]};
 						Voucher
 							.findAll({
 								where: whereClauseVoucher
 							})
 							.then(vouchers => {
-								validVouchers = vouchers;
-
 								let whereClauseTicket = {[Op.and]: [{userId: user.id}, {used: false}]};
 								Ticket
 									.findAll({
 										where: whereClauseTicket
 									})
 									.then(tickets => {
-										validTickets = tickets;
 										res.status(200).json({success:true, message:'Valid',
 											ticketTransactions: transactions, orderTransactions: orderTransactions,
-											validTickets: validTickets, validVouchers: validVouchers});
+											validTickets: tickets, validVouchers: vouchers});
 									})
 									.catch(err => {
 										res.status(400).json({success: false, message: 'Error ocurred: ' + err});

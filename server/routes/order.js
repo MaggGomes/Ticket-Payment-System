@@ -7,4 +7,9 @@ router.get('/',
 	orderController.list
 );
 
+router.put('/buy',
+	orderController.buy
+);
+
+
 module.exports = router;
