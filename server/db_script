@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS "Promotions" Cascade;
 DROP TABLE IF EXISTS "ProductOrders" Cascade;
 DROP TABLE IF EXISTS "Transactions" Cascade;
 DROP TABLE IF EXISTS "TicketTransactions" Cascade;
+DROP TABLE IF EXISTS "OrderTransactions" Cascade;
 
 CREATE TABLE "Users" (
 	id TEXT PRIMARY KEY,
@@ -89,24 +90,23 @@ CREATE TABLE "Promotions" (
         "createdAt" DATE,
         "updatedAt" DATE
 );
-
-CREATE TABLE "ProductOrders" (
-	"productId" INTEGER NOT NULL REFERENCES "Products"(id),
-	"orderId" INTEGER NOT NULL REFERENCES "Orders"(id),
-	quantity INTEGER NOT NULL,
-	PRIMARY KEY ("productId", "orderId"),
+CREATE TABLE "OrderTransactions" (
+        "id" SERIAL PRIMARY KEY NOT NULL,
+        "userId" TEXT NOT NULL REFERENCES "Users"(id),
+        "date" DATE NOT NULL,
+        "totalPrice" real NOT NULL,
         "createdAt" DATE,
         "updatedAt" DATE
 );
 
-CREATE TABLE "Transactions" (
-        "id" SERIAL NOT NULL,
-        "productId" INTEGER REFERENCES "Products"(id),
-        "ticketId" TEXT REFERENCES "Tickets"(id),
-        "userId" TEXT NOT NULL REFERENCES "Users"(id),
-         price real NOT NULL,
-    "createdAt" DATE,
-    "updatedAt" DATE
+CREATE TABLE "ProductOrders" (
+	"productId" INTEGER NOT NULL REFERENCES "Products"(id),
+	"orderId" INTEGER NOT NULL REFERENCES "OrderTransactions"(id),
+	quantity INTEGER NOT NULL,
+        "totalPrice" INTEGER NOT NULL,
+	PRIMARY KEY ("productId", "orderId"),
+        "createdAt" DATE,
+        "updatedAt" DATE
 );
 
 CREATE TABLE "TicketTransactions" (
@@ -119,13 +119,23 @@ CREATE TABLE "TicketTransactions" (
         "date" DATE NOT NULL,
          price real NOT NULL,
          "totalPrice" real NOT NULL,
-    "createdAt" DATE,
-    "updatedAt" DATE
+         "createdAt" DATE,
+         "updatedAt" DATE
 );
+
+INSERT into "Users" (id, username, password, nif,"keyN", "keyE") VALUES ('1', 'teste123', 'teste123', 666, 'a65c6bc4782cf487738fc6fe2d46a89aef75d37d6dd35dfbdf945ceaf73b26bc91bf344a1e74bafcabe42a62a5617bff3840388fdb420943242f135e8c4e1b97', '10001');
+
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (1, 'Teste1', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (2, 'Teste2', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 INSERT INTO "Shows" (id, name, url, description, date, price) VALUES (3, 'Teste3', 'Its gonna be hoooot!', 'teste.png', '2019-11-16', 19.99);
 
-INSERT INTO "Products" ("id", "name", "price") VALUES (0,'Coffe', 5);
-INSERT INTO "Products" ("id", "name", "price") VALUES (1,'Popcorn', 5);
-INSERT INTO "Products" ("id", "name", "price") VALUES (2,'5%', 0);
+INSERT INTO "Products" ("id", "name", "price") VALUES (1,'Coffe', 5);
+INSERT INTO "Products" ("id", "name", "price") VALUES (2,'Popcorn', 5);
+INSERT INTO "Products" ("id", "name", "price") VALUES (0,'5%', 0);
+
+INSERT INTO "OrderTransactions"("userId", date, "totalPrice") VALUES ('1', '2019-11-16', 44);
+INSERT INTO "OrderTransactions"("userId", date, "totalPrice") VALUES ('1', '2019-11-16', 55);
+
+INSERT INTO "ProductOrders"("productId", "orderId", quantity, "totalPrice") VALUES (1, 1, 5, 25);
+INSERT INTO "ProductOrders"("productId", "orderId", quantity, "totalPrice") VALUES (2, 1, 3, 15);
+INSERT INTO "ProductOrders"("productId", "orderId", quantity, "totalPrice") VALUES (1, 2, 3, 15);

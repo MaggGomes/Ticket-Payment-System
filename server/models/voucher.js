@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 		Voucher.belongsTo(models.User, {
 			foreignKey: 'userId'
 		});
-		Voucher.belongsTo(models.Order, {
+		Voucher.belongsTo(models.ProductOrder, {
 			foreignKey: 'orderId'
 		});
 		Voucher.belongsTo(models.User, {

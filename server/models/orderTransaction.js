@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-	const OrderTransaction = sequelize.define('OrderTransaction ', {
+	const OrderTransaction = sequelize.define('OrderTransaction', {
 		userId : {
 			type: DataTypes.STRING,
 			allowNull: false
@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false
 		}
 	}, {});
-	OrderTransaction .associate = function(models) {
-		OrderTransaction .belongsTo(models.User, {
+	OrderTransaction.associate = function(models) {
+		OrderTransaction.belongsTo(models.User, {
 			foreignKey: 'userId'
 		});
 	};

@@ -12,19 +12,20 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true
 		},
 		quantity : {
-		  type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		totalPrice: {
-			type: DataTypes.DOUBLE,
+		totalPrice : {
+			type: DataTypes.INTEGER,
 			allowNull: false
 		}
+
 	}, {});
 	ProductOrder.associate = function(models) {
 		ProductOrder.belongsTo(models.Product, {
 			foreignKey: 'productId'
 		});
-		ProductOrder.belongsTo(models.Order, {
+		ProductOrder.belongsTo(models.OrderTransaction, {
 			foreignKey: 'orderId'
 		});
 	};
