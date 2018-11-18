@@ -66,10 +66,8 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:sss");
 
         try {
-
             Date date = sdf.parse(Singleton.shows.get(position).getDate());
             String formateDate= month_date.format(date);
-            Log.d("dsdsad", formateDate);
             holder.date.setText(formateDate);
         } catch (ParseException e) {
             e.printStackTrace();

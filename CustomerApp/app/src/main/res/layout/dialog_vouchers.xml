@@ -8,12 +8,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/menu"
-        android:textSize="30sp"
+        android:text="@string/select_vouchers"
+        android:textSize="18sp"
         android:textColor="@android:color/black"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="16dp"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:text="@string/coffe"
+                android:text="@string/freeCoffee"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -69,7 +70,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/coffee_minus"
+                android:id="@+id/voucher_coffee_minus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -80,7 +81,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/coffe_quantity"
+                android:id="@+id/voucher_coffee_quantity"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -88,7 +89,7 @@
                 android:text="0" />
 
             <Button
-                android:id="@+id/coffe_plus"
+                android:id="@+id/voucher_coffee_plus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -132,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:text="@string/popcorn"
+                android:text="@string/freePopcorn"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -156,7 +157,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/popcorn_minus"
+                android:id="@+id/voucher_popcorn_minus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -167,7 +168,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/popcorn_quantity"
+                android:id="@+id/voucher_popcorn_quantity"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -175,7 +176,7 @@
                 android:text="0" />
 
             <Button
-                android:id="@+id/popcorn_plus"
+                android:id="@+id/voucher_popcorn_plus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -204,7 +205,7 @@
             android:contentDescription="@string/app_icon_description"
             android:gravity="center_vertical"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_product_sodadrink" />
+            app:srcCompat="@drawable/ic_voucher_discount" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -219,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
-                android:text="@string/sodaDrink"
+                android:text="@string/freeDiscount"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
@@ -277,136 +278,21 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="20dp"
-            android:contentDescription="@string/app_icon_description"
-            android:gravity="center_vertical"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_product_sandwich" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:text="@string/sandwich"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/sandwich_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Food" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/sandwich_minus"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="@string/decrease"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/sandwich_quantity"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="0" />
-
-            <Button
-                android:id="@+id/sandwich_plus"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="@string/increase"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/total"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/cafetaria_total"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="0 €"
-            android:textSize="16sp"
-            android:gravity="end" />
-
-    </LinearLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btn_make_order"
-            android:layout_width="200dp"
+            android:id="@+id/btn_confirm_order"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
-            android:text="@string/makeOrder"
+            android:text="@string/confirm"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </LinearLayout>

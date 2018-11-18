@@ -53,7 +53,6 @@ public class Security {
 
         KeyPair kp = keyPairGenerator.generateKeyPair();
 
-        // generate key pair and return the public key
         return kp.getPublic();
     }
 

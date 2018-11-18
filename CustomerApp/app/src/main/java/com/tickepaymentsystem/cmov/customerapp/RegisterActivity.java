@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -47,8 +48,6 @@ public class RegisterActivity extends AppCompatActivity{
 
     // Fields
     private EditText editName;
-    private EditText editPassword;
-    private EditText editConfirmpassword;
     private EditText editNif;
     private EditText editType;
     private EditText editNumber;
@@ -67,6 +66,14 @@ public class RegisterActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.USER_INFO, MODE_PRIVATE);
+        Singleton.userName = sharedPreferences.getString(Constants.USER_NAME, "");
+
+        if(Singleton.userName.length() > 0){
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+        }
+
         setContentView(R.layout.activity_register);
 
         ccDate = (TextView)findViewById(R.id.register_cc_datevalidity);
@@ -82,13 +89,10 @@ public class RegisterActivity extends AppCompatActivity{
         };
 
         editName = (EditText)findViewById(R.id.register_name);
-        editPassword = (EditText)findViewById(R.id.register_password);
-        editConfirmpassword= (EditText)findViewById(R.id.register_confirmpassword);
         editNif = (EditText)findViewById(R.id.register_nif);
         editType = (EditText)findViewById(R.id.register_cc_type);
         editNumber = (EditText)findViewById(R.id.register_cc_number);
 
-        findViewById(R.id.btn_login_secondary).setOnClickListener((View v)->onBtnLoginClick());
         findViewById(R.id.btn_register_main).setOnClickListener((View v)->onBtnRegisterClick());
     }
 
@@ -113,8 +117,8 @@ public class RegisterActivity extends AppCompatActivity{
 
     private void onBtnRegisterClick() {
         name = editName.getText().toString();
-        password = editPassword.getText().toString();
-        confirmpassword = editConfirmpassword.getText().toString();
+        password = "111";
+        confirmpassword = "111";
         nif = Integer.parseInt(editNif.getText().toString());
         type = editType.getText().toString();
         number = Integer.parseInt(editNumber.getText().toString());
@@ -147,8 +151,12 @@ public class RegisterActivity extends AppCompatActivity{
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Singleton.userName = body.getName();
-                    Singleton.userUUID = response.body().getId();
+                    SharedPreferences sharedPref = getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(Constants.USER_NAME, body.getName());
+                    editor.putString(Constants.USER_ID, response.body().getId());
+                    editor.apply();
+
                     startActivity(new Intent(context, HomeActivity.class));
                 } else {
                     Toasty.error(context, Constants.REGISTER_FAILURE, Toast.LENGTH_LONG, true).show();

@@ -16,6 +16,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface DataService {
 
@@ -34,6 +35,11 @@ public interface DataService {
     // Buy tickets
     @PUT("tickets/validate")
     Call<ResponseValidateTickets> validateTickets(@Body RequestValidateTickets body);
+
+    // TODO - Fix route
+    // Get transactions
+    @GET("transactions/{id}")
+    Call<ResponseValidateTickets> getTransactions(@Path("id") String id);
 
     @GET("/photos")
     Call<List<RetroPhoto>> getAllPhotos();
