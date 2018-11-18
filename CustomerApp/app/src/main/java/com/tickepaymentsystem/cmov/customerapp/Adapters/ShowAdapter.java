@@ -3,6 +3,7 @@ package com.tickepaymentsystem.cmov.customerapp.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,13 @@ import com.tickepaymentsystem.cmov.customerapp.R;
 import com.tickepaymentsystem.cmov.customerapp.ShowActivity;
 import com.tickepaymentsystem.cmov.customerapp.Singleton;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder> {
 
@@ -54,8 +62,20 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
 
     @Override
     public void onBindViewHolder(ShowViewHolder holder, int position) {
+        SimpleDateFormat month_date = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.UK);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:sss");
+
+        try {
+
+            Date date = sdf.parse(Singleton.shows.get(position).getDate());
+            String formateDate= month_date.format(date);
+            Log.d("dsdsad", formateDate);
+            holder.date.setText(formateDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         holder.name.setText(Singleton.shows.get(position).getName());
-        holder.date.setText(Singleton.shows.get(position).getDate());
 
         String showPrice = Singleton.shows.get(position).getPrice().toString()+" €";
 
