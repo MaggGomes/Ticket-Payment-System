@@ -11,6 +11,7 @@ import com.tickepaymentsystem.cmov.customerapp.Fragments.CafetariaFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.ShowsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TicketsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TransactionsFragment;
+import com.tickepaymentsystem.cmov.customerapp.Fragments.VouchersFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -39,6 +40,9 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_tickets:
                     selectedFragment = new TicketsFragment();
+                    break;
+                case R.id.nav_vouchers:
+                    selectedFragment = new VouchersFragment();
                     break;
                 case R.id.nav_cafetaria:
                     selectedFragment = new CafetariaFragment();

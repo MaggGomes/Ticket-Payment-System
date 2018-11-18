@@ -1,5 +1,6 @@
 package com.tickepaymentsystem.cmov.customerapp;
 
+import com.tickepaymentsystem.cmov.customerapp.Models.Product;
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
 import com.tickepaymentsystem.cmov.customerapp.Models.Voucher;
@@ -13,6 +14,7 @@ public class Singleton {
     public static List<Show> shows;
     public static List<Ticket> tickets;
     public static List<Voucher> vouchers;
+    public static List<Product> products;
 
     private static Singleton INSTANCE = null;
 

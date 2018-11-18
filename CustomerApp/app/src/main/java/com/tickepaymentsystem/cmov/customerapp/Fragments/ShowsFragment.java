@@ -22,6 +22,7 @@ import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,12 +37,12 @@ public class ShowsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shows, container, false);
-        getShows();
+        getShows(view);
 
         return view;
     }
 
-    public void getShows(){
+    public void getShows(View view){
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage(Constants.LOADING);
         progressDialog.show();
@@ -52,20 +53,20 @@ public class ShowsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Show>> call, Response<List<Show>> response) {
                 progressDialog.dismiss();
-                generateDataList(response.body());
+                generateDataList(view, response.body());
             }
 
             @Override
             public void onFailure(Call<List<Show>> call, Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), Constants.LOADING_ERROR, Toast.LENGTH_SHORT).show();
+                Toasty.error(getContext(), Constants.LOADING_ERROR, Toast.LENGTH_LONG, true).show();
             }
         });
     }
 
-    private void generateDataList(List<Show> shows) {
+    private void generateDataList(View view, List<Show> shows) {
         Singleton.shows = shows;
-        recyclerView = getActivity().findViewById(R.id.list_shows);
+        recyclerView = view.findViewById(R.id.list_shows);
         adapter = new ShowAdapter(getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);

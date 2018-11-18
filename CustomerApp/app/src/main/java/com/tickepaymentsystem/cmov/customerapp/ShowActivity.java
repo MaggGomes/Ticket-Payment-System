@@ -16,8 +16,8 @@ import com.squareup.picasso.Picasso;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.Message;
-import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponsePurchaseTickets;
-import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestMessage;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseBuyTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestBuyTickets;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Security;
 
@@ -29,6 +29,7 @@ import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +37,7 @@ import retrofit2.Response;
 public class ShowActivity extends AppCompatActivity{
 
     private static final String TAG = ShowActivity.class.getName();
+    private int ticketsQuantity = 1;
     private ProgressDialog progressDialog;
 
     // Fields
@@ -43,8 +45,11 @@ public class ShowActivity extends AppCompatActivity{
     private TextView description;
     private TextView price;
     private TextView date;
+    private TextView quantity;
     private ImageView image;
     private Button btnPurchase;
+    private Button btnIncrease;
+    private Button btnDecrease;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +60,22 @@ public class ShowActivity extends AppCompatActivity{
 
         if(bundle != null){
             int position = bundle.getInt(Constants.SHOW_DETAILS);
+            String showPrice = Singleton.shows.get(position).getPrice().toString()+" €";
 
             name = (TextView)findViewById(R.id.show_name);
             description = (TextView)findViewById(R.id.show_description);
             price = (TextView)findViewById(R.id.show_price);
             date = (TextView)findViewById(R.id.show_date);
+            quantity = (TextView)findViewById(R.id.show_quantity);
             image = (ImageView)findViewById(R.id.show_image);
-            btnPurchase = (Button) findViewById(R.id.btn_purchase);
+            btnPurchase = (Button)findViewById(R.id.btn_purchase);
+            btnIncrease = (Button)findViewById(R.id.show_quantity_btn_plus);
+            btnDecrease = (Button)findViewById(R.id.show_quantity_btn_minus);
 
             name.setText(Singleton.shows.get(position).getName());
             description.setText(Singleton.shows.get(position).getDescription());
-            price.setText(Singleton.shows.get(position).getPrice().toString());
+            price.setText(showPrice);
+            quantity.setText(Integer.toString(ticketsQuantity));
             date.setText(Singleton.shows.get(position).getDate());
 
             Picasso.get()
@@ -74,17 +84,39 @@ public class ShowActivity extends AppCompatActivity{
                     .into(image);
 
             btnPurchase.setOnClickListener((View v) -> onBtnPurchase(position));
+            btnIncrease.setOnClickListener((View v) -> onBtnIncrease());
+            btnDecrease.setOnClickListener((View v) -> onBtnDecrease());
         }
     }
 
-    // TODO - Implement
+    public void onBtnIncrease(){
+        ticketsQuantity+= 1;
+        quantity.setText(Integer.toString(ticketsQuantity));
+    }
+
+    public void onBtnDecrease(){
+        ticketsQuantity-= 1;
+
+        if(ticketsQuantity >= 0){
+            quantity.setText(Integer.toString(ticketsQuantity));
+        } else {
+            ticketsQuantity = 0;
+        }
+
+    }
+
     public void onBtnPurchase(int position){
-        Message message = new Message(Singleton.userUUID, Singleton.shows.get(position).getId(), Singleton.shows.get(position).getDate(), 6);
+        if(ticketsQuantity < 1){
+            Toasty.info(getApplicationContext(), Constants.LOW_NUMBER_TICKETS, Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+
+        Message message = new Message(Singleton.userUUID, Singleton.shows.get(position).getId(), Singleton.shows.get(position).getDate(), ticketsQuantity);
         Gson gson = new Gson();
 
         try {
             String signedMessage = Security.generateSignedMessage(Singleton.userName, gson.toJson(message).toString());
-            RequestMessage requestMessage = new RequestMessage(message, signedMessage);
+            RequestBuyTickets requestMessage = new RequestBuyTickets(message, signedMessage);
             purchaseTickets(this, requestMessage);
 
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException | KeyStoreException | CertificateException | UnrecoverableEntryException e) {
@@ -92,36 +124,33 @@ public class ShowActivity extends AppCompatActivity{
         }
     }
 
-    public void purchaseTickets(Context context, RequestMessage body){
+    public void purchaseTickets(Context context, RequestBuyTickets body){
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(Constants.LOADING);
         progressDialog.show();
 
         DataService service = ApiClient.getInstance().create(DataService.class);
-        Call<ResponsePurchaseTickets> call = service.buyTickets(body);
+        Call<ResponseBuyTickets> call = service.buyTickets(body);
 
-        call.enqueue(new Callback<ResponsePurchaseTickets>() {
+        call.enqueue(new Callback<ResponseBuyTickets>() {
             @Override
-            public void onResponse(Call<ResponsePurchaseTickets> call, Response<ResponsePurchaseTickets> response) {
+            public void onResponse(Call<ResponseBuyTickets> call, Response<ResponseBuyTickets> response) {
                 progressDialog.dismiss();
 
                 if(response.isSuccessful()) {
-                    Log.d("buytickets", "sim");
                     Singleton.tickets = response.body().getTickets();
                     Singleton.vouchers = response.body().getVouchers();
-                    Toast.makeText(context, "Tickets purchased!", Toast.LENGTH_LONG);
+                    Toasty.success(context, Constants.BUY_TICKETS_SUCCESS, Toast.LENGTH_LONG, true).show();
 
                 } else {
-                    Log.d("buytickets", "nao");
-                    Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG);
+                    Toasty.error(context, Constants.BUY_TICKETS_FAILURE, Toast.LENGTH_LONG, true).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponsePurchaseTickets> call, Throwable t) {
+            public void onFailure(Call<ResponseBuyTickets> call, Throwable t) {
                 progressDialog.dismiss();
-                Log.d("buytickets", "nao2");
-                Toast.makeText(context, "Failed to purchase the tickets!", Toast.LENGTH_LONG);
+                Toasty.error(context, Constants.BUY_TICKETS_FAILURE, Toast.LENGTH_LONG, true).show();
             }
         });
     }

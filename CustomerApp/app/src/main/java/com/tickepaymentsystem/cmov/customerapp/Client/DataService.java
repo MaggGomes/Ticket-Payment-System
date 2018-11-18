@@ -1,8 +1,10 @@
 package com.tickepaymentsystem.cmov.customerapp.Client;
 
-import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponsePurchaseTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestValidateTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseBuyTickets;
 import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseRegister;
-import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestMessage;
+import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestBuyTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseValidateTickets;
 import com.tickepaymentsystem.cmov.customerapp.Models.RetroPhoto;
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.Models.User;
@@ -13,6 +15,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface DataService {
 
@@ -26,7 +29,11 @@ public interface DataService {
 
     // Buy tickets
     @POST("tickets/buy")
-    Call<ResponsePurchaseTickets> buyTickets(@Body RequestMessage body);
+    Call<ResponseBuyTickets> buyTickets(@Body RequestBuyTickets body);
+
+    // Buy tickets
+    @PUT("tickets/validate")
+    Call<ResponseValidateTickets> validateTickets(@Body RequestValidateTickets body);
 
     @GET("/photos")
     Call<List<RetroPhoto>> getAllPhotos();

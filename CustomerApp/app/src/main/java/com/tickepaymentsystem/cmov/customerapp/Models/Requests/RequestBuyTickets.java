@@ -3,14 +3,14 @@ package com.tickepaymentsystem.cmov.customerapp.Models.Requests;
 import com.google.gson.annotations.SerializedName;
 import com.tickepaymentsystem.cmov.customerapp.Models.Message;
 
-public class RequestMessage {
+public class RequestBuyTickets {
 
     @SerializedName("message")
     private Message message;
     @SerializedName("messageSigned")
     private String messageSigned;
 
-    public RequestMessage(Message message, String messageSigned){
+    public RequestBuyTickets(Message message, String messageSigned){
         this.message = message;
         this.messageSigned = messageSigned;
     }

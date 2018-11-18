@@ -13,7 +13,7 @@ public class Voucher {
     @SerializedName("productId")
     private Integer productId;
     @SerializedName("userId")
-    private Integer userId;
+    private String userId;
 
     public String getId() {
         return id;
@@ -47,11 +47,11 @@ public class Voucher {
         this.orderId = orderId;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 }

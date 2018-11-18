@@ -8,8 +8,13 @@
 
     <item
         android:id="@+id/nav_tickets"
-        android:icon="@drawable/selector_bottom_nav_ticket"
+        android:icon="@drawable/selector_bottom_nav_tickets"
         android:title="@string/title_tickets" />
+
+    <item
+        android:id="@+id/nav_vouchers"
+        android:icon="@drawable/selector_bottom_nav_vouchers"
+        android:title="@string/title_vouchers" />
 
     <item
         android:id="@+id/nav_cafetaria"
