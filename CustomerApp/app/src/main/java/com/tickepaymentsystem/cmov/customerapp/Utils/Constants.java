@@ -13,4 +13,11 @@ public class Constants {
     public static String SHOW_DETAILS = "Show Details";
     public static String CAFETARIA_ORDER = "Cafetaria Order";
 
+    // Products
+    public static final String POPCORN = "Popcorn";
+    public static final String SANDWICH = "Sandwich";
+    public static final String COFFEE = "Coffee";
+    public static final String SODA_DRINK = "Soda drink";
+
+    public static final String LOW_NUMBER_TICKETS = "You must buy at least 1 ticket!";
 }

@@ -37,6 +37,7 @@ import retrofit2.Response;
 public class ShowActivity extends AppCompatActivity{
 
     private static final String TAG = ShowActivity.class.getName();
+    private int ticketsQuantity = 1;
     private ProgressDialog progressDialog;
 
     // Fields
@@ -44,8 +45,11 @@ public class ShowActivity extends AppCompatActivity{
     private TextView description;
     private TextView price;
     private TextView date;
+    private TextView quantity;
     private ImageView image;
     private Button btnPurchase;
+    private Button btnIncrease;
+    private Button btnDecrease;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +60,22 @@ public class ShowActivity extends AppCompatActivity{
 
         if(bundle != null){
             int position = bundle.getInt(Constants.SHOW_DETAILS);
+            String showPrice = Singleton.shows.get(position).getPrice().toString()+" €";
 
             name = (TextView)findViewById(R.id.show_name);
             description = (TextView)findViewById(R.id.show_description);
             price = (TextView)findViewById(R.id.show_price);
             date = (TextView)findViewById(R.id.show_date);
+            quantity = (TextView)findViewById(R.id.show_quantity);
             image = (ImageView)findViewById(R.id.show_image);
-            btnPurchase = (Button) findViewById(R.id.btn_purchase);
+            btnPurchase = (Button)findViewById(R.id.btn_purchase);
+            btnIncrease = (Button)findViewById(R.id.show_quantity_btn_plus);
+            btnDecrease = (Button)findViewById(R.id.show_quantity_btn_minus);
 
             name.setText(Singleton.shows.get(position).getName());
             description.setText(Singleton.shows.get(position).getDescription());
-            price.setText(Singleton.shows.get(position).getPrice().toString());
+            price.setText(showPrice);
+            quantity.setText(Integer.toString(ticketsQuantity));
             date.setText(Singleton.shows.get(position).getDate());
 
             Picasso.get()
@@ -75,12 +84,34 @@ public class ShowActivity extends AppCompatActivity{
                     .into(image);
 
             btnPurchase.setOnClickListener((View v) -> onBtnPurchase(position));
+            btnIncrease.setOnClickListener((View v) -> onBtnIncrease());
+            btnDecrease.setOnClickListener((View v) -> onBtnDecrease());
         }
     }
 
-    // TODO - Implement
+    public void onBtnIncrease(){
+        ticketsQuantity+= 1;
+        quantity.setText(Integer.toString(ticketsQuantity));
+    }
+
+    public void onBtnDecrease(){
+        ticketsQuantity-= 1;
+
+        if(ticketsQuantity >= 0){
+            quantity.setText(Integer.toString(ticketsQuantity));
+        } else {
+            ticketsQuantity = 0;
+        }
+
+    }
+
     public void onBtnPurchase(int position){
-        Message message = new Message(Singleton.userUUID, Singleton.shows.get(position).getId(), Singleton.shows.get(position).getDate(), 6);
+        if(ticketsQuantity < 1){
+            Toasty.info(getApplicationContext(), Constants.LOW_NUMBER_TICKETS, Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+
+        Message message = new Message(Singleton.userUUID, Singleton.shows.get(position).getId(), Singleton.shows.get(position).getDate(), ticketsQuantity);
         Gson gson = new Gson();
 
         try {

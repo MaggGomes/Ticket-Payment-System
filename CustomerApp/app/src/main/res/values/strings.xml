@@ -18,4 +18,6 @@
     <string name="title_vouchers">Vouchers</string>
     <string name="purchase">Purchase Now</string>
     <string name="validity">Validity: </string>
+    <string name="increase">+</string>
+    <string name="decrease">-</string>
 </resources>

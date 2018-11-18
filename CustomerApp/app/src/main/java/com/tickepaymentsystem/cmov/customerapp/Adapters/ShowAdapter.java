@@ -57,8 +57,9 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         holder.name.setText(Singleton.shows.get(position).getName());
         holder.date.setText(Singleton.shows.get(position).getDate());
 
-        // TODO - Format price
-        holder.price.setText(Singleton.shows.get(position).getPrice().toString());
+        String showPrice = Singleton.shows.get(position).getPrice().toString()+" €";
+
+        holder.price.setText(showPrice);
         holder.btnSeeDetails.setOnClickListener((View v) -> onBtnSeeDetails(position));
 
         Picasso.get()
