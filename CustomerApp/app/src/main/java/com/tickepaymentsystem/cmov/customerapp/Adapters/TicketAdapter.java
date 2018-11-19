@@ -1,18 +1,14 @@
 package com.tickepaymentsystem.cmov.customerapp.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.tickepaymentsystem.cmov.customerapp.R;
 import com.tickepaymentsystem.cmov.customerapp.Singleton;
-import com.tickepaymentsystem.cmov.customerapp.TicketQRCodeActivity;
-import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketViewHolder> {
 

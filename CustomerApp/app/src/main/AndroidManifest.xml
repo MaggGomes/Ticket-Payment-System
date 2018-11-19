@@ -28,7 +28,7 @@
             android:parentActivityName=".HomeActivity">
         </activity>
         <activity
-            android:name=".TicketQRCodeActivity"
+            android:name=".QRCodeActivity"
             android:parentActivityName=".HomeActivity">
         </activity>
     </application>
