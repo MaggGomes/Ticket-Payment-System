@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.tickepaymentsystem.cmov.cafetariaapp.Utils.Constants;
+
+import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(result != null){
             if(result.getContents() == null){
-                Toast.makeText(this, "Scan cancelled", Toast.LENGTH_LONG).show();
+                Toasty.error(this, "Scan cancelled", Toast.LENGTH_LONG).show();
             } else{
-                Log.d("resulta", "aaaa");
-                Log.d("result", result.getContents().toString());
-                Toast.makeText(this, result.getContents().toString(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, ResultActivity.class);
+                intent.putExtra(Constants.VALIDATION, result.getContents());
+                this.startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

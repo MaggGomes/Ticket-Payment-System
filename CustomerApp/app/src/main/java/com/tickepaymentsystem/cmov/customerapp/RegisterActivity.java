@@ -111,10 +111,6 @@ public class RegisterActivity extends AppCompatActivity{
         dialog.show();
     }
 
-    private void onBtnLoginClick() {
-        startActivity(new Intent(this, LoginActivity.class));
-    }
-
     private void onBtnRegisterClick() {
         name = editName.getText().toString();
         password = "111";

@@ -18,7 +18,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RequestActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_ticket"
         app:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
