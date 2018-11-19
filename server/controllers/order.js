@@ -1,6 +1,7 @@
 const
 	Op = Sequelize.Op,
 	request = require('request'),
+	uuidv4 = require('uuid/v4'),
 	Voucher = require('../models/index').Voucher,
 	User = require('../models/index').User,
 	ProductOrder = require('../models/index').ProductOrder,
@@ -38,12 +39,14 @@ module.exports = {
 					voucherIds.push(req.body.message.vouchers[i].id);
 				}
 				var count = 0;
+				var usedVouchers = [];
 				var checkProducts = req.body.message.products;
 				var products = req.body.message.products;
 				var voucher5 = false;
 				for(let i = 0; i < req.body.message.vouchers.length; i++){
 					if(req.body.message.vouchers[i].productId == 0 && voucher5 === false){
 						voucher5 = true;
+						usedVouchers.push(req.body.message.vouchers[i].id);
 					}else if(req.body.message.vouchers[i].productId == 0 && voucher5 === true)
 						return res.status(400).json({success:false, message:'More than one 5% voucher'});
 					else {
@@ -62,14 +65,12 @@ module.exports = {
 					.findAll({
 						where: {
 							userId: req.body.message.userId,
-							id: {[Op.in] : voucherIds}
+							id: {[Op.in] : voucherIds},
+							available: true
 						}
 					})
 					.then(vouchers => {
 						if (vouchers) {
-							if(vouchers.length != req.body.message.vouchers.length)
-								return res.status(400).json({success:false, message:'At least on voucher was invalid'});
-
 							var spentBefore = 0;
 							TicketTransaction
 								.findAll({
@@ -112,18 +113,17 @@ module.exports = {
 															if (vouchers[i].productId == products[j].id && products[j].quantity > 0 ) {
 																freeProductIds.push(products[j].id);
 																products[j].quantity = products[j].quantity - 1;
+																console.log(vouchers[i].id);
+																usedVouchers.push(vouchers[i].id);
 															}
 														}
 													}
-
+													console.log(usedVouchers);
 													for(let i = 0; i < products.length; i++){
 														totalPrice += products[i].price * products[i].quantity;
 													}
-													console.log(totalPrice);
-
 													if(voucher5 == true)
 														totalPrice = totalPrice * 0.95;
-
 													OrderTransaction
 														.create({
 															userId: req.body.message.userId,
@@ -149,7 +149,53 @@ module.exports = {
 															ProductOrder
 																.bulkCreate(orderBulk)
 																.then(()=>{
-																	res.status(200).json({success:true, message:'order made', vouchers: vouchers, order: newOrder});
+																	Voucher
+																		.update(
+																			{
+																				available: false
+																			},
+																			{
+																				where: {
+																					id: {[Op.in]: usedVouchers}
+																				}
+																			})
+																		.then(()=>{
+																			var newSpent = spentBefore + totalPrice;
+																			console.log('SPENT NEW: ' + newSpent);
+																			let discountCalc = Math.floor((newSpent/100)) - Math.floor((spentBefore/100));
+																			var voucherBulk = [];
+																			for(let i = 0; i < discountCalc; i++){
+																				voucherBulk.push({
+																					id: uuidv4(),
+																					available: true,
+																					productId: 0,
+																					userId: user.id
+																				});
+																			}
+																			Voucher
+																				.bulkCreate(voucherBulk)
+																				.then(() => {
+																					Voucher
+																						.findAll({
+																							where:{
+																								id: {[Op.in] : usedVouchers}
+																							}
+																						})
+																						.then(finalVouchers=>{
+																							res.status(200).json({success:true, message:'order made',products: req.body.message.products, vouchers: finalVouchers, order: newOrder, totalPrice: totalPrice, userNif: user.nif});
+																						})
+																						.catch(err => {
+																							res.status(400).json({success: false, message: 'Error: ' + err});
+																						});
+
+																				})
+																				.catch(err => {
+																					res.status(400).json({success: false, message: 'Error: ' + err});
+																				});
+																		})
+																		.catch(err => {
+																			res.status(400).json({success: false, message: 'Error: ' + err});
+																		});
 																})
 																.catch(err => {
 																	res.status(400).json({success: false, message: 'Error: ' + err});

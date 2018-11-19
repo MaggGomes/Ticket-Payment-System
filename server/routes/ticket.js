@@ -8,7 +8,7 @@ router.get('/',
 );
 
 router.post('/buy',
-	//userController.checkMessage,
+	userController.checkMessage,
 	ticketController.create
 );
 
