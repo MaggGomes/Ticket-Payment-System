@@ -16,6 +16,7 @@ import com.tickepaymentsystem.cmov.customerapp.Fragments.ShowsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TicketsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TransactionsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.VouchersFragment;
+import com.tickepaymentsystem.cmov.customerapp.Models.OrderVoucher;
 import com.tickepaymentsystem.cmov.customerapp.Models.Product;
 import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
 import com.tickepaymentsystem.cmov.customerapp.Models.Voucher;
@@ -73,6 +74,34 @@ public class HomeActivity extends AppCompatActivity {
             Singleton.vouchers = gson.fromJson(vouchers, new TypeToken<List<Voucher>>(){}.getType());
         } else {
             Singleton.vouchers = new ArrayList<>();
+        }
+
+        if(Singleton.vouchers.size() > 0) {
+            int discountQuantity = 0;
+            int coffeeQuantity = 0;
+            int popcornQuantity = 0;
+
+            for (int i = 0; i < Singleton.vouchers.size(); i++) {
+                switch (Singleton.vouchers.get(i).getProductId()) {
+                    case 0:
+                        discountQuantity += 1;
+                        break;
+                    case 1:
+                        coffeeQuantity += 1;
+                        break;
+                    case 2:
+                        popcornQuantity += 1;
+                        break;
+                }
+            }
+
+            OrderVoucher discountVoucher = new OrderVoucher(0, discountQuantity, 0);
+            OrderVoucher coffeeVoucher = new OrderVoucher(1, coffeeQuantity, 0);
+            OrderVoucher popcornVoucher = new OrderVoucher(2, popcornQuantity, 0);
+            Singleton.orderVouchers = new ArrayList<>();
+            Singleton.orderVouchers.add(discountVoucher);
+            Singleton.orderVouchers.add(coffeeVoucher);
+            Singleton.orderVouchers.add(popcornVoucher);
         }
     }
 

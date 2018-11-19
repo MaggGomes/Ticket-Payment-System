@@ -1,10 +1,16 @@
 package com.tickepaymentsystem.cmov.customerapp.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Product {
 
+    @SerializedName("id")
     private Integer id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("price")
     private Double price;
+    @SerializedName("quantity")
     private Integer quantity;
 
     public Product(Integer id, String name, double price, Integer quantity) {

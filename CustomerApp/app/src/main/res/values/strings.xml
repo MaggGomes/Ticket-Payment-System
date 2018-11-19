@@ -33,4 +33,5 @@
     <string name="select_vouchers">Select vouchers:</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+    <string name="seatNumber">Seat Number:</string>
 </resources>

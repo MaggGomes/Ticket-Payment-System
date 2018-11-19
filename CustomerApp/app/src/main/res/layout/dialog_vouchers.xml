@@ -1,20 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="60dp"
+    android:layout_marginBottom="60dp"
     android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/select_vouchers"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,16 +41,30 @@
                 android:gravity="center_vertical"
                 android:text="@string/freeCoffee"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/coffe_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Food" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="Max: " />
+
+                <TextView
+                    android:id="@+id/voucher_coffee_max_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="0" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -82,7 +89,7 @@
 
             <TextView
                 android:id="@+id/voucher_coffee_quantity"
-                android:layout_width="40dp"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_horizontal|center_vertical"
@@ -135,16 +142,31 @@
                 android:gravity="center_vertical"
                 android:text="@string/freePopcorn"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/popcorn_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Food" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="Max: " />
+
+                <TextView
+                    android:id="@+id/voucher_popcorn_max_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="0" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -169,7 +191,7 @@
 
             <TextView
                 android:id="@+id/voucher_popcorn_quantity"
-                android:layout_width="40dp"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_horizontal|center_vertical"
@@ -222,16 +244,30 @@
                 android:gravity="center_vertical"
                 android:text="@string/freeDiscount"
                 android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/sodadrink_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Food" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0"
+                    android:gravity="center_vertical"
+                    android:text="Max: " />
+
+                <TextView
+                    android:id="@+id/voucher_discount_max_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="0" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -244,7 +280,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/sodadrink_minus"
+                android:id="@+id/voucher_discount_minus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -255,15 +291,15 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/sodadrink_quantity"
-                android:layout_width="40dp"
+                android:id="@+id/voucher_discount_quantity"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="0" />
 
             <Button
-                android:id="@+id/sodadrink_plus"
+                android:id="@+id/voucher_discount_plus"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -274,24 +310,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btn_confirm_order"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="@string/confirm"
-            android:textAllCaps="false"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
 

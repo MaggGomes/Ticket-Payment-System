@@ -3,6 +3,7 @@ package com.tickepaymentsystem.cmov.cafetariaapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
             if(result.getContents() == null){
                 Toast.makeText(this, "Scan cancelled", Toast.LENGTH_LONG).show();
             } else{
+                Log.d("resulta", "aaaa");
+                Log.d("result", result.getContents().toString());
                 Toast.makeText(this, result.getContents().toString(), Toast.LENGTH_LONG).show();
             }
         } else {

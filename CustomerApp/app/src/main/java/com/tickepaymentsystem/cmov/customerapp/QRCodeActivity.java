@@ -12,7 +12,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
-public class TicketQRCodeActivity extends AppCompatActivity{
+public class QRCodeActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
