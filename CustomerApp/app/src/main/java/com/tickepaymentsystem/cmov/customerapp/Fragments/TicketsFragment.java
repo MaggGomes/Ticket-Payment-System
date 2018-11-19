@@ -23,13 +23,13 @@ public class TicketsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tickets, container, false);
 
-        generateDataList();
+        generateDataList(view);
 
         return view;
     }
 
-    private void generateDataList() {
-        recyclerView = getActivity().findViewById(R.id.list_tickets);
+    private void generateDataList(View view) {
+        recyclerView = view.findViewById(R.id.list_tickets);
         adapter = new TicketAdapter(getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
