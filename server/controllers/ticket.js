@@ -182,8 +182,12 @@ module.exports = {
 			.then(user=>{
 				if (req.body.quantity <= 0 || req.body.quantity > 4)
 					res.status(400).json({success: false, message: 'Invalid number of tickets'});
-				console.log(req.body.ids);
-				var whereClause = {[Op.and]: [{id: {[Op.in] : req.body.ids}} , {userId : user.id}]};
+
+				var ticketIds = [];
+				for(let i = 0; i < req.body.message.tickets.length; i++){
+					ticketIds.push(req.body.message.tickets[i].id);
+				}
+				var whereClause = {[Op.and]: [{id: {[Op.in] : ticketIds}} , {userId : user.id}]};
 				Ticket
 					.findAll({
 						where: whereClause
@@ -212,25 +216,40 @@ module.exports = {
 										id: {[Op.in]: validTicketsId}
 									}
 								})
+							.then(()=>{
+								whereClause = {[Op.and]: [{id: {[Op.in] : invalidTicketsId}} , {userId : user.id}]};
+								Ticket
+									.findAll({
+										where: whereClause
+									})
+									.then(invalidTickets =>{
+										if (invalidTicketsId.length == 0) {
+											res.status(200).json({success: true, message: 'All tickets valid', invalidTickets: invalidTickets});
+										} else {
+											if (invalidTicketsId.length == req.body.quantity) {
+												res.status(400).json({
+													success: false,
+													message: 'No tickets are valid',
+													invalidTickets: invalidTickets
+												});
+											} else
+												res.status(200).json({
+													success: false,
+													message: 'Some tickets are not valid',
+													invalidTickets: invalidTickets
+												});
+										}
+									})
+									.catch(err => {
+										res.status(400).json({success: false, message: 'Error updating used column' + err});
+									});
+							})
 							.catch(err => {
 								res.status(400).json({success: false, message: 'Error updating used column' + err});
 							});
-						if (invalidTicketsId.length == 0) {
-							res.status(200).json({success: true, message: 'All tickets valid', invalidTickets: invalidTicketsId});
-						} else {
-							if (invalidTicketsId.length == req.body.quantity) {
-								res.status(400).json({
-									success: false,
-									message: 'No tickets are valid',
-									invalidTickets: invalidTicketsId
-								});
-							} else
-								res.status(200).json({
-									success: false,
-									message: 'Some tickets are not valid',
-									invalidTickets: invalidTicketsId
-								});
-						}
+					})
+					.catch(err => {
+						res.status(400).json({success: false, message: 'Error updating used column' + err});
 					});
 			})
 			.catch(err=>{
