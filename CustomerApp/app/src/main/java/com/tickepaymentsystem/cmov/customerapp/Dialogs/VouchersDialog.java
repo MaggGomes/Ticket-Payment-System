@@ -160,8 +160,6 @@ public class VouchersDialog extends AppCompatDialogFragment {
     private void onBtnGenerateQRCode() {
         List<Voucher> vouchers = new ArrayList<>();
 
-        Singleton.vouchers.subList(0, 4);
-
         for(int i = 0; i < Singleton.orderVouchers.size(); i++){
            vouchers.addAll(Singleton.vouchers.subList(0, Singleton.orderVouchers.get(i).getQuantity()));
         }
@@ -175,7 +173,7 @@ public class VouchersDialog extends AppCompatDialogFragment {
             String qrcode = gson.toJson(requestCafetariaOrder);
 
             Intent intent = new Intent(getContext(), QRCodeActivity.class);
-            intent.putExtra(Constants.CAFETARIA_ORDER, qrcode);
+            intent.putExtra(Constants.ORDER, qrcode);
             getContext().startActivity(intent);
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException | KeyStoreException | CertificateException | UnrecoverableEntryException e) {
             e.printStackTrace();

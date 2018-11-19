@@ -18,7 +18,7 @@ public class Constants {
 
     // Intents
     public static String SHOW_DETAILS = "Show Details";
-    public static String CAFETARIA_ORDER = "Cafetaria Order";
+    public static String ORDER = "Order";
 
     // Products
     public static final String POPCORN = "Popcorn";

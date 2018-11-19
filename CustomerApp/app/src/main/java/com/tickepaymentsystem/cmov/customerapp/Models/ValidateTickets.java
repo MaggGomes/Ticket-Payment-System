@@ -2,24 +2,26 @@ package com.tickepaymentsystem.cmov.customerapp.Models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ValidateTickets {
 
     @SerializedName("ids")
-    public String ids;
+    public List<Ticket> tickets;
     @SerializedName("userId")
     public String userId;
 
-    public ValidateTickets(String ids, String userId) {
-        this.ids = ids;
+    public ValidateTickets(List<Ticket> tickets, String userId) {
+        this.tickets = tickets;
         this.userId = userId;
     }
 
-    public String getIds() {
-        return ids;
+    public List<Ticket> getTickets() {
+        return tickets;
     }
 
-    public void setIds(String ids) {
-        this.ids = ids;
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     public String getUserId() {

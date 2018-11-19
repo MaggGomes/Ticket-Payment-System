@@ -18,6 +18,7 @@ public class Ticket {
     private boolean used;
     @SerializedName("userId")
     private String userId;
+    private boolean picked;
 
     public Ticket(String id, Integer seatNumber, Integer showId, String userId, String showName, String showDate, boolean used){
         this.id = id;
@@ -27,6 +28,7 @@ public class Ticket {
         this.showName = showName;
         this.showDate = showDate;
         this.used = used;
+        this.picked = false;
     }
 
     public String getId() {
@@ -83,5 +85,13 @@ public class Ticket {
 
     public void setUsed(boolean used) {
         this.used = used;
+    }
+
+    public boolean isPicked() {
+        return picked;
+    }
+
+    public void setPicked(boolean picked) {
+        this.picked = picked;
     }
 }

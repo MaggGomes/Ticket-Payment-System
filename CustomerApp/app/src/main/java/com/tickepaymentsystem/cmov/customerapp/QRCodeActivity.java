@@ -22,7 +22,7 @@ public class QRCodeActivity extends AppCompatActivity{
         Bundle bundle = getIntent().getExtras();
 
         if(bundle != null){
-            String qrcodeString = bundle.getString(Constants.CAFETARIA_ORDER);
+            String qrcodeString = bundle.getString(Constants.ORDER);
 
             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
