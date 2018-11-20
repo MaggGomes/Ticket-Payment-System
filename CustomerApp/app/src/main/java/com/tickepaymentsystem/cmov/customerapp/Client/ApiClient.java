@@ -6,7 +6,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
     private static Retrofit INSTANCE = null;
-    // TODO - Substituir por host naweb
     private static String BASE_URL = "http://10.0.2.2:8000/api/";
 
     public static Retrofit getInstance() {
