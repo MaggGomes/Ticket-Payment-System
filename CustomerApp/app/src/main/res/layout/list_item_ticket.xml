@@ -69,6 +69,12 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 
+            <CheckBox
+                android:id="@+id/list_item_ticket_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"/>
+
         </LinearLayout>
 
     </LinearLayout>

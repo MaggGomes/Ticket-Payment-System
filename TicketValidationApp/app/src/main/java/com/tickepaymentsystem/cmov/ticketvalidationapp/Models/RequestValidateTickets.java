@@ -1,7 +1,6 @@
-package com.tickepaymentsystem.cmov.customerapp.Models.Requests;
+package com.tickepaymentsystem.cmov.ticketvalidationapp.Models;
 
 import com.google.gson.annotations.SerializedName;
-import com.tickepaymentsystem.cmov.customerapp.Models.ValidateTickets;
 
 public class RequestValidateTickets {
 

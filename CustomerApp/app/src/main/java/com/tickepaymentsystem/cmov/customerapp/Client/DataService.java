@@ -4,8 +4,7 @@ import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestValidateTi
 import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseBuyTickets;
 import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseRegister;
 import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestBuyTickets;
-import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseValidateTickets;
-import com.tickepaymentsystem.cmov.customerapp.Models.RetroPhoto;
+import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseTransactions;
 import com.tickepaymentsystem.cmov.customerapp.Models.Show;
 import com.tickepaymentsystem.cmov.customerapp.Models.User;
 
@@ -32,15 +31,7 @@ public interface DataService {
     @POST("tickets/buy")
     Call<ResponseBuyTickets> buyTickets(@Body RequestBuyTickets body);
 
-    // Buy tickets
-    @PUT("tickets/validate")
-    Call<ResponseValidateTickets> validateTickets(@Body RequestValidateTickets body);
-
-    // TODO - Fix route
     // Get transactions
     @GET("transactions/{id}")
-    Call<ResponseValidateTickets> getTransactions(@Path("id") String id);
-
-    @GET("/photos")
-    Call<List<RetroPhoto>> getAllPhotos();
+    Call<ResponseTransactions> getTransactions(@Path("id") String id);
 }

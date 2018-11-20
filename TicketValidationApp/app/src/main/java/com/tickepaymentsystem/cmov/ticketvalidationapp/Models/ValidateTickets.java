@@ -1,4 +1,4 @@
-package com.tickepaymentsystem.cmov.customerapp.Models;
+package com.tickepaymentsystem.cmov.ticketvalidationapp.Models;
 
 import com.google.gson.annotations.SerializedName;
 

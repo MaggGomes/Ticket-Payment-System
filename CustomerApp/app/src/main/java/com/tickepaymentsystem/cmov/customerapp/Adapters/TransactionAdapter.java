@@ -8,18 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.tickepaymentsystem.cmov.customerapp.Models.RetroPhoto;
+import com.tickepaymentsystem.cmov.customerapp.Models.TicketTransaction;
 import com.tickepaymentsystem.cmov.customerapp.R;
 
 import java.util.List;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
 
-    private List<RetroPhoto> dataList;
+    private List<TicketTransaction> dataList;
     private Context context;
 
-    public TransactionAdapter(Context context, List<RetroPhoto> dataList){
+    public TransactionAdapter(Context context, List<TicketTransaction> dataList){
         this.context = context;
         this.dataList = dataList;
     }
@@ -49,12 +48,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public void onBindViewHolder(TransactionViewHolder holder, int position) {
-        holder.txtTitle.setText(dataList.get(position).getTitle());
 
-        Picasso.get()
-                .load(dataList.get(position).getThumbnailUrl())
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(holder.coverImage);
     }
 
     @Override

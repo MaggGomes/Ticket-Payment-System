@@ -5,15 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tickepaymentsystem.cmov.customerapp.R;
 import com.tickepaymentsystem.cmov.customerapp.Singleton;
+import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import es.dmoral.toasty.Toasty;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketViewHolder> {
 
@@ -29,6 +34,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         TextView name;
         TextView date;
         TextView seatNumber;
+        CheckBox checkBox;
 
         TicketViewHolder(View itemView) {
             super(itemView);
@@ -36,6 +42,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
             name = view.findViewById(R.id.list_item_ticket_name);
             date = view.findViewById(R.id.list_item_ticket_date);
             seatNumber = view.findViewById(R.id.list_item_ticket_seat_number);
+            checkBox = view.findViewById(R.id.list_item_ticket_checkbox);
         }
     }
 
@@ -62,6 +69,18 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         }
 
         holder.seatNumber.setText(Integer.toString(Singleton.tickets.get(position).getSeatNumber()));
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    Singleton.tickets.get(position).setPicked(true);
+                }
+                else {
+                    Singleton.tickets.get(position).setPicked(false);
+                }
+            }
+        });
     }
 
     @Override
