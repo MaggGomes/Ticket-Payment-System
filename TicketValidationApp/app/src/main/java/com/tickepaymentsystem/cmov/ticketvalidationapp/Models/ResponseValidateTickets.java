@@ -1,7 +1,6 @@
 package com.tickepaymentsystem.cmov.ticketvalidationapp.Models;
 
 import com.google.gson.annotations.SerializedName;
-import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
 
 import java.util.List;
 
