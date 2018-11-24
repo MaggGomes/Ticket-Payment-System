@@ -3,9 +3,12 @@ package com.tickepaymentsystem.cmov.ticketvalidationapp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -24,13 +27,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ResultActivity extends AppCompatActivity {
-
-    private ProgressDialog progressDialog;
+    TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        text = findViewById(R.id.text_result);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -45,22 +49,22 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void validateTickets(RequestValidateTickets requestValidateTickets){
-        progressDialog = new ProgressDialog(getApplicationContext());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
         DataService service = ApiClient.getInstance().create(DataService.class);
         Call<ResponseValidateTickets> call = service.validateTickets(requestValidateTickets);
         call.enqueue(new Callback<ResponseValidateTickets>() {
             @Override
             public void onResponse(Call<ResponseValidateTickets> call, Response<ResponseValidateTickets> response) {
-                progressDialog.dismiss();
+                text.setText(response.body().getMessage());
+                if(response.body().getSuccess())
+                    text.setBackgroundColor(Color.parseColor("#00cc00"));
+                else
+                    text.setBackgroundColor(Color.parseColor("#ff0000"));
             }
 
             @Override
             public void onFailure(Call<ResponseValidateTickets> call, Throwable t) {
-                progressDialog.dismiss();
-                Toasty.error(getApplicationContext(), "Failed validating tickets", Toast.LENGTH_LONG, true).show();
+                text.setText("Failed validating tickets");
+                text.setBackgroundColor(Color.parseColor("#ff0000"));
             }
         });
     }

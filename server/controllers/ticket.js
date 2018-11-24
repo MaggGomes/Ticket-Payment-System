@@ -193,19 +193,16 @@ module.exports = {
 						where: whereClause
 					})
 					.then(tickets => {
-						console.log(tickets);
-						if(tickets.length !== req.body.quantity) {
-							return res.status(400).json({success: false, message: 'A ticket id wasnt valid or didnt belong to User'});
-						}
 						var invalidTicketsId = [];
 						var validTicketsId = [];
-						for (let i = 0; i < req.body.quantity; i++) {
+						for (let i = 0; i < tickets.length; i++) {
 							if (tickets[i].used === true) {
 								invalidTicketsId.push(tickets[i].id);
 							} else {
 								validTicketsId.push(tickets[i].id);
 							}
 						}
+						
 						Ticket
 							.update(
 								{
@@ -226,6 +223,7 @@ module.exports = {
 										if (invalidTicketsId.length == 0) {
 											res.status(200).json({success: true, message: 'All tickets valid', invalidTickets: invalidTickets});
 										} else {
+
 											if (invalidTicketsId.length == req.body.quantity) {
 												res.status(400).json({
 													success: false,
@@ -249,6 +247,7 @@ module.exports = {
 							});
 					})
 					.catch(err => {
+						console.log("cccccc")
 						res.status(400).json({success: false, message: 'Error updating used column' + err});
 					});
 			})

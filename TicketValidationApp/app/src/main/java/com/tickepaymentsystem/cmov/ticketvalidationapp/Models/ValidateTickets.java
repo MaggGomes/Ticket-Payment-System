@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ValidateTickets {
 
-    @SerializedName("ids")
+    @SerializedName("tickets")
     public List<Ticket> tickets;
     @SerializedName("userId")
     public String userId;

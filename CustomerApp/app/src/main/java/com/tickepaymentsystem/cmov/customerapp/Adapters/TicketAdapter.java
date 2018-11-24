@@ -57,8 +57,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
     public void onBindViewHolder(TicketViewHolder holder, int position) {
         holder.name.setText(Singleton.tickets.get(position).getShowName());
 
-        SimpleDateFormat month_date = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.UK);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:sss");
+        SimpleDateFormat month_date = new SimpleDateFormat("MMM dd", Locale.UK);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             Date date = sdf.parse(Singleton.tickets.get(position).getShowDate());

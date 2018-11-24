@@ -75,7 +75,7 @@ public class TicketsFragment extends Fragment {
         if(checkTicketsPicked()){
             generateQRCode();
         } else {
-            Toasty.error(getContext(), "FAB", Toast.LENGTH_LONG, true).show();
+            Toasty.error(getContext(), "Maximum 4 tickets from same show", Toast.LENGTH_LONG, true).show();
         }
     }
 

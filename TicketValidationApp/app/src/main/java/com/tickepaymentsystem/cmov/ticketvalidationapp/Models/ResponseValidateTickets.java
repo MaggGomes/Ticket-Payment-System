@@ -9,7 +9,7 @@ public class ResponseValidateTickets {
     @SerializedName("success")
     private Boolean success;
     @SerializedName("message")
-    private Boolean message;
+    private String message;
     @SerializedName("invalidTickets")
     private List<Ticket> invalidTickets;
 
@@ -21,11 +21,11 @@ public class ResponseValidateTickets {
         this.success = success;
     }
 
-    public Boolean getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(Boolean message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 
