@@ -43,6 +43,7 @@ module.exports = {
 				var checkProducts = req.body.message.products;
 				var products = req.body.message.products;
 				var voucher5 = false;
+
 				for(let i = 0; i < req.body.message.vouchers.length; i++){
 					if(req.body.message.vouchers[i].productId == 0 && voucher5 === false){
 						voucher5 = true;
@@ -51,16 +52,19 @@ module.exports = {
 						return res.status(400).json({success:false, message:'More than one 5% voucher'});
 					else {
 						for(let j = 0; j < checkProducts.length; j++){
-							if(checkProducts[j].id == voucherIds[i].productId && checkProducts[j].quantity > 0){
+							if((checkProducts[j].id == req.body.message.vouchers[i].productId) && (checkProducts[j].quantity > 0)){
 								count++;
 								checkProducts[j].quantity = checkProducts[j].quantity - 1;
+								usedVouchers.push(req.body.message.vouchers[i].id);
 							}
 						}
 					}
 				}
+
 				if(count == req.body.message.vouchers.length){
 					return res.status(400).json({success:false, message:'Invalid vouchers to the products received'});
 				}
+
 				Voucher
 					.findAll({
 						where: {
@@ -70,7 +74,10 @@ module.exports = {
 						}
 					})
 					.then(vouchers => {
+
 						if (vouchers) {
+							console.log("there is\n\n\n\n")
+
 							var spentBefore = 0;
 							TicketTransaction
 								.findAll({
@@ -108,17 +115,18 @@ module.exports = {
 													var orderBulk = [];
 													var freeProductIds = [];
 													var totalPrice = 0;
+													console.log(vouchers)
+													console.log(products)
 													for(let i = 0; i < vouchers.length; i++) {
 														for (let j = 0; j < products.length; j++) {
 															if (vouchers[i].productId == products[j].id && products[j].quantity > 0 ) {
 																freeProductIds.push(products[j].id);
 																products[j].quantity = products[j].quantity - 1;
-																console.log(vouchers[i].id);
 																usedVouchers.push(vouchers[i].id);
 															}
 														}
 													}
-													console.log(usedVouchers);
+
 													for(let i = 0; i < products.length; i++){
 														totalPrice += products[i].price * products[i].quantity;
 													}
@@ -131,6 +139,11 @@ module.exports = {
 															totalPrice : totalPrice
 														})
 														.then(newOrder=> {
+															console.log("1111\n\n\n")
+
+															console.log(freeProductIds)
+															console.log(usedVouchers)
+
 															for(let i = 0; i < freeProductIds.length; i++) {
 																for (let j = 0; j < products.length; j++) {
 																	if (products[j].id == freeProductIds[i]) {
@@ -146,9 +159,14 @@ module.exports = {
 																	totalPrice: products[i].quantity * products[i].price
 																});
 															}
+
+															console.log(orderBulk)
+
 															ProductOrder
 																.bulkCreate(orderBulk)
 																.then(()=>{
+																	console.log("222\n\n\n")
+
 																	Voucher
 																		.update(
 																			{
@@ -160,6 +178,8 @@ module.exports = {
 																				}
 																			})
 																		.then(()=>{
+																			console.log("3333\n\n\n")
+
 																			var newSpent = spentBefore + totalPrice;
 																			console.log('SPENT NEW: ' + newSpent);
 																			let discountCalc = Math.floor((newSpent/100)) - Math.floor((spentBefore/100));
@@ -198,6 +218,8 @@ module.exports = {
 																		});
 																})
 																.catch(err => {
+																	console.log(err);
+
 																	res.status(400).json({success: false, message: 'Error: ' + err});
 																});
 														})

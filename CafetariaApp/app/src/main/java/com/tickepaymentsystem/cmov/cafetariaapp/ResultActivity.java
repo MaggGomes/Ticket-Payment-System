@@ -1,8 +1,5 @@
 package com.tickepaymentsystem.cmov.cafetariaapp;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -22,8 +19,6 @@ import retrofit2.Response;
 
 public class ResultActivity extends AppCompatActivity {
 
-    private ProgressDialog progressDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,21 +37,22 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void validateTickets(RequestCafetariaOrder requestCafetariaOrder){
-        progressDialog = new ProgressDialog(getApplicationContext());
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
         DataService service = ApiClient.getInstance().create(DataService.class);
         Call<ResponseCafetariaOrder> call = service.cafetariaOrder(requestCafetariaOrder);
         call.enqueue(new Callback<ResponseCafetariaOrder>() {
             @Override
             public void onResponse(Call<ResponseCafetariaOrder> call, Response<ResponseCafetariaOrder> response) {
-                progressDialog.dismiss();
+               /* if(response.body().getSuccess()){
+                    Toasty.success(getApplicationContext(), "Success validating cafetaria order", Toast.LENGTH_LONG, true).show();
+                } else {
+                    Toasty.error(getApplicationContext(), "Success validating cafetaria order", Toast.LENGTH_LONG, true).show();
+                }*/
+
+                Toasty.success(getApplicationContext(), response.message(), Toast.LENGTH_LONG, true).show();
             }
 
             @Override
             public void onFailure(Call<ResponseCafetariaOrder> call, Throwable t) {
-                progressDialog.dismiss();
                 Toasty.error(getApplicationContext(), "Failed validating cafetaria order", Toast.LENGTH_LONG, true).show();
             }
         });
