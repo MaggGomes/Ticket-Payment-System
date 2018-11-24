@@ -157,14 +157,19 @@ public class VouchersDialog extends AppCompatDialogFragment {
         List<Voucher> vouchers = new ArrayList<>();
 
         for(int i = 0; i < Singleton.orderVouchers.size(); i++){
-           vouchers.addAll(Singleton.vouchers.subList(0, Singleton.orderVouchers.get(i).getQuantity()));
+            int quantity = 0;
+
+           for(int j = 0; j < Singleton.vouchers.size(); j++){
+               if(Singleton.vouchers.get(j).getProductId() == Singleton.orderVouchers.get(i).getId()){
+                   if(quantity < Singleton.orderVouchers.get(i).getQuantity()){
+                       quantity++;
+                       vouchers.add(Singleton.vouchers.get(j));
+                   }
+               }
+           }
         }
 
-        Log.d("singletonvoucher", gson.toJson(Singleton.vouchers));
-        Log.d("ordervoucher", gson.toJson(Singleton.orderVouchers));
-        Log.d("voucher", gson.toJson(vouchers));
-
-        /*for(int i = 0; i < vouchers.size(); i++){
+        for(int i = 0; i < vouchers.size(); i++){
             for (int j = 0; j < Singleton.vouchers.size(); j++){
                 if(Singleton.vouchers.get(j).getId().equals(vouchers.get(i).getId())){
                     Singleton.vouchers.remove(j);
@@ -174,13 +179,14 @@ public class VouchersDialog extends AppCompatDialogFragment {
 
         String vouchersGson = gson.toJson(Singleton.vouchers);
 
+        CafetariaOrder message = new CafetariaOrder(Singleton.products, Singleton.userUUID, vouchers);
+
+        Log.d("message", gson.toJson(message));
+
         SharedPreferences sharedPref = getActivity().getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(Constants.VOUCHERS, vouchersGson);
         editor.apply();
-
-
-        CafetariaOrder message = new CafetariaOrder(Singleton.products, Singleton.userUUID, vouchers);
 
         try {
             String signedMessage = Security.generateSignedMessage(Singleton.userName, gson.toJson(message).toString());
@@ -192,6 +198,6 @@ public class VouchersDialog extends AppCompatDialogFragment {
             getContext().startActivity(intent);
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException | KeyStoreException | CertificateException | UnrecoverableEntryException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }

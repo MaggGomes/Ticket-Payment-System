@@ -13,12 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
 import com.tickepaymentsystem.cmov.customerapp.Client.DataService;
 import com.tickepaymentsystem.cmov.customerapp.Models.Message;
+import com.tickepaymentsystem.cmov.customerapp.Models.OrderVoucher;
 import com.tickepaymentsystem.cmov.customerapp.Models.Responses.ResponseBuyTickets;
 import com.tickepaymentsystem.cmov.customerapp.Models.Requests.RequestBuyTickets;
+import com.tickepaymentsystem.cmov.customerapp.Models.Ticket;
+import com.tickepaymentsystem.cmov.customerapp.Models.Voucher;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Constants;
 import com.tickepaymentsystem.cmov.customerapp.Utils.Security;
 
@@ -31,7 +35,9 @@ import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
@@ -164,6 +170,34 @@ public class ShowActivity extends AppCompatActivity{
                     editor.putString(Constants.TICKETS, tickets);
                     editor.putString(Constants.VOUCHERS, vouchers);
                     editor.apply();
+
+                    int discountQuantity = 0;
+                    int coffeeQuantity = 0;
+                    int popcornQuantity = 0;
+
+                    if(Singleton.vouchers.size() > 0) {
+                        for (int i = 0; i < Singleton.vouchers.size(); i++) {
+                            switch (Singleton.vouchers.get(i).getProductId()) {
+                                case 0:
+                                    discountQuantity += 1;
+                                    break;
+                                case 1:
+                                    coffeeQuantity += 1;
+                                    break;
+                                case 2:
+                                    popcornQuantity += 1;
+                                    break;
+                            }
+                        }
+                    }
+
+                    OrderVoucher discountVoucher = new OrderVoucher(0, Math.min(1, discountQuantity), 0);
+                    OrderVoucher coffeeVoucher = new OrderVoucher(1, Math.min(2, coffeeQuantity), 0);
+                    OrderVoucher popcornVoucher = new OrderVoucher(2, Math.min(2, popcornQuantity), 0);
+                    Singleton.orderVouchers = new ArrayList<>();
+                    Singleton.orderVouchers.add(discountVoucher);
+                    Singleton.orderVouchers.add(coffeeVoucher);
+                    Singleton.orderVouchers.add(popcornVoucher);
 
                     Toasty.success(context, Constants.BUY_TICKETS_SUCCESS, Toast.LENGTH_LONG, true).show();
                 } else {
