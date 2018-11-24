@@ -1,6 +1,8 @@
 package com.tickepaymentsystem.cmov.customerapp.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,15 +52,21 @@ public class TicketsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tickets, container, false);
-        fab = view.findViewById(R.id.list_tickets_fab);
-        fab.setOnClickListener((View v) -> onFabClick());
+        View view;
 
-        for(int i = 0; i < Singleton.tickets.size(); i++){
-            Singleton.tickets.get(i).setPicked(false);
+        if(Singleton.tickets.size() == 0){
+            view = inflater.inflate(R.layout.fragment_no_result, container, false);
+        } else {
+            view = inflater.inflate(R.layout.fragment_tickets, container, false);
+            fab = view.findViewById(R.id.list_tickets_fab);
+            fab.setOnClickListener((View v) -> onFabClick());
+
+            for(int i = 0; i < Singleton.tickets.size(); i++){
+                Singleton.tickets.get(i).setPicked(false);
+            }
+
+            generateDataList(view);
         }
-
-        generateDataList(view);
 
         return view;
     }
@@ -98,7 +106,20 @@ public class TicketsFragment extends Fragment {
 
 
     private void generateQRCode() {
+        for(int i = 0; i < Singleton.tickets.size(); i++){
+            if(Singleton.tickets.get(i).isPicked()){
+                Singleton.tickets.get(i).setUsed(true);
+            }
+        }
+
         Gson gson = new Gson();
+        String ticketsGson = gson.toJson(Singleton.tickets);
+
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Constants.TICKETS, ticketsGson);
+        editor.apply();
+
         ValidateTickets message = new ValidateTickets(tickets, Singleton.userUUID);
 
         try {

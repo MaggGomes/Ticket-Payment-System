@@ -2,8 +2,10 @@ package com.tickepaymentsystem.cmov.customerapp.Dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Base64;
@@ -103,13 +105,9 @@ public class VouchersDialog extends AppCompatDialogFragment {
             Singleton.orderVouchers.get(i).setQuantity(0);
         }
 
-        int discount = Singleton.orderVouchers.get(0).getMaxAvailable() >= 1? 1 : 0;
-        int coffee = Singleton.orderVouchers.get(1).getMaxAvailable() >= 2? 2 : 0;
-        int popcorn = Singleton.orderVouchers.get(2).getMaxAvailable() >= 2? 2 : 0;
-
-        discountAvailable.setText(Integer.toString(discount));
-        coffeeAvailable.setText(Integer.toString(coffee));
-        popcornAvailable.setText(Integer.toString(popcorn));
+        discountAvailable.setText(Integer.toString(Singleton.orderVouchers.get(0).getMaxAvailable()));
+        coffeeAvailable.setText(Integer.toString(Singleton.orderVouchers.get(1).getMaxAvailable()));
+        popcornAvailable.setText(Integer.toString(Singleton.orderVouchers.get(2).getMaxAvailable()));
 
         discountMinus.setOnClickListener((View v) -> onBtnDecreaseAmount(discountQuantity, 0));
         discountPlus.setOnClickListener((View v) -> onBtnIncreaseAmount(discountQuantity, 0));
@@ -120,16 +118,12 @@ public class VouchersDialog extends AppCompatDialogFragment {
     }
 
     private void onBtnIncreaseAmount(TextView view, int position){
-        int quantity = 0;
+        int quantity;
 
-        if(position == 0){
-            quantity = 1;
+        if(Singleton.orderVouchers.get(position).getQuantity() < Singleton.orderVouchers.get(position).getMaxAvailable()){
+            quantity = Singleton.orderVouchers.get(position).getQuantity()+1;
         } else {
-            if(Singleton.orderVouchers.get(position).getQuantity() < 2){
-                quantity = Singleton.orderVouchers.get(position).getQuantity()+1;
-            } else {
-                quantity = 2;
-            }
+            quantity = Singleton.orderVouchers.get(position).getMaxAvailable();
         }
 
         Singleton.orderVouchers.get(position).setQuantity(quantity);
@@ -158,13 +152,34 @@ public class VouchersDialog extends AppCompatDialogFragment {
     }
 
     private void onBtnGenerateQRCode() {
+        Gson gson = new Gson();
+
         List<Voucher> vouchers = new ArrayList<>();
 
         for(int i = 0; i < Singleton.orderVouchers.size(); i++){
            vouchers.addAll(Singleton.vouchers.subList(0, Singleton.orderVouchers.get(i).getQuantity()));
         }
 
-        Gson gson = new Gson();
+        Log.d("singletonvoucher", gson.toJson(Singleton.vouchers));
+        Log.d("ordervoucher", gson.toJson(Singleton.orderVouchers));
+        Log.d("voucher", gson.toJson(vouchers));
+
+        /*for(int i = 0; i < vouchers.size(); i++){
+            for (int j = 0; j < Singleton.vouchers.size(); j++){
+                if(Singleton.vouchers.get(j).getId().equals(vouchers.get(i).getId())){
+                    Singleton.vouchers.remove(j);
+                }
+            }
+        }
+
+        String vouchersGson = gson.toJson(Singleton.vouchers);
+
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(Constants.USER_INFO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Constants.VOUCHERS, vouchersGson);
+        editor.apply();
+
+
         CafetariaOrder message = new CafetariaOrder(Singleton.products, Singleton.userUUID, vouchers);
 
         try {
@@ -177,6 +192,6 @@ public class VouchersDialog extends AppCompatDialogFragment {
             getContext().startActivity(intent);
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException | IOException | KeyStoreException | CertificateException | UnrecoverableEntryException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

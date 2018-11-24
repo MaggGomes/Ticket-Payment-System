@@ -69,18 +69,23 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         }
 
         holder.seatNumber.setText(Integer.toString(Singleton.tickets.get(position).getSeatNumber()));
-        holder.checkBox.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if (((CheckBox) v).isChecked()) {
-                    Singleton.tickets.get(position).setPicked(true);
+        if(Singleton.tickets.get(position).isUsed()){
+            holder.checkBox.setVisibility(View.INVISIBLE);
+        } else {
+            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (((CheckBox) v).isChecked()) {
+                        Singleton.tickets.get(position).setPicked(true);
+                    }
+                    else {
+                        Singleton.tickets.get(position).setPicked(false);
+                    }
                 }
-                else {
-                    Singleton.tickets.get(position).setPicked(false);
-                }
-            }
-        });
+            });
+        }
     }
 
     @Override

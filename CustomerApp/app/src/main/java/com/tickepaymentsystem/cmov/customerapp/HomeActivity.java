@@ -76,11 +76,11 @@ public class HomeActivity extends AppCompatActivity {
             Singleton.vouchers = new ArrayList<>();
         }
 
-        if(Singleton.vouchers.size() > 0) {
-            int discountQuantity = 0;
-            int coffeeQuantity = 0;
-            int popcornQuantity = 0;
+        int discountQuantity = 0;
+        int coffeeQuantity = 0;
+        int popcornQuantity = 0;
 
+        if(Singleton.vouchers.size() > 0) {
             for (int i = 0; i < Singleton.vouchers.size(); i++) {
                 switch (Singleton.vouchers.get(i).getProductId()) {
                     case 0:
@@ -94,15 +94,15 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                 }
             }
-
-            OrderVoucher discountVoucher = new OrderVoucher(0, discountQuantity, 0);
-            OrderVoucher coffeeVoucher = new OrderVoucher(1, coffeeQuantity, 0);
-            OrderVoucher popcornVoucher = new OrderVoucher(2, popcornQuantity, 0);
-            Singleton.orderVouchers = new ArrayList<>();
-            Singleton.orderVouchers.add(discountVoucher);
-            Singleton.orderVouchers.add(coffeeVoucher);
-            Singleton.orderVouchers.add(popcornVoucher);
         }
+
+        OrderVoucher discountVoucher = new OrderVoucher(0, Math.min(1, discountQuantity), 0);
+        OrderVoucher coffeeVoucher = new OrderVoucher(1, Math.min(2, coffeeQuantity), 0);
+        OrderVoucher popcornVoucher = new OrderVoucher(2, Math.min(2, popcornQuantity), 0);
+        Singleton.orderVouchers = new ArrayList<>();
+        Singleton.orderVouchers.add(discountVoucher);
+        Singleton.orderVouchers.add(coffeeVoucher);
+        Singleton.orderVouchers.add(popcornVoucher);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavListener

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,8 +91,8 @@ public class RegisterActivity extends AppCompatActivity{
 
         editName = (EditText)findViewById(R.id.register_name);
         editNif = (EditText)findViewById(R.id.register_nif);
-        editType = (EditText)findViewById(R.id.register_cc_type);
         editNumber = (EditText)findViewById(R.id.register_cc_number);
+        type = "Visa";
 
         findViewById(R.id.btn_register_main).setOnClickListener((View v)->onBtnRegisterClick());
     }
@@ -115,10 +116,33 @@ public class RegisterActivity extends AppCompatActivity{
         name = editName.getText().toString();
         password = "111";
         confirmpassword = "111";
-        nif = Integer.parseInt(editNif.getText().toString());
-        type = editType.getText().toString();
-        number = Integer.parseInt(editNumber.getText().toString());
+        String checkNif= editNif.getText().toString();
+        String checkCCnumber = editNumber.getText().toString();
         validity = ccDate.getText().toString();
+
+        if (name.matches("")) {
+            Toasty.error(this, "You did not enter a username", Toast.LENGTH_LONG).show();
+            return;
+        } else if (checkNif.matches("")){
+            Toasty.error(this, "You did not enter a NIF", Toast.LENGTH_LONG).show();
+            return;
+        } else if (checkCCnumber.matches("")){
+            Toasty.error(this, "You did not enter a valid Credit Card number", Toast.LENGTH_LONG).show();
+            return;
+        } else if (validity.matches("")){
+            Toasty.error(this, "You did not a valid Credit Card date", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
+
+        nif = Integer.parseInt(checkNif);
+        number = Integer.parseInt(checkCCnumber);
+
+        if(nif < 100000000 || nif > 999999999){
+            Toasty.error(this, "You must enter a valid NIF", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         try {
             RSAPublicKey publicKey = (RSAPublicKey) Security.generateRSAKeypair(this, name);
@@ -165,5 +189,28 @@ public class RegisterActivity extends AppCompatActivity{
                 Toasty.error(context, Constants.REGISTER_FAILURE, Toast.LENGTH_LONG, true).show();
             }
         });
+    }
+
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.radio_visa:
+                if (checked){
+                    type = "Visa";
+                }
+                    break;
+            case R.id.radio_mastercard:
+                if (checked){
+                    type = "Mastercard";
+                }
+                    break;
+            case R.id.radio_americanexpress:
+                if (checked){
+                    type = "American Express";
+                }
+                    break;
+        }
     }
 }

@@ -85,18 +85,37 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/register_cc_type"
+                    <RadioGroup
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@drawable/edit_bg"
-                        android:fontFamily="sans-serif"
-                        android:hint="@string/cc_type"
-                        android:inputType="text"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="15dp"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:checkedButton="@+id/radio_visa">
+
+                        <RadioButton
+                            android:id="@+id/radio_visa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Visa"
+                            android:textSize="12sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_mastercard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Mastercard"
+                            android:textSize="12sp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_americanexpress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="American Express"
+                            android:textSize="12sp" />
+                    </RadioGroup>
+
 
                 </LinearLayout>
 
@@ -153,7 +172,8 @@
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:text="2018-12-31"/>
 
                 </LinearLayout>
 

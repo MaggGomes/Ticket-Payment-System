@@ -29,6 +29,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
@@ -77,7 +81,17 @@ public class ShowActivity extends AppCompatActivity{
             description.setText(Singleton.shows.get(position).getDescription());
             price.setText(showPrice);
             quantity.setText(Integer.toString(ticketsQuantity));
-            date.setText(Singleton.shows.get(position).getDate());
+
+            SimpleDateFormat month_date = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.UK);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:sss");
+
+            try {
+                Date dateFormat = sdf.parse(Singleton.shows.get(position).getDate());
+                String formateDate= month_date.format(dateFormat);
+                date.setText(formateDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             Picasso.get()
                     .load(Singleton.shows.get(position).getUrl())
