@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.CafetariaFragment;
+import com.tickepaymentsystem.cmov.customerapp.Fragments.FixturesTabs;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.ShowsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TicketsFragment;
 import com.tickepaymentsystem.cmov.customerapp.Fragments.TransactionsFragment;
@@ -125,7 +126,7 @@ public class HomeActivity extends AppCompatActivity {
                     selectedFragment = new CafetariaFragment();
                     break;
                 case R.id.nav_transactions:
-                    selectedFragment = new TransactionsFragment();
+                    selectedFragment = new FixturesTabs();
                     break;
             }
 

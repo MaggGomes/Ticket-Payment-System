@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.tickepaymentsystem.cmov.customerapp.Adapters.CafetariaTransactionAdapter;
 import com.tickepaymentsystem.cmov.customerapp.Adapters.ShowAdapter;
 import com.tickepaymentsystem.cmov.customerapp.Adapters.TransactionAdapter;
 import com.tickepaymentsystem.cmov.customerapp.Client.ApiClient;
@@ -31,19 +32,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-public class TransactionsFragment extends Fragment {
+public class CafetariaTransactionsFragment extends Fragment {
 
     private ProgressDialog progressDialog;
-    private TransactionAdapter adapter;
+    private CafetariaTransactionAdapter adapter;
     private RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_transactions, container, false);
+        View view = inflater.inflate(R.layout.fragment_transactions_cafetaria, container, false);
 
         getTransactions(view);
+        generateDataList(view);
 
         return view;
     }
@@ -87,8 +88,8 @@ public class TransactionsFragment extends Fragment {
     }
 
     private void generateDataList(View view) {
-        recyclerView = view.findViewById(R.id.list_transactions);
-        adapter = new TransactionAdapter(getContext());
+        recyclerView = view.findViewById(R.id.list_transactions_cafetaria);
+        adapter = new CafetariaTransactionAdapter(getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

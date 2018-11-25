@@ -20,44 +20,44 @@ import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 
-public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
+public class CafetariaTransactionAdapter extends RecyclerView.Adapter<CafetariaTransactionAdapter.CafetariaTransactionViewHolder> {
 
     private Context context;
 
-    public TransactionAdapter(Context context){
+    public CafetariaTransactionAdapter(Context context){
         this.context = context;
     }
 
-    class TransactionViewHolder extends RecyclerView.ViewHolder {
+    class CafetariaTransactionViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
         TextView name;
         TextView total;
 
-        TransactionViewHolder(View itemView) {
+        CafetariaTransactionViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            name = view.findViewById(R.id.list_item_transaction_name);
-            total = view.findViewById(R.id.list_item_transaction_total);
+            name = view.findViewById(R.id.list_item_cafetaria_date);
+            total = view.findViewById(R.id.list_item_cafetaria_total);
         }
     }
 
     @Override
-    public TransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CafetariaTransactionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.list_item_transaction, parent, false);
-        return new TransactionViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.list_item_transaction_cafetaria, parent, false);
+        return new CafetariaTransactionViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TransactionViewHolder holder, int position) {
-        String totalPrice = Singleton.ticketTransactions.get(position).getTotalPrice() + " €";
-        holder.name.setText(Singleton.ticketTransactions.get(position).getShowName());
+    public void onBindViewHolder(CafetariaTransactionViewHolder holder, int position) {
+        String totalPrice = Singleton.orderTransactions.get(position).getTotalPrice() + " €";
+        holder.name.setText(Singleton.orderTransactions.get(position).getDate());
         holder.total.setText(totalPrice);
     }
 
     @Override
     public int getItemCount() {
-        return Singleton.ticketTransactions.size();
+        return Singleton.orderTransactions.size();
     }
 }

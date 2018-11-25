@@ -41,7 +41,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(R.layout.activity_waiting);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -62,7 +62,7 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseCafetariaOrder> call, Response<ResponseCafetariaOrder> response) {
                 if(response.body().getSuccess()){
-                    Toasty.success(getApplicationContext(), "Success validating cafetaria order", Toast.LENGTH_LONG, true).show();
+                    setContentView(R.layout.activity_result);
 
                     order = findViewById(R.id.order);
                     nif = findViewById(R.id.nif);
@@ -78,6 +78,7 @@ public class ResultActivity extends AppCompatActivity {
 
                     generateProductsDataList(response.body().getProducts());
                     generateVouchersDataList(response.body().getVouchers());
+                    Toasty.success(getApplicationContext(), "Success validating cafetaria order", Toast.LENGTH_LONG, true).show();
                 } else {
                     Toasty.error(getApplicationContext(), "Failed validating cafetaria order", Toast.LENGTH_LONG, true).show();
                 }
