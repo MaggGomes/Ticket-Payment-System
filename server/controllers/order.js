@@ -28,7 +28,10 @@ module.exports = {
 				}
 			})
 			.then(user=>{
+				console.log("aqui" )
+				console.log(req.body.message)
 				if(!user){
+					console.log("aqui")
 					return res.status(400).json({success:false, message:'User id doesn\'t exist'});
 				}
 				if(req.body.message.vouchers.length > 2)
@@ -60,10 +63,9 @@ module.exports = {
 						}
 					}
 				}
+				console.log("aqui111" )
 
-				if(count == req.body.message.vouchers.length){
-					return res.status(400).json({success:false, message:'Invalid vouchers to the products received'});
-				}
+				console.log("aqui24444" )
 
 				Voucher
 					.findAll({
@@ -202,6 +204,8 @@ module.exports = {
 																							}
 																						})
 																						.then(finalVouchers=>{
+																							console.log("resultados")
+																							console.log(req.body.message.products);
 																							res.status(200).json({success:true, message:'order made',products: req.body.message.products, vouchers: finalVouchers, order: newOrder, totalPrice: totalPrice, userNif: user.nif});
 																						})
 																						.catch(err => {
